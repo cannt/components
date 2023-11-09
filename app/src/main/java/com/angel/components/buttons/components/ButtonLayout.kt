@@ -23,9 +23,9 @@ fun ButtonLayout(
     backgroundColor: Color = MaterialTheme.colorScheme.primary,
     textColor: Color = MaterialTheme.colorScheme.onPrimary,
     text: String,
-    startIcon: IconType =  IconType.Drawable(painterResource(id = R.drawable.ic_button_default)),
+    startIcon: IconType? = IconType.Drawable(painterResource(id = R.drawable.ic_button_default)),
     startIconColor: Color? = White,
-    endIcon: IconType =  IconType.Drawable(painterResource(id = R.drawable.ic_button_default)),
+    endIcon: IconType? =  IconType.Drawable(painterResource(id = R.drawable.ic_button_default)),
     endIconColor: Color? = White,
     onClick: () -> Unit
 ) {

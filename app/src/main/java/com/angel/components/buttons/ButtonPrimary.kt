@@ -1,10 +1,7 @@
 package com.angel.components.buttons
 
-import android.graphics.drawable.Drawable
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.FiberManualRecord
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -26,9 +23,9 @@ fun ButtonPrimary(
     textColor: Color = White,
     onClick: () -> Unit,
     enabled: Boolean = true,
-    startIcon: IconType = IconType.Drawable(painterResource(id = R.drawable.ic_button_default)),
+    startIcon: IconType? = IconType.Drawable(painterResource(id = R.drawable.ic_button_default)),
     startIconColor: Color = White,
-    endIcon: IconType = IconType.Drawable(painterResource(id = R.drawable.ic_button_default)),
+    endIcon: IconType? = IconType.Drawable(painterResource(id = R.drawable.ic_button_default)),
     endIconColor: Color = White
 ) {
     val backgroundColor = Purple500

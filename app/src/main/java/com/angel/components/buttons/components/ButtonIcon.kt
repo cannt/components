@@ -26,15 +26,14 @@ fun ButtonIcon(
             imageVector = icon.imageVector,
             contentDescription = contentDescription,
             tint = tint,
-            modifier = modifier.size(24.dp)
+            modifier = modifier.size(12.dp)
         )
 
         is IconType.Drawable -> Icon(
             painter = icon.painter,
             contentDescription = contentDescription,
             tint = tint,
-            modifier = modifier.size(24.dp)
+            modifier = modifier.size(12.dp)
         )
     }
-
 }
