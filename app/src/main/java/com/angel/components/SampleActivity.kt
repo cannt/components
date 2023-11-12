@@ -9,15 +9,20 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -33,6 +38,7 @@ import androidx.compose.material.icons.filled.FormatSize
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.NotInterested
 import androidx.compose.material.icons.filled.Numbers
+import androidx.compose.material.icons.filled.Send
 import androidx.compose.material.icons.filled.Stars
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DrawerValue
@@ -67,18 +73,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.angel.components.Components.*
-import com.angel.components.avatar.Avatar
-import com.angel.components.avatar.util.models.AvatarIndicatorContent
-import com.angel.components.avatar.util.models.AvatarSize
-import com.angel.components.avatar.util.models.AvatarStatus
-import com.angel.components.avatar.util.models.BadgeContent
-import com.angel.components.avatar.util.models.AvatarIconContent
-import com.angel.components.avatar.util.models.AvatarMainContent
+import com.angel.components.avatars.Avatar
+import com.angel.components.avatars.util.models.AvatarIndicatorContent
+import com.angel.components.avatars.util.models.AvatarSize
+import com.angel.components.avatars.util.models.AvatarStatus
+import com.angel.components.avatars.util.models.BadgeContent
+import com.angel.components.avatars.util.models.AvatarIconContent
+import com.angel.components.avatars.util.models.AvatarMainContent
 import com.angel.components.buttons.ghost.large.ButtonGhostLarge
 import com.angel.components.buttons.ghost.medium.ButtonGhostMedium
 import com.angel.components.buttons.ghost.small.ButtonGhostSmall
@@ -103,11 +110,16 @@ import com.angel.components.buttons.util.models.ButtonSize.Large
 import com.angel.components.buttons.util.models.ButtonSize.Medium
 import com.angel.components.buttons.util.models.ButtonSize.Small
 import com.angel.components.buttons.util.models.ButtonSize.XL
+import com.angel.components.messages.Message
 import com.angel.components.ui.theme.AvatarColors
 import com.angel.components.ui.theme.ColorPalette
 import com.angel.components.ui.theme.ComponentsTheme
+import com.angel.components.ui.theme.MessageColors
+import com.angel.components.ui.theme.styles.DefaultAvatarStyles
+import com.angel.components.ui.theme.styles.avatarStyle
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import java.time.LocalTime
 
 @ExperimentalMaterial3Api
 class SampleActivity : ComponentActivity() {
@@ -176,7 +188,7 @@ fun SampleScreen() {
                         modifier = Modifier
                             .clip(CircleShape)
                             .background(ColorPalette.White)
-                            .align(Alignment.CenterStart),
+                            .align(Alignment.TopStart),
                         onClick = { coroutineScope.launch { drawerState.apply { open() } } },
                     ) {
                         Icon(
@@ -370,52 +382,47 @@ fun AvatarsSettingsTopBar(
                 containerColor = ColorPalette.White, contentColor = ColorPalette.Black
             ) {
                 AvatarStatus.values().forEach { avatarStatus ->
-                    NavigationBarItem(
-                        selected = selectedAvatarStatus == avatarStatus,
-                        onClick = {
-                            onIndicatorContentSelected(
-                                when (selectedIndicatorContent) {
-                                    is AvatarIndicatorContent.Status -> selectedIndicatorContent.copy(
-                                        status = avatarStatus
-                                    )
+                    NavigationBarItem(selected = selectedAvatarStatus == avatarStatus, onClick = {
+                        onIndicatorContentSelected(
+                            when (selectedIndicatorContent) {
+                                is AvatarIndicatorContent.Status -> selectedIndicatorContent.copy(
+                                    status = avatarStatus
+                                )
 
-                                    is AvatarIndicatorContent.Badge -> selectedIndicatorContent.copy(
-                                        status = avatarStatus
-                                    )
+                                is AvatarIndicatorContent.Badge -> selectedIndicatorContent.copy(
+                                    status = avatarStatus
+                                )
 
-                                    is AvatarIndicatorContent.Icon -> selectedIndicatorContent.copy(
-                                        status = avatarStatus
-                                    )
+                                is AvatarIndicatorContent.Icon -> selectedIndicatorContent.copy(
+                                    status = avatarStatus
+                                )
 
-                                    AvatarIndicatorContent.None -> AvatarIndicatorContent.None
-                                }
-                            )
-                        },
-                        label = { Text(text = avatarStatus.name) },
-                        icon = {
-                            Icon(
-                                imageVector = when (avatarStatus) {
-                                    AvatarStatus.Active -> Icons.Default.CheckCircle
-                                    AvatarStatus.Inactive -> Icons.Default.Cancel
-                                }, tint = when (avatarStatus) {
-                                    AvatarStatus.Active -> AvatarColors.avatarActiveIndicatorBackgroundColor
-                                    AvatarStatus.Inactive -> AvatarColors.avatarInactiveIndicatorBackgroundColor
-                                }, contentDescription = avatarStatus.name
-                            )
-                        },
-                        colors = NavigationBarItemDefaults.colors(
-                            selectedIconColor = when (avatarStatus) {
-                                AvatarStatus.Active -> AvatarColors.avatarActiveIndicatorBackgroundColor
-                                AvatarStatus.Inactive -> AvatarColors.avatarInactiveIndicatorBackgroundColor
-                            },
-                            selectedTextColor = ColorPalette.Black,
-                            indicatorColor = ColorPalette.Black,
-                            unselectedIconColor = when (avatarStatus) {
-                                AvatarStatus.Active -> AvatarColors.avatarActiveIndicatorBackgroundColor
-                                AvatarStatus.Inactive -> AvatarColors.avatarInactiveIndicatorBackgroundColor
-                            },
-                            unselectedTextColor = ColorPalette.Black
+                                AvatarIndicatorContent.None -> AvatarIndicatorContent.None
+                            }
                         )
+                    }, label = { Text(text = avatarStatus.name) }, icon = {
+                        Icon(
+                            imageVector = when (avatarStatus) {
+                                AvatarStatus.Active -> Icons.Default.CheckCircle
+                                AvatarStatus.Inactive -> Icons.Default.Cancel
+                            }, tint = when (avatarStatus) {
+                                AvatarStatus.Active -> AvatarColors.avatarActiveIndicatorBackgroundColor
+                                AvatarStatus.Inactive -> AvatarColors.avatarInactiveIndicatorBackgroundColor
+                            }, contentDescription = avatarStatus.name
+                        )
+                    }, colors = NavigationBarItemDefaults.colors(
+                        selectedIconColor = when (avatarStatus) {
+                            AvatarStatus.Active -> AvatarColors.avatarActiveIndicatorBackgroundColor
+                            AvatarStatus.Inactive -> AvatarColors.avatarInactiveIndicatorBackgroundColor
+                        },
+                        selectedTextColor = ColorPalette.Black,
+                        indicatorColor = ColorPalette.Black,
+                        unselectedIconColor = when (avatarStatus) {
+                            AvatarStatus.Active -> AvatarColors.avatarActiveIndicatorBackgroundColor
+                            AvatarStatus.Inactive -> AvatarColors.avatarInactiveIndicatorBackgroundColor
+                        },
+                        unselectedTextColor = ColorPalette.Black
+                    )
                     )
                 }
             }
@@ -468,8 +475,7 @@ fun AvatarsSettingsTopBar(
 
 @Composable
 fun AvatarBottomBar(
-    selectedSize: AvatarSize,
-    onAvatarSizeSelected: (AvatarSize) -> Unit
+    selectedSize: AvatarSize, onAvatarSizeSelected: (AvatarSize) -> Unit
 ) {
     NavigationBar(
         containerColor = ColorPalette.White, contentColor = ColorPalette.Black
@@ -479,8 +485,7 @@ fun AvatarBottomBar(
             NavigationBarItem(
                 icon = {
                     Icon(
-                        Icons.Default.FormatSize,
-                        contentDescription = size.name
+                        Icons.Default.FormatSize, contentDescription = size.name
                     )
                 },
                 label = { Text(label) },
@@ -510,7 +515,6 @@ fun AvatarsSample() {
         )
     }
 
-
     var selectedIndicatorContent by remember {
         mutableStateOf<AvatarIndicatorContent>(
             AvatarIndicatorContent.None
@@ -539,27 +543,24 @@ fun AvatarsSample() {
         ) {
             Avatar(
                 modifier = Modifier.align(Alignment.Center),
-                size = selectedSize,
-                mainContent = selectedMainContent,
-                indicatorContent = selectedIndicatorContent,
-                onClick = {
-                    coroutineScope.launch {
-                        snackBarHostState.currentSnackbarData?.dismiss()
-                        snackBarHostState.showSnackbar(
-                            message = "Pressed Avatar ${selectedSize.name}",
-                            duration = SnackbarDuration.Short
-                        )
-                    }
-                }
+                style = avatarStyle(size = selectedSize,
+                    mainContent = selectedMainContent,
+                    indicatorContent = selectedIndicatorContent,
+                    onClick = {
+                        coroutineScope.launch {
+                            snackBarHostState.currentSnackbarData?.dismiss()
+                            snackBarHostState.showSnackbar(
+                                message = "Pressed Avatar ${selectedSize.name}",
+                                duration = SnackbarDuration.Short
+                            )
+                        }
+                    })
             )
         }
     }, bottomBar = {
-        AvatarBottomBar(
-            selectedSize = selectedSize,
-            onAvatarSizeSelected = { avatarSize ->
-                selectedSize = avatarSize
-            }
-        )
+        AvatarBottomBar(selectedSize = selectedSize, onAvatarSizeSelected = { avatarSize ->
+            selectedSize = avatarSize
+        })
     })
 }
 
@@ -605,15 +606,90 @@ fun ButtonsSample(coroutineScope: CoroutineScope) {
             )
         }
     }, bottomBar = {
-        BottomBar(selectedSize = selectedSize,
+        BottomBar(
+            selectedSize = selectedSize,
             onSizeSelected = { selected -> selectedSize = selected })
     })
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MessagesSample() {
+    var messageText by remember { mutableStateOf("") }
+    var messages by remember {
+        mutableStateOf(
+            listOf<Pair<String, LocalTime>>(
+                Pair("Test message", LocalTime.now())
+            )
+        )
+    }
 
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFF404040))
+    ) {
+        Column(modifier = Modifier.fillMaxSize()) {
+            LazyColumn(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.Bottom) {
+                itemsIndexed(messages) { index, message ->
+                    val backgroundColor =
+                        if (index % 2 == 0) MessageColors.messageBackgroundColor1 else MessageColors.messageBackgroundColor2
+                    val textColor =
+                        if (index % 2 == 0) MessageColors.messageTextColor1 else MessageColors.messageTextColor2
+                    val hourColor =
+                        if (index % 2 == 0) MessageColors.messageHourTextColor1 else MessageColors.messageHourTexTColor2
+                    val avatarStyle =
+                        if (index % 2 == 0) DefaultAvatarStyles.MessageAvatar.messageAvatarStyleStart else DefaultAvatarStyles.MessageAvatar.messageAvatarStyleEnd
+
+                    Message(
+                        backgroundColor = backgroundColor,
+                        text = message.first,
+                        hour = message.second,
+                        textColor = textColor,
+                        hourColor = hourColor,
+                        avatar = avatarStyle
+                    )
+                }
+            }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                TextField(
+                    value = messageText,
+                    onValueChange = { messageText = it },
+                    modifier = Modifier.weight(1f),
+                    keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Send),
+                    keyboardActions = KeyboardActions(onSend = {
+                        if (messageText.isNotBlank()) {
+                            messages = messages + Pair(messageText, LocalTime.now())
+                            messageText = ""
+                        }
+                    })
+                )
+
+                Spacer(modifier = Modifier.width(8.dp))
+
+                IconButton(onClick = {
+                    if (messageText.isNotBlank()) {
+                        messages = messages + Pair(messageText, LocalTime.now())
+                        messageText = ""
+                    }
+                }) {
+                    Icon(
+                        imageVector = Icons.Default.Send,
+                        tint = ColorPalette.White,
+                        contentDescription = null
+                    )
+                }
+            }
+        }
+    }
 }
 
 @Composable
@@ -768,8 +844,7 @@ fun BottomBar(
             NavigationBarItem(
                 icon = {
                     Icon(
-                        Icons.Default.FormatSize,
-                        contentDescription = size.name
+                        Icons.Default.FormatSize, contentDescription = size.name
                     )
                 },
                 label = { Text(label) },

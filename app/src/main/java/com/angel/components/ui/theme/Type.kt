@@ -196,6 +196,13 @@ object ButtonLabelStyles{
 object AvatarBadgeStyles{
     val AvatarBadgeXLStyle = AvatarBadgeXL
     val AvatarBadgeLargeStyle = AvatarBadgeLarge
+
     val AvatarBadgeMediumStyle = AvatarBadgeMedium
     val AvatarBadgeSmallStyle = AvatarBadgeSmall
+}
+
+object MessageTextStyles{
+    val MessageTextStyle = BodyLarge
+    val MessageHourTextStyle = Caption
+
 }

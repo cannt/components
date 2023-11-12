@@ -156,3 +156,14 @@ object AvatarColors{
     val avatarActiveIndicatorContentColor = White
     val avatarInactiveIndicatorContentColor = Black
 }
+
+object MessageColors{
+    val messageBackgroundColor1 = Grey.grey50
+    val messageBackgroundColor2 = Grey.grey600
+
+    val messageTextColor1 = Black
+    val messageTextColor2 = White
+
+    val messageHourTextColor1 = Grey.grey500
+    val messageHourTexTColor2 = Grey.grey500
+}

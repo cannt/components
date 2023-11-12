@@ -9,3 +9,7 @@ object ButtonShapes {
     val MediumButtonShape = RoundedCornerShape(100.dp)
     val SmallButtonShape = RoundedCornerShape(100.dp)
 }
+
+object MessageShapes{
+    val messageShape = RoundedCornerShape(12.dp)
+}

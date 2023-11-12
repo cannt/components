@@ -5,10 +5,13 @@ import androidx.compose.ui.unit.dp
 object ButtonDimensions {
     val XLButtonWidth = 196.dp
     val XLButtonHeight = 56.dp
+
     val LargeButtonWidth = 180.dp
     val LargeButtonHeight = 48.dp
+
     val MediumButtonWidth = 180.dp
     val MediumButtonHeight = 40.dp
+
     val SmallButtonWidth = 154.dp
     val SmallButtonHeight = 32.dp
 

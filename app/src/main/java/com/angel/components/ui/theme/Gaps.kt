@@ -8,3 +8,7 @@ object ButtonGaps {
     val MediumButtonGap = 8.dp
     val SmallButtonGap = 4.dp
 }
+
+object MessageGaps{
+    val messageGap = 8.dp
+}
