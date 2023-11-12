@@ -39,6 +39,11 @@ object AvatarDimensions {
     val SmallAvatarIndicatorIconSize = 8.dp
 }
 
+object MessageDimensions{
+    val messageBoxMinHeight = 80.dp
+    val messageBoxMaxWidth = 303.dp
+}
+
 
 
 

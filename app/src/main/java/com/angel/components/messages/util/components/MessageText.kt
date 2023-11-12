@@ -18,8 +18,7 @@ fun MessageText(
     Text(
         modifier = Modifier
             .fillMaxWidth()
-            .wrapContentHeight(),
-        maxLines = 1,
+            .wrapContentHeight(unbounded = true),
         text = text,
         style = MessageTextStyles.MessageTextStyle,
         color = color,

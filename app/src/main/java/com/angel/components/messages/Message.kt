@@ -47,13 +47,12 @@ fun Message(
 
     CompositionLocalProvider(LocalLayoutDirection provides layoutDirection) {
         MessageRow(backgroundColor, avatar) {
-            MessageContent(text, formattedHour, textColor, hourColor, textAlign)
+            MessageContent(text, formattedHour, textColor, hourColor, textAlign, avatar.avatarSide)
         }
     }
 }
 
 private fun getLayoutDirection(avatar: AvatarStyle): LayoutDirection =
     if (avatar.avatarSide == MessageAvatarSide.Start) LayoutDirection.Ltr else LayoutDirection.Rtl
-
 private fun getTextAlign(avatar: AvatarStyle): TextAlign =
     if (avatar.avatarSide == MessageAvatarSide.Start) TextAlign.Start else TextAlign.End

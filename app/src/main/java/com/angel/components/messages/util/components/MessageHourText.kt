@@ -7,7 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
-import com.angel.components.ui.theme.MessageColors
 import com.angel.components.ui.theme.MessageTextStyles
 
 @Composable
@@ -20,6 +19,7 @@ fun MessageHourText(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight(),
+        maxLines = 1,
         text = hour,
         style = MessageTextStyles.MessageHourTextStyle,
         color = color,
