@@ -3,69 +3,73 @@ package com.angel.components.ui.theme
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
+import com.angel.components.ui.theme.ColorPalette.Green
+import com.angel.components.ui.theme.ColorPalette.Grey
+import com.angel.components.ui.theme.ColorPalette.Purple
+import com.angel.components.ui.theme.ColorPalette.Red
+import com.angel.components.ui.theme.ColorPalette.Yellow
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 private val darkColorScheme = darkColorScheme(
-    primary = Purple700,
-    onPrimary = Color.White,
-    primaryContainer = Purple800,
-    onPrimaryContainer = Purple200,
-    secondary = Green700,
-    onSecondary = Color.White,
-    secondaryContainer = Green800,
-    onSecondaryContainer = Green200,
-    tertiary = Yellow700,
-    onTertiary = Color.White,
-    tertiaryContainer = Yellow800,
-    onTertiaryContainer = Yellow200,
-    error = Red700,
-    onError = Color.White,
-    errorContainer = Red800,
-    onErrorContainer = Red200,
-    background = Grey900,
-    onBackground = Color.White,
-    surface = Grey800,
-    onSurface = Color.White,
-    surfaceVariant = Grey700,
-    onSurfaceVariant = Grey300,
-    outline = Grey500,
-    inverseOnSurface = Grey200,
-    inverseSurface = Grey300,
-    surfaceTint = Purple700,
+    primary = Purple.color700,
+    onPrimary = ColorPalette.White,
+    primaryContainer = Purple.color800,
+    onPrimaryContainer = Purple.color200,
+    secondary = Green.color700,
+    onSecondary = ColorPalette.White,
+    secondaryContainer = Green.color800,
+    onSecondaryContainer = Green.color200,
+    tertiary = Yellow.color700,
+    onTertiary = ColorPalette.White,
+    tertiaryContainer = Yellow.color800,
+    onTertiaryContainer = Yellow.color200,
+    error = Red.color700,
+    onError = ColorPalette.White,
+    errorContainer = Red.color800,
+    onErrorContainer = Red.color200,
+    background = Grey.grey900,
+    onBackground = ColorPalette.White,
+    surface = Grey.grey800,
+    onSurface = ColorPalette.White,
+    surfaceVariant = Grey.grey700,
+    onSurfaceVariant = Grey.grey300,
+    outline = Grey.grey500,
+    inverseOnSurface = Grey.grey200,
+    inverseSurface = Grey.grey300,
+    surfaceTint = Purple.color700,
 )
 
 
 private val lightColorScheme = lightColorScheme(
-    primary = Purple500,
-    onPrimary = Color.White,
-    primaryContainer = Purple100,
-    onPrimaryContainer = Purple700,
-    secondary = Green500,
-    onSecondary = Color.Black,
-    secondaryContainer = Green100,
-    onSecondaryContainer = Green700,
-    tertiary = Yellow500,
-    onTertiary = Color.Black,
-    tertiaryContainer = Yellow100,
-    onTertiaryContainer = Yellow700,
-    error = Red500,
-    onError = Color.Black,
-    errorContainer = Red100,
-    onErrorContainer = Red700,
-    background = Grey50,
-    onBackground = Color.Black,
-    surface = Grey100,
-    onSurface = Color.Black,
-    surfaceVariant = Grey200,
-    onSurfaceVariant = Grey600,
-    outline = Grey400,
-    inverseOnSurface = Grey900,
-    inverseSurface = Grey800,
-    surfaceTint = Purple500,
+    primary = Purple.color500,
+    onPrimary = ColorPalette.White,
+    primaryContainer = Purple.color100,
+    onPrimaryContainer = Purple.color700,
+    secondary = Green.color500,
+    onSecondary = ColorPalette.Black,
+    secondaryContainer = Green.color100,
+    onSecondaryContainer = Green.color700,
+    tertiary = Yellow.color500,
+    onTertiary = ColorPalette.Black,
+    tertiaryContainer = Yellow.color100,
+    onTertiaryContainer = Yellow.color700,
+    error = Red.color500,
+    onError = ColorPalette.Black,
+    errorContainer = Red.color100,
+    onErrorContainer = Red.color700,
+    background = Grey.grey50,
+    onBackground = ColorPalette.Black,
+    surface = Grey.grey100,
+    onSurface = ColorPalette.Black,
+    surfaceVariant = Grey.grey200,
+    onSurfaceVariant = Grey.grey600,
+    outline = Grey.grey400,
+    inverseOnSurface = Grey.grey900,
+    inverseSurface = Grey.grey800,
+    surfaceTint = Purple.color500,
 )
 
 @Composable
@@ -88,7 +92,7 @@ fun ComponentsTheme(
 
     SideEffect {
         systemUiController.setSystemBarsColor(
-            color = Color.Transparent,
+            color = ColorPalette.Transparent,
             darkIcons = useDarkIcons
         )
     }

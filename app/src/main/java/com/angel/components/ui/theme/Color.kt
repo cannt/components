@@ -1,77 +1,158 @@
 package com.angel.components.ui.theme
 
 import androidx.compose.ui.graphics.Color
+import com.angel.components.ui.theme.ColorPalette.Black
+import com.angel.components.ui.theme.ColorPalette.Green
+import com.angel.components.ui.theme.ColorPalette.Grey
+import com.angel.components.ui.theme.ColorPalette.Purple
+import com.angel.components.ui.theme.ColorPalette.Transparent
+import com.angel.components.ui.theme.ColorPalette.White
 
-val Platinum50 = Color(0xFFF8FAFC)
-val Platinum100 = Color(0xFFF1F5F9)
-val Platinum200 = Color(0xFFE2E8F0)
-val Platinum300 = Color(0xFFCBD5E1)
-val Platinum400 = Color(0xFF94A3B8)
-val Platinum500 = Color(0xFF64748B)
-val Platinum600 = Color(0xFF475569)
-val Platinum700 = Color(0xFF334155)
-val Platinum800 = Color(0xFF1E293B)
-val Platinum900 = Color(0xFF0F172A)
-val Platinum950 = Color(0xFF020617)
+data class GreyScale(
+    val grey50: Color,
+    val grey100: Color,
+    val grey200: Color,
+    val grey300: Color,
+    val grey400: Color,
+    val grey500: Color,
+    val grey600: Color,
+    val grey700: Color,
+    val grey800: Color,
+    val grey900: Color
+)
 
-val Purple50 = Color(0xFFF5F2FF)
-val Purple100 = Color(0xFFECE8FF)
-val Purple200 = Color(0xFFDAD4FF)
-val Purple300 = Color(0xFFC1B1FF)
-val Purple400 = Color(0xFFA285FF)
-val Purple500 = Color(0xFF7E49FF)
-val Purple600 = Color(0xFF7630F7)
-val Purple700 = Color(0xFF681EE3)
-val Purple800 = Color(0xFF5718BF)
-val Purple900 = Color(0xFF48169C)
-val Purple950 = Color(0xFF2C0B6A)
+data class ColorScale(
+    val color50: Color,
+    val color100: Color,
+    val color200: Color,
+    val color300: Color,
+    val color400: Color,
+    val color500: Color,
+    val color600: Color,
+    val color700: Color,
+    val color800: Color,
+    val color900: Color,
+    val color950: Color
+)
 
-val Green50 = Color(0xFFE8FFE4)
-val Green100 = Color(0xFFCBFFC5)
-val Green200 = Color(0xFF9AFF92)
-val Green300 = Color(0xFF5BFF53)
-val Green400 = Color(0xFF24FB20)
-val Green500 = Color(0xFF00DD00)
-val Green600 = Color(0xFF00B505)
-val Green700 = Color(0xFF028907)
-val Green800 = Color(0xFF086C0C)
-val Green900 = Color(0xFF0C5B11)
-val Green950 = Color(0xFF003305)
+object ColorPalette {
+    val Platinum = ColorScale(
+        color50 = Color(0xFFF8FAFC),
+        color100 = Color(0xFFF1F5F9),
+        color200 = Color(0xFFE2E8F0),
+        color300 = Color(0xFFCBD5E1),
+        color400 = Color(0xFF94A3B8),
+        color500 = Color(0xFF64748B),
+        color600 = Color(0xFF475569),
+        color700 = Color(0xFF334155),
+        color800 = Color(0xFF1E293B),
+        color900 = Color(0xFF0F172A),
+        color950 = Color(0xFF020617),
+    )
 
-val Red50 = Color(0xFFFFF2F1)
-val Red100 = Color(0xFFFFE1DF)
-val Red200 = Color(0xFFFFC8C5)
-val Red300 = Color(0xFFFFA29D)
-val Red400 = Color(0xFFFF6C64)
-val Red500 = Color(0xFFFF2C20)
-val Red600 = Color(0xFFED2115)
-val Red700 = Color(0xFFC8170D)
-val Red800 = Color(0xFFA5170F)
-val Red900 = Color(0xFFA5170F)
-val Red950 = Color(0xFF4B0804)
+    val Purple = ColorScale(
+        color50 = Color(0xFFF5F2FF),
+        color100 = Color(0xFFECE8FF),
+        color200 = Color(0xFFDAD4FF),
+        color300 = Color(0xFFC1B1FF),
+        color400 = Color(0xFFA285FF),
+        color500 = Color(0xFF7E49FF),
+        color600 = Color(0xFF7630F7),
+        color700 = Color(0xFF681EE3),
+        color800 = Color(0xFF5718BF),
+        color900 = Color(0xFF48169C),
+        color950 = Color(0xFF2C0B6A),
+    )
 
-val Yellow50 = Color(0xFFFFFFE7)
-val Yellow100 = Color(0xFFFEFFC1)
-val Yellow200 = Color(0xFFFFFD86)
-val Yellow300 = Color(0xFFFFF441)
-val Yellow400 = Color(0xFFFFE50D)
-val Yellow500 = Color(0xFFFFD600)
-val Yellow600 = Color(0xFFD19D00)
-val Yellow700 = Color(0xFFA67102)
-val Yellow800 = Color(0xFF89570A)
-val Yellow900 = Color(0xFF74470F)
-val Yellow950 = Color(0xFF442504)
+    val Green = ColorScale(
+        color50 = Color(0xFFE8FFE4),
+        color100 = Color(0xFFCBFFC5),
+        color200 = Color(0xFF9AFF92),
+        color300 = Color(0xFF5BFF53),
+        color400 = Color(0xFF24FB20),
+        color500 = Color(0xFF00DD00),
+        color600 = Color(0xFF00B505),
+        color700 = Color(0xFF028907),
+        color800 = Color(0xFF086C0C),
+        color900 = Color(0xFF0C5B11),
+        color950 = Color(0xFF003305),
+    )
 
-val Grey50 = Color(0xFFF6F6F6)
-val Grey100 = Color(0xFFEEEEEE)
-val Grey200 = Color(0xFFE2E2E2)
-val Grey300 = Color(0xFFCBCBCB)
-val Grey400 = Color(0xFFAFAFAF)
-val Grey500 = Color(0xFF757575)
-val Grey600 = Color(0xFF545454)
-val Grey700 = Color(0xFF333333)
-val Grey800 = Color(0xFF1F1F1F)
-val Grey900 = Color(0xFF141414)
+    val Red = ColorScale(
+        color50 = Color(0xFFFFF2F1),
+        color100 = Color(0xFFFFE1DF),
+        color200 = Color(0xFFFFC8C5),
+        color300 = Color(0xFFFFA29D),
+        color400 = Color(0xFFFF6C64),
+        color500 = Color(0xFFFF2C20),
+        color600 = Color(0xFFED2115),
+        color700 = Color(0xFFC8170D),
+        color800 = Color(0xFFA5170F),
+        color900 = Color(0xFFA5170F),
+        color950 = Color(0xFF4B0804),
+    )
 
-val Black = Color(0xFF000000)
-val White = Color(0xFFFFFFFF)
+    val Yellow = ColorScale(
+        color50 = Color(0xFFFFFFE7),
+        color100 = Color(0xFFFEFFC1),
+        color200 = Color(0xFFFFFD86),
+        color300 = Color(0xFFFFA29D),
+        color400 = Color(0xFFFFE50D),
+        color500 = Color(0xFFFFD600),
+        color600 = Color(0xFFD19D00),
+        color700 = Color(0xFFA67102),
+        color800 = Color(0xFF89570A),
+        color900 = Color(0xFF74470F),
+        color950 = Color(0xFF442504),
+    )
+
+    val Grey = GreyScale(
+        grey50 = Color(0xFFF6F6F6),
+        grey100 = Color(0xFFEEEEEE),
+        grey200 = Color(0xFFE2E2E2),
+        grey300 = Color(0xFFCBCBCB),
+        grey400 = Color(0xFFAFAFAF),
+        grey500 = Color(0xFF757575),
+        grey600 = Color(0xFF333333),
+        grey700 = Color(0xFF334155),
+        grey800 = Color(0xFF1F1F1F),
+        grey900 = Color(0xFF141414)
+    )
+
+
+    val Black = Color(0xFF000000)
+    val White = Color(0xFFFFFFFF)
+    val Transparent = Color(0x00000000)
+
+}
+
+object ButtonColors {
+    val primaryBackground = Purple.color500
+    val primaryBorder = Transparent
+    val primaryText = White
+
+    val secondaryBackground = Purple.color200
+    val secondaryBorder = White
+    val secondaryText = Purple.color500
+
+    val tertiaryBackground = White
+    val tertiaryBorder = Grey.grey200
+    val tertiaryText = Black
+
+    val ghostBackground = Transparent
+    val ghostBorder = Transparent
+    val ghostText = Purple.color500
+}
+
+object AvatarColors{
+    val avatarBackgroundColor = White
+    val avatarBorderColor = Grey.grey200
+    val avatarIconColor = Black
+
+    val avatarActiveIndicatorBackgroundColor = Green.color500
+    val avatarInactiveIndicatorBackgroundColor = Grey.grey200
+    val avatarIndicatorBorderColor = White
+
+    val avatarActiveIndicatorContentColor = White
+    val avatarInactiveIndicatorContentColor = Black
+}

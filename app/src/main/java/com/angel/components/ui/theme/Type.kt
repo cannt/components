@@ -4,6 +4,8 @@ import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.BaselineShift
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 
@@ -87,6 +89,38 @@ val Navigation = TextStyle(
     letterSpacing = 0.em
 )
 
+val AvatarBadgeXL =  TextStyle(
+    fontFamily = FontFamily.Default,
+    fontWeight = FontWeight.Bold,
+    fontSize = 12.sp,
+    lineHeight = 12.sp,
+    letterSpacing = 0.em
+)
+
+val AvatarBadgeLarge =  TextStyle(
+    fontFamily = FontFamily.Default,
+    fontWeight = FontWeight.Bold,
+    fontSize = 12.sp,
+    lineHeight = 12.sp,
+    letterSpacing = 0.em
+)
+
+val AvatarBadgeMedium =  TextStyle(
+    fontFamily = FontFamily.Default,
+    fontWeight = FontWeight.Bold,
+    fontSize = 8.sp,
+    lineHeight = 8.sp,
+    letterSpacing = 0.em
+)
+
+val AvatarBadgeSmall =  TextStyle(
+    fontFamily = FontFamily.Default,
+    fontWeight = FontWeight.Bold,
+    fontSize = 8.sp,
+    lineHeight = 8.sp,
+    letterSpacing = 0.em
+)
+
 val Typography = Typography(
     displayLarge = LargeTitle,
     headlineLarge = Title1,
@@ -135,3 +169,33 @@ val Typography = Typography(
     ),
 )
 
+
+object ButtonLabelStyles{
+    val ButtonPrimaryXLLabelStyle = BodyLargeBold
+    val ButtonSecondaryXLLabelStyle = BodyLargeBold
+    val ButtonTertiaryXLLabelStyle = BodyLargeBold
+    val ButtonGhostXLLabelStyle = BodyLargeBold.copy(textDecoration = TextDecoration.Underline)
+
+    val ButtonPrimaryLargeLabelStyle = BodyLargeBold
+    val ButtonSecondaryLargeLabelStyle = BodyLargeBold
+    val ButtonTertiaryLargeLabelStyle = BodyLargeBold
+    val ButtonGhostLargeLabelStyle = BodyLargeBold.copy(textDecoration = TextDecoration.Underline)
+
+    val ButtonPrimaryMediumLabelStyle = BodyLargeBold
+    val ButtonSecondaryMediumLabelStyle = BodyLargeBold
+    val ButtonTertiaryMediumLabelStyle = BodyLargeBold
+    val ButtonGhostMediumLabelStyle = BodyLargeBold.copy(textDecoration = TextDecoration.Underline)
+
+    val ButtonPrimarySmallLabelStyle = BodySmallBold
+    val ButtonSecondarySmallLabelStyle = BodySmallBold
+    val ButtonTertiarySmallLabelStyle = BodySmallBold
+    val ButtonGhostSmallLabelStyle = BodySmallBold.copy(textDecoration = TextDecoration.Underline)
+
+}
+
+object AvatarBadgeStyles{
+    val AvatarBadgeXLStyle = AvatarBadgeXL
+    val AvatarBadgeLargeStyle = AvatarBadgeLarge
+    val AvatarBadgeMediumStyle = AvatarBadgeMedium
+    val AvatarBadgeSmallStyle = AvatarBadgeSmall
+}
