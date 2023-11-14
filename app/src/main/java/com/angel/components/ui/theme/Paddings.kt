@@ -13,3 +13,7 @@ object ButtonPaddings {
 object MessagePaddings {
     val messagePadding = PaddingValues(8.dp, 16.dp, 8.dp, 16.dp)
 }
+
+object InputFieldPaddings{
+    val inputFieldPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp)
+}

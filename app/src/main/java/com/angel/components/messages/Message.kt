@@ -1,34 +1,16 @@
 package com.angel.components.messages
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.LayoutDirection
-import com.angel.components.avatars.Avatar
 import com.angel.components.messages.util.components.MessageContent
 import com.angel.components.messages.util.components.MessageRow
 import com.angel.components.messages.util.models.MessageAvatarSide
-import com.angel.components.ui.theme.MessageColors
-import com.angel.components.ui.theme.MessageGaps
-import com.angel.components.ui.theme.MessagePaddings
-import com.angel.components.ui.theme.MessageShapes
-import com.angel.components.ui.theme.styles.AvatarStyle
-import com.angel.components.ui.theme.styles.DefaultAvatarStyles
+import com.angel.components.ui.theme.styles.avatar.AvatarStyle
+import com.angel.components.ui.theme.styles.DefaultMessageStyles
+import com.angel.components.ui.theme.styles.message.MessageStyles
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
@@ -36,18 +18,15 @@ import java.time.format.DateTimeFormatter
 fun Message(
     text: String,
     hour: LocalTime = LocalTime.now(),
-    backgroundColor: Color = MessageColors.messageBackgroundColor1,
-    textColor: Color = MessageColors.messageTextColor1,
-    hourColor: Color = MessageColors.messageHourTextColor1,
-    avatar: AvatarStyle = DefaultAvatarStyles.MessageAvatar.messageAvatarStyleStart
+    style: MessageStyles = DefaultMessageStyles.MessageType.answerMessage,
 ) {
     val formattedHour = hour.format(DateTimeFormatter.ofPattern("h:mm a"))
-    val layoutDirection = getLayoutDirection(avatar)
-    val textAlign = getTextAlign(avatar)
+    val layoutDirection = getLayoutDirection(style.avatar)
+    val textAlign = getTextAlign(style.avatar)
 
     CompositionLocalProvider(LocalLayoutDirection provides layoutDirection) {
-        MessageRow(backgroundColor, avatar) {
-            MessageContent(text, formattedHour, textColor, hourColor, textAlign, avatar.avatarSide)
+        MessageRow(style.backgroundColor, style.avatar) {
+            MessageContent(text, formattedHour, style.textColor, style.hourColor, textAlign, style.avatar.avatarSide)
         }
     }
 }

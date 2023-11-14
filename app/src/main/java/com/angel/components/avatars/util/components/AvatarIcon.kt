@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import com.angel.components.avatars.util.models.AvatarIconContent.*
+import com.angel.components.avatars.util.models.AvatarIconType.*
 import com.angel.components.avatars.util.models.AvatarMainContent
 import com.angel.components.avatars.util.models.AvatarSize
 import com.angel.components.ui.theme.AvatarColors.avatarIconColor

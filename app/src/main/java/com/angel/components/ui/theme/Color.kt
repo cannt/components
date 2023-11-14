@@ -5,8 +5,10 @@ import com.angel.components.ui.theme.ColorPalette.Black
 import com.angel.components.ui.theme.ColorPalette.Green
 import com.angel.components.ui.theme.ColorPalette.Grey
 import com.angel.components.ui.theme.ColorPalette.Purple
+import com.angel.components.ui.theme.ColorPalette.Red
 import com.angel.components.ui.theme.ColorPalette.Transparent
 import com.angel.components.ui.theme.ColorPalette.White
+import com.angel.components.ui.theme.ColorPalette.Yellow
 
 data class GreyScale(
     val grey50: Color,
@@ -165,5 +167,26 @@ object MessageColors{
     val messageTextColor2 = White
 
     val messageHourTextColor1 = Grey.grey500
-    val messageHourTexTColor2 = Grey.grey500
+    val messageHourTextColor2 = Grey.grey500
+}
+
+object InputFieldColors{
+    val inputFieldCursorColor = Black
+
+    val inputFieldDisabledColor = Grey.grey300
+
+    val inputFieldBackgroundColor = White
+    val inputFieldBorderColor = Grey.grey200
+
+    val inputFieldErrorColor = Red.color500
+
+    val inputFieldTextColor = Black
+    val inputFieldLabelColor = Grey.grey500
+    val inputFieldPlaceHolderColor = Grey.grey500
+    val inputFieldLeadingIconColor = Grey.grey500
+    val inputFieldTrailingIconColor = Grey.grey500
+
+    val inputFieldWarningIconColor = Yellow.color500
+
+    val inputFieldCheckIconColor = Green.color600
 }

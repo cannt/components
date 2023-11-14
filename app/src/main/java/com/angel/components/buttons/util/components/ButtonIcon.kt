@@ -13,8 +13,8 @@ import com.angel.components.buttons.util.models.ButtonIconType
 @Composable
 fun ButtonIcon(
     modifier: Modifier = Modifier,
-    icon: ButtonIconType = ButtonIconType.Drawable(drawable = R.drawable.ic_button_default),
-    contentDescription: String?,
+    icon: ButtonIconType = ButtonIconType.Drawable(drawable = R.drawable.ic_default),
+    contentDescription: String? = null,
     tint: Color,
 ) {
     when (icon) {

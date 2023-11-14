@@ -25,21 +25,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Cancel
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FiberManualRecord
-import androidx.compose.material.icons.filled.FormatAlignCenter
-import androidx.compose.material.icons.filled.FormatAlignJustify
-import androidx.compose.material.icons.filled.FormatAlignLeft
-import androidx.compose.material.icons.filled.FormatAlignRight
-import androidx.compose.material.icons.filled.FormatSize
-import androidx.compose.material.icons.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.NotInterested
-import androidx.compose.material.icons.filled.Numbers
-import androidx.compose.material.icons.filled.Send
-import androidx.compose.material.icons.filled.Stars
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -73,6 +58,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -84,7 +70,7 @@ import com.angel.components.avatars.util.models.AvatarIndicatorContent
 import com.angel.components.avatars.util.models.AvatarSize
 import com.angel.components.avatars.util.models.AvatarStatus
 import com.angel.components.avatars.util.models.BadgeContent
-import com.angel.components.avatars.util.models.AvatarIconContent
+import com.angel.components.avatars.util.models.AvatarIconType
 import com.angel.components.avatars.util.models.AvatarMainContent
 import com.angel.components.buttons.ghost.large.ButtonGhostLarge
 import com.angel.components.buttons.ghost.medium.ButtonGhostMedium
@@ -110,13 +96,15 @@ import com.angel.components.buttons.util.models.ButtonSize.Large
 import com.angel.components.buttons.util.models.ButtonSize.Medium
 import com.angel.components.buttons.util.models.ButtonSize.Small
 import com.angel.components.buttons.util.models.ButtonSize.XL
+import com.angel.components.inputs.standard.InputField
+import com.angel.components.inputs.util.models.InputFieldIconType
 import com.angel.components.messages.Message
 import com.angel.components.ui.theme.AvatarColors
 import com.angel.components.ui.theme.ColorPalette
 import com.angel.components.ui.theme.ComponentsTheme
-import com.angel.components.ui.theme.MessageColors
-import com.angel.components.ui.theme.styles.DefaultAvatarStyles
-import com.angel.components.ui.theme.styles.avatarStyle
+import com.angel.components.ui.theme.styles.DefaultMessageStyles.MessageType.answerMessage
+import com.angel.components.ui.theme.styles.DefaultMessageStyles.MessageType.responseMessage
+import com.angel.components.ui.theme.styles.avatar.avatarStyle
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.time.LocalTime
@@ -180,20 +168,21 @@ fun SampleScreen() {
                         Buttons -> ButtonsSample(coroutineScope = coroutineScope)
                         Avatar -> AvatarsSample()
                         Messages -> MessagesSample()
-                        Inputs, Notifications, Badge, BottomNavigation, BottomSheet, IconButton, Card, Chip, CoachMark, LineItem, Menu, Toggle, PageIndicator, SegmentedControl, TabControl, TopNavigation, NotificationBadge -> Box(
+                        Inputs -> InputFieldsSample()
+                        Notifications, Badge, BottomNavigation, BottomSheet, IconButton, Card, Chip, CoachMark, LineItem, Menu, Toggle, PageIndicator, SegmentedControl, TabControl, TopNavigation, NotificationBadge -> Box(
                             Modifier.wrapContentSize()
                         )
                     }
                     IconButton(
                         modifier = Modifier
                             .clip(CircleShape)
-                            .background(ColorPalette.White)
+                            .background(ColorPalette.White.copy(alpha = 0.5f))
                             .align(Alignment.TopStart),
                         onClick = { coroutineScope.launch { drawerState.apply { open() } } },
                     ) {
                         Icon(
                             modifier = Modifier.size(64.dp),
-                            imageVector = Icons.Default.KeyboardArrowRight,
+                            painter = painterResource(id = R.drawable.ic_expand),
                             tint = Color.Black,
                             contentDescription = null
                         )
@@ -202,6 +191,36 @@ fun SampleScreen() {
             }
         }
     }
+}
+
+@ExperimentalMaterial3Api
+@Composable
+fun InputFieldsSample() {
+    val textState = remember { mutableStateOf("") }
+
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        /*InputField(
+            valueState = textState,
+            isEnabled = isEnabled,
+            label = "Test label",
+            placeholder = "Test placeHolder",
+            leadingIcon = InputFieldIconType.None,
+            trailingIcon = InputFieldIconType.None,
+            isError = false,
+        )*/
+        Spacer(modifier = Modifier.width(8.dp))
+    }
+}
+
+@ExperimentalMaterial3Api
+@Preview
+@Composable
+fun InputFieldSamplePreview() {
+    InputFieldsSample()
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -233,7 +252,7 @@ fun AvatarsSettingsTopBar(
                 label = { Text(text = "None") },
                 icon = {
                     Icon(
-                        imageVector = Icons.Default.NotInterested,
+                        painter = painterResource(id = R.drawable.ic_none),
                         tint = ColorPalette.Red.color950,
                         contentDescription = "None"
                     )
@@ -272,7 +291,7 @@ fun AvatarsSettingsTopBar(
                 label = { Text(text = "Status") },
                 icon = {
                     Icon(
-                        imageVector = Icons.Default.FiberManualRecord,
+                        painter = painterResource(id = R.drawable.ic_default),
                         tint = ColorPalette.Green.color500,
                         contentDescription = "Status"
                     )
@@ -292,22 +311,22 @@ fun AvatarsSettingsTopBar(
                         when (selectedIndicatorContent) {
 
                             is AvatarIndicatorContent.Status -> AvatarIndicatorContent.Icon(
-                                AvatarIconContent.Vector(Icons.Default.FiberManualRecord),
+                                AvatarIconType.Drawable(R.drawable.ic_default),
                                 selectedIndicatorContent.status
                             )
 
                             is AvatarIndicatorContent.Badge -> AvatarIndicatorContent.Icon(
-                                AvatarIconContent.Vector(Icons.Default.FiberManualRecord),
+                                AvatarIconType.Drawable(R.drawable.ic_default),
                                 selectedIndicatorContent.status
                             )
 
                             is AvatarIndicatorContent.Icon -> AvatarIndicatorContent.Icon(
-                                AvatarIconContent.Vector(Icons.Default.FiberManualRecord),
+                                AvatarIconType.Drawable(R.drawable.ic_default),
                                 selectedIndicatorContent.status
                             )
 
                             AvatarIndicatorContent.None -> AvatarIndicatorContent.Icon(
-                                AvatarIconContent.Vector(Icons.Default.FiberManualRecord),
+                                AvatarIconType.Drawable(R.drawable.ic_default),
                                 AvatarStatus.Active
                             )
                         }
@@ -316,7 +335,7 @@ fun AvatarsSettingsTopBar(
                 label = { Text(text = "Icon") },
                 icon = {
                     Icon(
-                        imageVector = Icons.Default.Numbers,
+                        painter = painterResource(id = R.drawable.ic_badge),
                         tint = ColorPalette.Platinum.color600,
                         contentDescription = "Icon"
                     )
@@ -358,7 +377,7 @@ fun AvatarsSettingsTopBar(
                 label = { Text(text = "Badge") },
                 icon = {
                     Icon(
-                        imageVector = Icons.Default.Numbers,
+                        painter = painterResource(id = R.drawable.ic_badge),
                         tint = ColorPalette.Purple.color500,
                         contentDescription = "Badge"
                     )
@@ -402,10 +421,12 @@ fun AvatarsSettingsTopBar(
                         )
                     }, label = { Text(text = avatarStatus.name) }, icon = {
                         Icon(
-                            imageVector = when (avatarStatus) {
-                                AvatarStatus.Active -> Icons.Default.CheckCircle
-                                AvatarStatus.Inactive -> Icons.Default.Cancel
-                            }, tint = when (avatarStatus) {
+                            painter = painterResource(
+                                when (avatarStatus) {
+                                    AvatarStatus.Active -> R.drawable.ic_check
+                                    AvatarStatus.Inactive -> R.drawable.ic_cancel
+                                }
+                            ), tint = when (avatarStatus) {
                                 AvatarStatus.Active -> AvatarColors.avatarActiveIndicatorBackgroundColor
                                 AvatarStatus.Inactive -> AvatarColors.avatarInactiveIndicatorBackgroundColor
                             }, contentDescription = avatarStatus.name
@@ -452,7 +473,7 @@ fun AvatarsSettingsTopBar(
                             onIndicatorContentSelected(selectedIndicatorContent.copy(icon = icon.icon))
                         }, icon = {
                             Icon(
-                                imageVector = (icon.icon as AvatarIconContent.Vector).imageVector,
+                                painter = painterResource((icon.icon as AvatarIconType.Drawable).drawable),
                                 contentDescription = icon.name
                             )
                         }, colors = NavigationBarItemDefaults.colors(
@@ -485,7 +506,8 @@ fun AvatarBottomBar(
             NavigationBarItem(
                 icon = {
                     Icon(
-                        Icons.Default.FormatSize, contentDescription = size.name
+                        painter = painterResource(id = R.drawable.ic_size),
+                        contentDescription = size.name
                     )
                 },
                 label = { Text(label) },
@@ -509,7 +531,7 @@ fun AvatarsSample() {
     val coroutineScope = rememberCoroutineScope()
     val snackBarHostState = remember { SnackbarHostState() }
     var selectedSize by remember { mutableStateOf(AvatarSize.XL) }
-    var selectedMainContent by remember {
+    val selectedMainContent by remember {
         mutableStateOf<AvatarMainContent>(
             AvatarMainContent.None
         )
@@ -634,22 +656,12 @@ fun MessagesSample() {
         Column(modifier = Modifier.fillMaxSize()) {
             LazyColumn(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.Bottom) {
                 itemsIndexed(messages) { index, message ->
-                    val backgroundColor =
-                        if (index % 2 == 0) MessageColors.messageBackgroundColor1 else MessageColors.messageBackgroundColor2
-                    val textColor =
-                        if (index % 2 == 0) MessageColors.messageTextColor1 else MessageColors.messageTextColor2
-                    val hourColor =
-                        if (index % 2 == 0) MessageColors.messageHourTextColor1 else MessageColors.messageHourTexTColor2
-                    val avatarStyle =
-                        if (index % 2 == 0) DefaultAvatarStyles.MessageAvatar.messageAvatarStyleStart else DefaultAvatarStyles.MessageAvatar.messageAvatarStyleEnd
+                    val style = if (index % 2 == 0) responseMessage else answerMessage
 
                     Message(
-                        backgroundColor = backgroundColor,
                         text = message.first,
                         hour = message.second,
-                        textColor = textColor,
-                        hourColor = hourColor,
-                        avatar = avatarStyle
+                        style = style
                     )
                 }
             }
@@ -682,7 +694,7 @@ fun MessagesSample() {
                     }
                 }) {
                     Icon(
-                        imageVector = Icons.Default.Send,
+                        painter = painterResource(id = R.drawable.ic_send),
                         tint = ColorPalette.White,
                         contentDescription = null
                     )
@@ -713,19 +725,21 @@ fun IconsSettingsTopBar(
             containerColor = ColorPalette.White, contentColor = ColorPalette.Black
         ) {
             ButtonIconsSettings.values().forEach { iconsSettings ->
-                val icon = when (iconsSettings) {
-                    Both -> Icons.Default.FormatAlignJustify
-                    Start -> Icons.Default.FormatAlignLeft
-                    End -> Icons.Default.FormatAlignRight
-                    None -> Icons.Default.FormatAlignCenter
-                }
+                val icon = painterResource(
+                    when (iconsSettings) {
+                        Both -> R.drawable.ic_both_icons
+                        Start -> R.drawable.ic_start_icon
+                        End -> R.drawable.ic_left_icon
+                        None -> R.drawable.ic_no_icons
+                    }
+                )
                 NavigationBarItem(
                     selected = selectedIconsSetting == iconsSettings,
                     onClick = { onIconsSettingSelected(iconsSettings) },
                     label = { Text(text = iconsSettings.name) },
                     icon = {
                         Icon(
-                            imageVector = icon, contentDescription = iconsSettings.name
+                            painter = icon, contentDescription = iconsSettings.name
                         )
                     },
                     colors = NavigationBarItemDefaults.colors(
@@ -761,7 +775,7 @@ fun IconsSettingsTopBar(
                         },
                         icon = {
                             Icon(
-                                imageVector = (icon.icon as ButtonIconType.Vector).imageVector,
+                                painter = painterResource((icon.icon as ButtonIconType.Drawable).drawable),
                                 contentDescription = icon.name
                             )
                         },
@@ -790,7 +804,7 @@ fun IconsSettingsTopBar(
                             onClick = { onEndIconSelected(icon) },
                             icon = {
                                 Icon(
-                                    imageVector = (icon.icon as ButtonIconType.Vector).imageVector,
+                                    painter = painterResource((icon.icon as ButtonIconType.Drawable).drawable),
                                     contentDescription = icon.name
                                 )
                             },
@@ -811,25 +825,19 @@ fun IconsSettingsTopBar(
 }
 
 enum class AvailableIcon(val icon: ButtonIconType) {
-    FiberManualRecord(ButtonIconType.Vector(Icons.Default.FiberManualRecord)), Stars(
-        ButtonIconType.Vector(
-            Icons.Default.Stars
-        )
-    ),
-    Favorite(ButtonIconType.Vector(Icons.Default.Favorite)), Cancel(ButtonIconType.Vector(Icons.Default.Cancel)),
+    FiberManualRecord(ButtonIconType.Drawable(R.drawable.ic_default)),
+    Stars(ButtonIconType.Drawable(R.drawable.ic_stars)),
+
+    Favorite(ButtonIconType.Drawable(R.drawable.ic_favorite)),
+    Cancel(ButtonIconType.Drawable(R.drawable.ic_cancel)),
 }
 
-enum class AvailableIndicatorIcon(val icon: AvatarIconContent) {
-    FiberManualRecord(AvatarIconContent.Vector(Icons.Default.FiberManualRecord)), Stars(
-        AvatarIconContent.Vector(
-            Icons.Default.Stars
-        )
-    ),
-    Favorite(AvatarIconContent.Vector(Icons.Default.Favorite)), Cancel(
-        AvatarIconContent.Vector(
-            Icons.Default.Cancel
-        )
-    ),
+enum class AvailableIndicatorIcon(val icon: AvatarIconType) {
+    FiberManualRecord(AvatarIconType.Drawable(R.drawable.ic_default)),
+    Stars(AvatarIconType.Drawable(R.drawable.ic_stars)),
+
+    Favorite(AvatarIconType.Drawable(R.drawable.ic_favorite)),
+    Cancel(AvatarIconType.Drawable(R.drawable.ic_cancel)),
 }
 
 @Composable
@@ -844,7 +852,8 @@ fun BottomBar(
             NavigationBarItem(
                 icon = {
                     Icon(
-                        Icons.Default.FormatSize, contentDescription = size.name
+                        painter = painterResource(id = R.drawable.ic_size),
+                        contentDescription = size.name
                     )
                 },
                 label = { Text(label) },

@@ -1,13 +1,21 @@
 package com.angel.components.ui.theme.styles
 
+import com.angel.components.R
 import com.angel.components.avatars.util.models.AvatarIndicatorContent
 import com.angel.components.avatars.util.models.AvatarMainContent
 import com.angel.components.avatars.util.models.AvatarSize
 import com.angel.components.buttons.util.models.ButtonSize
+import com.angel.components.inputs.util.models.InputFieldIconType
 import com.angel.components.messages.util.models.MessageAvatarSide
 import com.angel.components.ui.theme.ButtonBorders
 import com.angel.components.ui.theme.ButtonColors
 import com.angel.components.ui.theme.ButtonLabelStyles
+import com.angel.components.ui.theme.InputFieldColors.inputFieldTrailingIconColor
+import com.angel.components.ui.theme.MessageColors
+import com.angel.components.ui.theme.styles.avatar.avatarStyle
+import com.angel.components.ui.theme.styles.button.buttonStyle
+import com.angel.components.ui.theme.styles.input.inputFieldStyle
+import com.angel.components.ui.theme.styles.message.messageStyles
 
 object DefaultButtonStyles {
 
@@ -152,6 +160,40 @@ object DefaultAvatarStyles {
             indicatorContent = AvatarIndicatorContent.None,
             avatarSide = MessageAvatarSide.End,
             onClick = null
+        )
+    }
+}
+
+object DefaultMessageStyles {
+
+    object MessageType {
+        val responseMessage =  messageStyles(
+            avatar = DefaultAvatarStyles.MessageAvatar.messageAvatarStyleStart,
+            backgroundColor = MessageColors.messageBackgroundColor1,
+            textColor = MessageColors.messageTextColor1,
+            hourColor = MessageColors.messageHourTextColor1
+        )
+        val answerMessage = messageStyles(
+            avatar = DefaultAvatarStyles.MessageAvatar.messageAvatarStyleEnd,
+            backgroundColor = MessageColors.messageBackgroundColor2,
+            textColor = MessageColors.messageTextColor2,
+            hourColor = MessageColors.messageHourTextColor2
+        )
+    }
+}
+
+object DefaultInputFieldStyles {
+
+    object InputFieldType {
+        val standardInput =  inputFieldStyle()
+
+        val searchInput =  inputFieldStyle(
+            leadingIcon =InputFieldIconType.Drawable(R.drawable.ic_search, inputFieldTrailingIconColor),
+            trailingIcon = InputFieldIconType.Drawable(R.drawable.ic_mic, inputFieldTrailingIconColor)
+        )
+
+        val infoInput =  inputFieldStyle(
+            trailingIcon = InputFieldIconType.Drawable(R.drawable.ic_info, inputFieldTrailingIconColor)
         )
     }
 }

@@ -13,3 +13,7 @@ object ButtonShapes {
 object MessageShapes{
     val messageShape = RoundedCornerShape(12.dp)
 }
+
+object InputFieldShapes{
+    val inputFieldShape =  RoundedCornerShape(12.dp)
+}

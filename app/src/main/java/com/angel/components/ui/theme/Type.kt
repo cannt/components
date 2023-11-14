@@ -4,7 +4,6 @@ import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
@@ -205,4 +204,10 @@ object MessageTextStyles{
     val MessageTextStyle = BodyLarge
     val MessageHourTextStyle = Caption
 
+}
+
+object InputFieldStyles{
+    val InputFieldLabelStyle = BodyLarge
+    val InputFieldPlaceholderStyle = BodyLarge
+    val InputFieldErrorStyle = BodyLarge
 }
