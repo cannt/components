@@ -182,7 +182,6 @@ object InputFieldColors{
 
     val inputFieldTextColor = Black
     val inputFieldLabelColor = Grey.grey500
-    val inputFieldPlaceHolderColor = Grey.grey500
     val inputFieldLeadingIconColor = Grey.grey500
     val inputFieldTrailingIconColor = Grey.grey500
 

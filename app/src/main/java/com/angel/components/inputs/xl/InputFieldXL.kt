@@ -18,8 +18,6 @@ fun InputFieldXL(
     isError: Boolean = false,
     isSuccess: Boolean = false,
     error: String? = null,
-    singleLine: Boolean = true,
-    placeholder: String? = null,
     label: String? = null,
     style: InputFieldStyle = DefaultInputFieldStyles.InputFieldType.standardInput
 ) {
@@ -29,9 +27,7 @@ fun InputFieldXL(
         isEnabled = isEnabled,
         isError = isError,
         isSuccess = isSuccess,
-        error = error,
-        singleLine = singleLine,
-        placeholder = placeholder,
+        errorText = error,
         label = label,
         size = InputFieldSize.XL,
         style =style

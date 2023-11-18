@@ -12,3 +12,8 @@ object ButtonGaps {
 object MessageGaps{
     val messageGap = 8.dp
 }
+
+object InputFieldGaps{
+    val errorGap = 8.dp
+    val iconsGap = 8.dp
+}

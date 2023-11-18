@@ -7,6 +7,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
+import com.angel.components.ui.theme.InputFieldColors.inputFieldErrorColor
+import com.angel.components.ui.theme.InputFieldColors.inputFieldLabelColor
+import com.angel.components.ui.theme.InputFieldColors.inputFieldTextColor
 
 val LargeTitle = TextStyle(
     fontFamily = FontFamily.Default,
@@ -88,7 +91,7 @@ val Navigation = TextStyle(
     letterSpacing = 0.em
 )
 
-val AvatarBadgeXL =  TextStyle(
+val AvatarBadgeXL = TextStyle(
     fontFamily = FontFamily.Default,
     fontWeight = FontWeight.Bold,
     fontSize = 12.sp,
@@ -96,7 +99,7 @@ val AvatarBadgeXL =  TextStyle(
     letterSpacing = 0.em
 )
 
-val AvatarBadgeLarge =  TextStyle(
+val AvatarBadgeLarge = TextStyle(
     fontFamily = FontFamily.Default,
     fontWeight = FontWeight.Bold,
     fontSize = 12.sp,
@@ -104,7 +107,7 @@ val AvatarBadgeLarge =  TextStyle(
     letterSpacing = 0.em
 )
 
-val AvatarBadgeMedium =  TextStyle(
+val AvatarBadgeMedium = TextStyle(
     fontFamily = FontFamily.Default,
     fontWeight = FontWeight.Bold,
     fontSize = 8.sp,
@@ -112,7 +115,7 @@ val AvatarBadgeMedium =  TextStyle(
     letterSpacing = 0.em
 )
 
-val AvatarBadgeSmall =  TextStyle(
+val AvatarBadgeSmall = TextStyle(
     fontFamily = FontFamily.Default,
     fontWeight = FontWeight.Bold,
     fontSize = 8.sp,
@@ -169,7 +172,7 @@ val Typography = Typography(
 )
 
 
-object ButtonLabelStyles{
+object ButtonLabelStyles {
     val ButtonPrimaryXLLabelStyle = BodyLargeBold
     val ButtonSecondaryXLLabelStyle = BodyLargeBold
     val ButtonTertiaryXLLabelStyle = BodyLargeBold
@@ -192,7 +195,7 @@ object ButtonLabelStyles{
 
 }
 
-object AvatarBadgeStyles{
+object AvatarBadgeStyles {
     val AvatarBadgeXLStyle = AvatarBadgeXL
     val AvatarBadgeLargeStyle = AvatarBadgeLarge
 
@@ -200,14 +203,15 @@ object AvatarBadgeStyles{
     val AvatarBadgeSmallStyle = AvatarBadgeSmall
 }
 
-object MessageTextStyles{
+object MessageTextStyles {
     val MessageTextStyle = BodyLarge
     val MessageHourTextStyle = Caption
 
 }
 
-object InputFieldStyles{
-    val InputFieldLabelStyle = BodyLarge
-    val InputFieldPlaceholderStyle = BodyLarge
-    val InputFieldErrorStyle = BodyLarge
+object InputFieldStyles {
+    val InputFieldTextStyle = BodyLarge.copy(color = inputFieldTextColor)
+    val InputFieldLabelStyle = Caption.copy(color = inputFieldLabelColor)
+    val InputFieldPlaceholderStyle = BodyLarge.copy(color = inputFieldLabelColor)
+    val InputFieldErrorStyle = BodyLarge.copy(color = inputFieldErrorColor)
 }

@@ -45,14 +45,16 @@ object MessageDimensions{
 }
 
 object InputFieldDimensions{
-    val inputFieldXLMinHeight = 56.dp
+    val inputFieldXLHeight = 56.dp
     val inputFieldXLWidth = 320.dp
 
-    val inputFieldLargeMinHeight = 48.dp
+    val inputFieldLargeHeight = 48.dp
     val inputFieldLargeWidth = 320.dp
 
-    val inputFieldMediumMinHeight = 40.dp
+    val inputFieldMediumHeight = 40.dp
     val inputFieldMediumWidth = 320.dp
+
+    val inputFieldIconsSize = 24.dp
 
 }
 

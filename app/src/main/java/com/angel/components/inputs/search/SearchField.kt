@@ -17,8 +17,6 @@ fun SearchField(
     isError: Boolean = false,
     isSuccess: Boolean = false,
     error: String? = null,
-    singleLine: Boolean = true,
-    placeholder: String? = null,
     size: InputFieldSize = InputFieldSize.XL,
 ) {
     InputField(
@@ -27,9 +25,7 @@ fun SearchField(
         isEnabled = isEnabled,
         isError = isError,
         isSuccess = isSuccess,
-        error = error,
-        singleLine = singleLine,
-        placeholder = placeholder,
+        errorText = error,
         label = null,
         size = size,
         style = DefaultInputFieldStyles.InputFieldType.searchInput

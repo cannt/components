@@ -1,40 +1,67 @@
 package com.angel.components.inputs.standard
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.FocusInteraction
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.tooling.preview.Preview
 import com.angel.components.R
 import com.angel.components.inputs.util.components.InputFieldIcon
 import com.angel.components.inputs.util.models.InputFieldIconType
 import com.angel.components.inputs.util.models.InputFieldIconType.None
 import com.angel.components.inputs.util.models.InputFieldSize
-import com.angel.components.ui.theme.ColorPalette.Transparent
+import com.angel.components.ui.theme.ComponentsTheme
 import com.angel.components.ui.theme.InputFieldColors
-import com.angel.components.ui.theme.InputFieldColors.inputFieldBorderColor
+import com.angel.components.ui.theme.InputFieldColors.inputFieldBackgroundColor
 import com.angel.components.ui.theme.InputFieldColors.inputFieldCheckIconColor
+import com.angel.components.ui.theme.InputFieldColors.inputFieldCursorColor
+import com.angel.components.ui.theme.InputFieldColors.inputFieldDisabledColor
 import com.angel.components.ui.theme.InputFieldColors.inputFieldErrorColor
+import com.angel.components.ui.theme.InputFieldColors.inputFieldTextColor
 import com.angel.components.ui.theme.InputFieldColors.inputFieldWarningIconColor
-import com.angel.components.ui.theme.InputFieldDimensions.inputFieldLargeMinHeight
+import com.angel.components.ui.theme.InputFieldDimensions.inputFieldLargeHeight
 import com.angel.components.ui.theme.InputFieldDimensions.inputFieldLargeWidth
-import com.angel.components.ui.theme.InputFieldDimensions.inputFieldMediumMinHeight
+import com.angel.components.ui.theme.InputFieldDimensions.inputFieldMediumHeight
 import com.angel.components.ui.theme.InputFieldDimensions.inputFieldMediumWidth
-import com.angel.components.ui.theme.InputFieldDimensions.inputFieldXLMinHeight
+import com.angel.components.ui.theme.InputFieldDimensions.inputFieldXLHeight
 import com.angel.components.ui.theme.InputFieldDimensions.inputFieldXLWidth
-import com.angel.components.ui.theme.InputFieldPaddings.inputFieldPadding
+import com.angel.components.ui.theme.InputFieldGaps
+import com.angel.components.ui.theme.InputFieldPaddings.inputFieldInnerPaddingLabel
+import com.angel.components.ui.theme.InputFieldPaddings.inputFieldInnerPaddingLarge
+import com.angel.components.ui.theme.InputFieldPaddings.inputFieldInnerPaddingMedium
+import com.angel.components.ui.theme.InputFieldPaddings.inputFieldInnerPaddingXL
 import com.angel.components.ui.theme.InputFieldShapes.inputFieldShape
+import com.angel.components.ui.theme.InputFieldStyles
 import com.angel.components.ui.theme.InputFieldStyles.InputFieldErrorStyle
 import com.angel.components.ui.theme.InputFieldStyles.InputFieldLabelStyle
-import com.angel.components.ui.theme.InputFieldStyles.InputFieldPlaceholderStyle
+import com.angel.components.ui.theme.InputFieldStyles.InputFieldTextStyle
 import com.angel.components.ui.theme.styles.DefaultInputFieldStyles
 import com.angel.components.ui.theme.styles.input.InputFieldStyle
 
@@ -45,106 +72,236 @@ fun InputField(
     valueState: MutableState<String>,
     isEnabled: Boolean = true,
     isError: Boolean = false,
-    isSuccess: Boolean = false,
-    error: String? = null,
-    singleLine: Boolean = true,
-    placeholder: String? = null,
     label: String? = null,
+    isSuccess: Boolean = false,
+    errorText: String? = null,
     size: InputFieldSize = InputFieldSize.XL,
     style: InputFieldStyle = DefaultInputFieldStyles.InputFieldType.standardInput
 ) {
-    val inputModifier = modifier.applyInputModifier(style.border)
+    val isFocused = remember { mutableStateOf(false) }
+    val interactionSource = remember { MutableInteractionSource() }
+    val focusRequester = remember { FocusRequester() }
 
-    TextField(
-        enabled = isEnabled,
-        value = valueState.value,
-        onValueChange = { valueState.value = it },
-        label = label?.asLabelComposable(),
-        placeholder = placeholder?.asPlaceholderComposable(),
-        leadingIcon = style.leadingIcon.asIconComposable(),
-        trailingIcon = determineTrailingIcon(isError, error, isEnabled, isSuccess, style),
-        supportingText = error?.asErrorComposable(isError),
-        isError = isError,
-        singleLine = singleLine,
-        colors = TextFieldDefaults.inputFieldColors(),
-        shape = inputFieldShape,
-        modifier = inputModifier.applyInputDimensions(size),
-        keyboardOptions = style.keyboardOptions,
-        keyboardActions = style.keyboardActions
-    )
+    HandleFocus(interactionSource, isFocused)
+
+    Column(modifier = modifier) {
+        InputFieldContainer(size, style.border) {
+            InputFieldContent(
+                isFocused,
+                label,
+                size,
+                valueState,
+                isEnabled,
+                focusRequester,
+                style,
+                isError,
+                isSuccess,
+                errorText
+            )
+        }
+        DisplayErrorText(isError, errorText)
+    }
 }
 
-@ExperimentalMaterial3Api
 @Composable
-private fun TextFieldDefaults.inputFieldColors() = textFieldColors(
-    textColor = InputFieldColors.inputFieldTextColor,
-    disabledTextColor = InputFieldColors.inputFieldDisabledColor,
-    containerColor = InputFieldColors.inputFieldBackgroundColor,
-    focusedIndicatorColor = Transparent,
-    unfocusedIndicatorColor = Transparent,
-    disabledIndicatorColor = Transparent,
-    errorIndicatorColor = inputFieldErrorColor,
-    focusedLabelColor = InputFieldColors.inputFieldLabelColor,
-    unfocusedLabelColor = InputFieldColors.inputFieldLabelColor,
-    disabledLabelColor = InputFieldColors.inputFieldDisabledColor,
-    errorLabelColor = inputFieldErrorColor,
-    placeholderColor = InputFieldColors.inputFieldPlaceHolderColor,
-    disabledPlaceholderColor = InputFieldColors.inputFieldDisabledColor,
-    focusedSupportingTextColor = inputFieldErrorColor,
-    unfocusedSupportingTextColor = inputFieldErrorColor,
-    disabledSupportingTextColor = inputFieldErrorColor,
-    errorSupportingTextColor = inputFieldErrorColor,
-    cursorColor = InputFieldColors.inputFieldCursorColor,
-    errorCursorColor = inputFieldErrorColor
-)
+private fun InputFieldContainer(
+    size: InputFieldSize,
+    border: BorderStroke,
+    content: @Composable () -> Unit
+) {
+    Box(
+        contentAlignment = Alignment.CenterStart,
+        modifier = Modifier
+            .applyInputDimensions(size)
+            .clip(inputFieldShape)
+            .border(border, inputFieldShape)
+            .background(inputFieldBackgroundColor)
+    ) {
+        content()
+    }
+}
+
+@Composable
+private fun InputFieldContent(
+    isFocused: MutableState<Boolean>,
+    label: String?,
+    size: InputFieldSize,
+    valueState: MutableState<String>,
+    isEnabled: Boolean,
+    focusRequester: FocusRequester,
+    style: InputFieldStyle,
+    isError: Boolean,
+    isSuccess: Boolean,
+    errorText: String?
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .applyInputPaddings(size = size, isFocused = isFocused.value && label != null)
+            .fillMaxWidth()
+    ) {
+        style.leadingIcon.asIconComposable()?.invoke()
+        if (style.leadingIcon != None) {
+            Spacer(modifier = Modifier.width(InputFieldGaps.iconsGap))
+        }
+
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.Start,
+            verticalArrangement = Arrangement.Center
+        ) {
+            if (!isFocused.value || size == InputFieldSize.XL) {
+                label?.let {
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable(
+                                interactionSource = MutableInteractionSource(),
+                                indication = null
+                            ) {
+                                if (!isFocused.value) {
+                                    isFocused.value = true
+                                }
+                            },
+                        text = label,
+                        style = if (isFocused.value && size == InputFieldSize.XL) InputFieldLabelStyle else InputFieldStyles.InputFieldPlaceholderStyle,
+                        color = if (isEnabled) if (isError) inputFieldErrorColor else InputFieldColors.inputFieldLabelColor else inputFieldDisabledColor
+                    )
+                }
+            }
+            if (isFocused.value) {
+                BasicTextField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .focusRequester(focusRequester),
+                    value = valueState.value,
+                    onValueChange = { valueState.value = it },
+                    enabled = isEnabled,
+                    singleLine = true,
+                    textStyle = InputFieldTextStyle.copy(color = if (isEnabled) inputFieldTextColor else inputFieldDisabledColor),
+                    interactionSource = MutableInteractionSource(),
+                    cursorBrush = SolidColor(inputFieldCursorColor),
+                    keyboardOptions = style.keyboardOptions,
+                    keyboardActions = style.keyboardActions
+                )
+                LaunchedEffect(Unit) {
+                    focusRequester.requestFocus()
+                }
+            }
+        }
+
+        if (style.trailingIcon != None) {
+            Spacer(modifier = Modifier.width(InputFieldGaps.iconsGap))
+        }
+        determineTrailingIcon(
+            isError = isError,
+            isEnabled = isEnabled,
+            isSuccess = isSuccess,
+            style = style
+        )?.invoke()
+    }
+}
 
 
-private fun Modifier.applyInputModifier(border: Boolean) = if (border) {
-    this.border(BorderStroke(1.dp, inputFieldBorderColor), inputFieldShape)
-} else this
+@Composable
+private fun HandleFocus(
+    interactionSource: MutableInteractionSource,
+    isFocused: MutableState<Boolean>
+) {
+    LaunchedEffect(interactionSource) {
+        interactionSource.interactions.collect {
+            when (it) {
+                is FocusInteraction.Focus -> isFocused.value = true
+                is FocusInteraction.Unfocus -> isFocused.value = false
+            }
+        }
+    }
+}
 
-private fun String?.asLabelComposable(): (@Composable () -> Unit)? =
-    this?.let { { Text(text = it, style = InputFieldLabelStyle) } }
 
-private fun String?.asPlaceholderComposable(): (@Composable () -> Unit)? =
-    this?.let { { Text(text = it, style = InputFieldPlaceholderStyle) } }
+@Composable
+private fun DisplayErrorText(isError: Boolean, errorText: String?) {
+    errorText?.let {
+        if (isError) {
+            Spacer(modifier = Modifier.height(InputFieldGaps.errorGap))
+            Text(text = "* $errorText", style = InputFieldErrorStyle, color = inputFieldErrorColor)
+        }
+    }
+}
+
+private fun Modifier.applyInputDimensions(size: InputFieldSize): Modifier = this
+    .width(
+        when (size) {
+            InputFieldSize.XL -> inputFieldXLWidth
+            InputFieldSize.LARGE -> inputFieldLargeWidth
+            InputFieldSize.MEDIUM -> inputFieldMediumWidth
+        }
+    )
+    .wrapContentHeight()
+    .defaultMinSize(
+        minHeight = when (size) {
+            InputFieldSize.XL -> inputFieldXLHeight
+            InputFieldSize.LARGE -> inputFieldLargeHeight
+            InputFieldSize.MEDIUM -> inputFieldMediumHeight
+        }
+    )
+
+private fun Modifier.applyInputPaddings(size: InputFieldSize, isFocused: Boolean): Modifier =
+    this.padding(
+        if (isFocused) inputFieldInnerPaddingLabel else when (size) {
+            InputFieldSize.XL -> inputFieldInnerPaddingXL
+            InputFieldSize.LARGE -> inputFieldInnerPaddingLarge
+            InputFieldSize.MEDIUM -> inputFieldInnerPaddingMedium
+        }
+    )
 
 private fun InputFieldIconType.asIconComposable(): (@Composable () -> Unit)? =
-    if (this != None) { { InputFieldIcon(icon = this) } } else null
+    if (this != None) {
+        {
+            InputFieldIcon(icon = this)
+        }
+    } else null
 
 private fun determineTrailingIcon(
     isError: Boolean,
-    error: String?,
     isEnabled: Boolean,
     isSuccess: Boolean,
     style: InputFieldStyle
 ): (@Composable () -> Unit)? {
     return when {
-        isError && !error.isNullOrEmpty() -> InputFieldIconType.Drawable(R.drawable.ic_error, inputFieldErrorColor).asIconComposable()
-        !isEnabled -> InputFieldIconType.Drawable(R.drawable.ic_warning, inputFieldWarningIconColor).asIconComposable()
-        isSuccess -> InputFieldIconType.Drawable(R.drawable.ic_check, inputFieldCheckIconColor).asIconComposable()
+        !isEnabled -> InputFieldIconType.Drawable(R.drawable.ic_warning, inputFieldWarningIconColor)
+            .asIconComposable()
+
+        isSuccess -> InputFieldIconType.Drawable(R.drawable.ic_check, inputFieldCheckIconColor)
+            .asIconComposable()
+
+        isError -> InputFieldIconType.Drawable(
+            R.drawable.ic_error,
+            inputFieldErrorColor
+        ).asIconComposable()
+
         style.trailingIcon != None -> style.trailingIcon.asIconComposable()
         else -> null
     }
 }
 
-private fun String?.asErrorComposable(isError: Boolean): (@Composable () -> Unit)? =
-    if (isError && !this.isNullOrEmpty()) { { Text(text = this, style = InputFieldErrorStyle) } } else null
-
-private fun Modifier.applyInputDimensions(size: InputFieldSize): Modifier =
-    this.padding(inputFieldPadding)
-        .width(
-            when (size) {
-                InputFieldSize.XL -> inputFieldXLWidth
-                InputFieldSize.LARGE -> inputFieldLargeWidth
-                InputFieldSize.MEDIUM -> inputFieldMediumWidth
-            }
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview
+@Composable
+fun PreviewInputField() {
+    val textState = remember { mutableStateOf("text") }
+    ComponentsTheme {
+        InputField(
+            valueState = textState,
+            isEnabled = true,
+            isError = false,
+            label = "Test label",
+            isSuccess = false,
+            errorText = null,
+            size = InputFieldSize.XL,
+            style = DefaultInputFieldStyles.InputFieldType.standardInput
         )
-        .heightIn(
-            min = when (size) {
-                InputFieldSize.XL -> inputFieldXLMinHeight
-                InputFieldSize.LARGE -> inputFieldLargeMinHeight
-                InputFieldSize.MEDIUM -> inputFieldMediumMinHeight
-            }
-        )
-
+    }
+}

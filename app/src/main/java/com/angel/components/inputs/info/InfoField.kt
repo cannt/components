@@ -18,8 +18,7 @@ fun InfoField(
     isSuccess: Boolean = false,
     error: String? = null,
     label: String? = null,
-    singleLine: Boolean = true,
-    placeholder: String? = null,
+    
     size: InputFieldSize = InputFieldSize.XL,
 ) {
     InputField(
@@ -28,9 +27,7 @@ fun InfoField(
         isEnabled = isEnabled,
         isError = isError,
         isSuccess = isSuccess,
-        error = error,
-        singleLine = singleLine,
-        placeholder = placeholder,
+        errorText = error,
         label = label,
         size = size,
         style = DefaultInputFieldStyles.InputFieldType.infoInput

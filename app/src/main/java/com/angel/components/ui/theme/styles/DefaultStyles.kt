@@ -10,6 +10,7 @@ import com.angel.components.messages.util.models.MessageAvatarSide
 import com.angel.components.ui.theme.ButtonBorders
 import com.angel.components.ui.theme.ButtonColors
 import com.angel.components.ui.theme.ButtonLabelStyles
+import com.angel.components.ui.theme.InputFieldBorders.inputFieldNotBorder
 import com.angel.components.ui.theme.InputFieldColors.inputFieldTrailingIconColor
 import com.angel.components.ui.theme.MessageColors
 import com.angel.components.ui.theme.styles.avatar.avatarStyle
@@ -188,6 +189,7 @@ object DefaultInputFieldStyles {
         val standardInput =  inputFieldStyle()
 
         val searchInput =  inputFieldStyle(
+            border = inputFieldNotBorder,
             leadingIcon =InputFieldIconType.Drawable(R.drawable.ic_search, inputFieldTrailingIconColor),
             trailingIcon = InputFieldIconType.Drawable(R.drawable.ic_mic, inputFieldTrailingIconColor)
         )
