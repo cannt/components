@@ -39,12 +39,12 @@ object AvatarDimensions {
     val SmallAvatarIndicatorIconSize = 8.dp
 }
 
-object MessageDimensions{
+object MessageDimensions {
     val messageBoxMinHeight = 80.dp
     val messageBoxMaxWidth = 303.dp
 }
 
-object InputFieldDimensions{
+object InputFieldDimensions {
     val inputFieldXLHeight = 56.dp
     val inputFieldXLWidth = 320.dp
 
@@ -55,6 +55,16 @@ object InputFieldDimensions{
     val inputFieldMediumWidth = 320.dp
 
     val inputFieldIconsSize = 24.dp
+
+}
+
+object NotificationDimensions {
+    val notificationHeight = 104.dp
+    val notificationWidth = 343.dp
+
+    val notificationContentHeight = 72.dp
+
+    val notificationIconsSize = 24.dp
 
 }
 

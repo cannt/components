@@ -7,16 +7,19 @@ import com.angel.components.avatars.util.models.AvatarSize
 import com.angel.components.buttons.util.models.ButtonSize
 import com.angel.components.inputs.util.models.InputFieldIconType
 import com.angel.components.messages.util.models.MessageAvatarSide
+import com.angel.components.notifications.util.components.NotificationIconType
 import com.angel.components.ui.theme.ButtonBorders
 import com.angel.components.ui.theme.ButtonColors
 import com.angel.components.ui.theme.ButtonLabelStyles
 import com.angel.components.ui.theme.InputFieldBorders.inputFieldNotBorder
 import com.angel.components.ui.theme.InputFieldColors.inputFieldTrailingIconColor
 import com.angel.components.ui.theme.MessageColors
+import com.angel.components.ui.theme.NotificationColors
 import com.angel.components.ui.theme.styles.avatar.avatarStyle
 import com.angel.components.ui.theme.styles.button.buttonStyle
 import com.angel.components.ui.theme.styles.input.inputFieldStyle
 import com.angel.components.ui.theme.styles.message.messageStyles
+import com.angel.components.ui.theme.styles.notification.notificationStyles
 
 object DefaultButtonStyles {
 
@@ -195,7 +198,40 @@ object DefaultInputFieldStyles {
         )
 
         val infoInput =  inputFieldStyle(
-            trailingIcon = InputFieldIconType.Drawable(R.drawable.ic_info, inputFieldTrailingIconColor)
+            trailingIcon = InputFieldIconType.Drawable(R.drawable.ic_input_info, inputFieldTrailingIconColor)
+        )
+    }
+}
+
+
+object DefaultNotificationStyles {
+
+    object NotificationType {
+
+        val infoNotification = notificationStyles()
+
+        val errorNotification =  notificationStyles(
+            backgroundColor = NotificationColors.notificationErrorBackgroundColor,
+            leadingIcon = NotificationIconType.Drawable(
+                drawable = R.drawable.ic_notification_error,
+                tint = NotificationColors.notificationErrorIconColor,
+            )
+        )
+
+        val successNotification =  notificationStyles(
+            backgroundColor = NotificationColors.notificationSuccessBackgroundColor,
+            leadingIcon = NotificationIconType.Drawable(
+                drawable = R.drawable.ic_notification_success,
+                tint = NotificationColors.notificationSuccessIconColor,
+            )
+        )
+
+        val warningNotification =  notificationStyles(
+            backgroundColor = NotificationColors.notificationWarningBackgroundColor,
+            leadingIcon = NotificationIconType.Drawable(
+                drawable = R.drawable.ic_notification_warning,
+                tint = NotificationColors.notificationWarningIconColor,
+            )
         )
     }
 }

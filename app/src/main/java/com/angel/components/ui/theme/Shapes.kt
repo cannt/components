@@ -17,3 +17,7 @@ object MessageShapes{
 object InputFieldShapes{
     val inputFieldShape =  RoundedCornerShape(12.dp)
 }
+
+object NotificationShapes{
+    val notificationShape =  RoundedCornerShape(12.dp)
+}

@@ -95,8 +95,7 @@ fun InputField(
                 focusRequester,
                 style,
                 isError,
-                isSuccess,
-                errorText
+                isSuccess
             )
         }
         DisplayErrorText(isError, errorText)
@@ -131,9 +130,9 @@ private fun InputFieldContent(
     focusRequester: FocusRequester,
     style: InputFieldStyle,
     isError: Boolean,
-    isSuccess: Boolean,
-    errorText: String?
+    isSuccess: Boolean
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -158,7 +157,7 @@ private fun InputFieldContent(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable(
-                                interactionSource = MutableInteractionSource(),
+                                interactionSource = interactionSource,
                                 indication = null
                             ) {
                                 if (!isFocused.value) {
@@ -181,7 +180,7 @@ private fun InputFieldContent(
                     enabled = isEnabled,
                     singleLine = true,
                     textStyle = InputFieldTextStyle.copy(color = if (isEnabled) inputFieldTextColor else inputFieldDisabledColor),
-                    interactionSource = MutableInteractionSource(),
+                    interactionSource = interactionSource,
                     cursorBrush = SolidColor(inputFieldCursorColor),
                     keyboardOptions = style.keyboardOptions,
                     keyboardActions = style.keyboardActions

@@ -17,3 +17,8 @@ object InputFieldGaps{
     val errorGap = 8.dp
     val iconsGap = 8.dp
 }
+
+object NotificationGaps{
+    val notificationContentGap = 8.dp
+    val notificationTextGap = 8.dp
+}

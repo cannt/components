@@ -189,3 +189,20 @@ object InputFieldColors{
 
     val inputFieldCheckIconColor = Green.color600
 }
+
+object NotificationColors{
+    val notificationErrorBackgroundColor = Red.color50
+    val notificationSuccessBackgroundColor = Green.color50
+    val notificationWarningBackgroundColor = Yellow.color50
+    val notificationInfoBackgroundColor = Purple.color50
+
+    val notificationHeadlineColor = Black
+    val notificationMessageColor = Black
+
+    val notificationErrorIconColor = Red.color500
+    val notificationSuccessIconColor = Green.color500
+    val notificationWarningIconColor = Yellow.color500
+    val notificationInfoIconColor = Purple.color500
+
+    val notificationDismissIconColor = Black
+}

@@ -20,3 +20,7 @@ object InputFieldPaddings{
     val inputFieldInnerPaddingMedium = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
     val inputFieldInnerPaddingLabel = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
 }
+
+object NotificationPaddings {
+    val notificationPadding = PaddingValues(16.dp)
+}

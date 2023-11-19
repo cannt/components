@@ -12,7 +12,7 @@ import com.angel.components.ui.theme.InputFieldColors.inputFieldLabelColor
 import com.angel.components.ui.theme.InputFieldColors.inputFieldTextColor
 
 val LargeTitle = TextStyle(
-    fontFamily = FontFamily.Default,
+    fontFamily = FontFamily.SansSerif,
     fontWeight = FontWeight.Bold,
     fontSize = 32.sp,
     lineHeight = 40.sp,
@@ -20,7 +20,7 @@ val LargeTitle = TextStyle(
 )
 
 val Title1 = TextStyle(
-    fontFamily = FontFamily.Default,
+    fontFamily = FontFamily.SansSerif,
     fontWeight = FontWeight.Bold,
     fontSize = 24.sp,
     lineHeight = 32.sp,
@@ -28,7 +28,7 @@ val Title1 = TextStyle(
 )
 
 val Title2 = TextStyle(
-    fontFamily = FontFamily.Default,
+    fontFamily = FontFamily.SansSerif,
     fontWeight = FontWeight.Bold,
     fontSize = 20.sp,
     lineHeight = 32.sp,
@@ -36,7 +36,7 @@ val Title2 = TextStyle(
 )
 
 val Title3 = TextStyle(
-    fontFamily = FontFamily.Default,
+    fontFamily = FontFamily.SansSerif,
     fontWeight = FontWeight.Bold,
     fontSize = 18.sp,
     lineHeight = 24.sp,
@@ -44,7 +44,7 @@ val Title3 = TextStyle(
 )
 
 val BodyLarge = TextStyle(
-    fontFamily = FontFamily.Default,
+    fontFamily = FontFamily.SansSerif,
     fontWeight = FontWeight.Normal,
     fontSize = 16.sp,
     lineHeight = 24.sp,
@@ -52,7 +52,7 @@ val BodyLarge = TextStyle(
 )
 
 val BodySmall = TextStyle(
-    fontFamily = FontFamily.Default,
+    fontFamily = FontFamily.SansSerif,
     fontWeight = FontWeight.Normal,
     fontSize = 14.sp,
     lineHeight = 20.sp,
@@ -60,7 +60,7 @@ val BodySmall = TextStyle(
 )
 
 val BodyLargeBold = TextStyle(
-    fontFamily = FontFamily.Default,
+    fontFamily = FontFamily.SansSerif,
     fontWeight = FontWeight.Bold,
     fontSize = 16.sp,
     lineHeight = 24.sp,
@@ -68,7 +68,7 @@ val BodyLargeBold = TextStyle(
 )
 
 val BodySmallBold = TextStyle(
-    fontFamily = FontFamily.Default,
+    fontFamily = FontFamily.SansSerif,
     fontWeight = FontWeight.Bold,
     fontSize = 14.sp,
     lineHeight = 20.sp,
@@ -76,7 +76,7 @@ val BodySmallBold = TextStyle(
 )
 
 val Caption = TextStyle(
-    fontFamily = FontFamily.Default,
+    fontFamily = FontFamily.SansSerif,
     fontWeight = FontWeight.Normal,
     fontSize = 12.sp,
     lineHeight = 16.sp,
@@ -84,7 +84,7 @@ val Caption = TextStyle(
 )
 
 val Navigation = TextStyle(
-    fontFamily = FontFamily.Default,
+    fontFamily = FontFamily.SansSerif,
     fontWeight = FontWeight.Bold,
     fontSize = 12.sp,
     lineHeight = 24.sp,
@@ -92,7 +92,7 @@ val Navigation = TextStyle(
 )
 
 val AvatarBadgeXL = TextStyle(
-    fontFamily = FontFamily.Default,
+    fontFamily = FontFamily.SansSerif,
     fontWeight = FontWeight.Bold,
     fontSize = 12.sp,
     lineHeight = 12.sp,
@@ -100,7 +100,7 @@ val AvatarBadgeXL = TextStyle(
 )
 
 val AvatarBadgeLarge = TextStyle(
-    fontFamily = FontFamily.Default,
+    fontFamily = FontFamily.SansSerif,
     fontWeight = FontWeight.Bold,
     fontSize = 12.sp,
     lineHeight = 12.sp,
@@ -108,7 +108,7 @@ val AvatarBadgeLarge = TextStyle(
 )
 
 val AvatarBadgeMedium = TextStyle(
-    fontFamily = FontFamily.Default,
+    fontFamily = FontFamily.SansSerif,
     fontWeight = FontWeight.Bold,
     fontSize = 8.sp,
     lineHeight = 8.sp,
@@ -116,7 +116,7 @@ val AvatarBadgeMedium = TextStyle(
 )
 
 val AvatarBadgeSmall = TextStyle(
-    fontFamily = FontFamily.Default,
+    fontFamily = FontFamily.SansSerif,
     fontWeight = FontWeight.Bold,
     fontSize = 8.sp,
     lineHeight = 8.sp,
@@ -135,35 +135,35 @@ val Typography = Typography(
     labelSmall = Caption,
     labelLarge = Navigation,
     displaySmall = TextStyle(
-        fontFamily = FontFamily.Default,
+        fontFamily = FontFamily.SansSerif,
         fontWeight = FontWeight.Normal,
         fontSize = 18.sp,
         lineHeight = 28.sp,
         letterSpacing = 0.em
     ),
     titleLarge = TextStyle(
-        fontFamily = FontFamily.Default,
+        fontFamily = FontFamily.SansSerif,
         fontWeight = FontWeight.Medium,
         fontSize = 22.sp,
         lineHeight = 28.sp,
         letterSpacing = 0.em
     ),
     titleMedium = TextStyle(
-        fontFamily = FontFamily.Default,
+        fontFamily = FontFamily.SansSerif,
         fontWeight = FontWeight.Medium,
         fontSize = 16.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.em
     ),
     titleSmall = TextStyle(
-        fontFamily = FontFamily.Default,
+        fontFamily = FontFamily.SansSerif,
         fontWeight = FontWeight.Medium,
         fontSize = 14.sp,
         lineHeight = 20.sp,
         letterSpacing = 0.em
     ),
     labelMedium = TextStyle(
-        fontFamily = FontFamily.Default,
+        fontFamily = FontFamily.SansSerif,
         fontWeight = FontWeight.Normal,
         fontSize = 14.sp,
         lineHeight = 20.sp,
@@ -214,4 +214,9 @@ object InputFieldStyles {
     val InputFieldLabelStyle = Caption.copy(color = inputFieldLabelColor)
     val InputFieldPlaceholderStyle = BodyLarge.copy(color = inputFieldLabelColor)
     val InputFieldErrorStyle = BodyLarge.copy(color = inputFieldErrorColor)
+}
+
+object NotificationTextStyles {
+    val NotificationHeadlineStyle = BodyLargeBold
+    val NotificationMessageStyle = BodySmall
 }

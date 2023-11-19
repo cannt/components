@@ -100,6 +100,10 @@ import com.angel.components.inputs.standard.InputField
 import com.angel.components.inputs.util.models.InputFieldIconType
 import com.angel.components.inputs.util.models.InputFieldSize
 import com.angel.components.messages.Message
+import com.angel.components.notifications.error.ErrorNotification
+import com.angel.components.notifications.info.InfoNotification
+import com.angel.components.notifications.success.SuccessNotification
+import com.angel.components.notifications.warning.WarningNotification
 import com.angel.components.ui.theme.AvatarColors
 import com.angel.components.ui.theme.ColorPalette
 import com.angel.components.ui.theme.ComponentsTheme
@@ -111,6 +115,9 @@ import com.angel.components.ui.theme.styles.avatar.avatarStyle
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.time.LocalTime
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
+
 
 @ExperimentalMaterial3Api
 class SampleActivity : ComponentActivity() {
@@ -123,6 +130,7 @@ class SampleActivity : ComponentActivity() {
 enum class Components {
     Buttons, Inputs, Notifications, Messages, Avatar, Badge, BottomNavigation, BottomSheet, IconButton, Card, Chip, CoachMark, LineItem, Menu, Toggle, PageIndicator, SegmentedControl, TabControl, TopNavigation, NotificationBadge,
 }
+
 
 @ExperimentalMaterial3Api
 @Composable
@@ -172,7 +180,8 @@ fun SampleScreen() {
                         Avatar -> AvatarsSample()
                         Messages -> MessagesSample()
                         Inputs -> InputFieldsSample()
-                        Notifications, Badge, BottomNavigation, BottomSheet, IconButton, Card, Chip, CoachMark, LineItem, Menu, Toggle, PageIndicator, SegmentedControl, TabControl, TopNavigation, NotificationBadge -> Box(
+                        Notifications -> NotificationsSample()
+                        Badge, BottomNavigation, BottomSheet, IconButton, Card, Chip, CoachMark, LineItem, Menu, Toggle, PageIndicator, SegmentedControl, TabControl, TopNavigation, NotificationBadge -> Box(
                             Modifier.wrapContentSize()
                         )
                     }
@@ -192,6 +201,96 @@ fun SampleScreen() {
             }
         }
     }
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun NotificationsSample() {
+    val snackBarHostState = remember { SnackbarHostState() }
+    val shownError = remember { mutableStateOf(false) }
+    val shownInfo = remember { mutableStateOf(false) }
+    val shownWarning = remember { mutableStateOf(false) }
+    val shownSuccess = remember { mutableStateOf(false) }
+
+    fun setShownError(shown: Boolean){
+        shownError.value = shown
+    }
+
+    fun setShownInfo(shown: Boolean){
+        shownInfo.value = shown
+    }
+
+    fun setShownWarning(shown: Boolean){
+        shownWarning.value = shown
+    }
+
+    fun setShownSuccess(shown: Boolean){
+        shownSuccess.value = shown
+    }
+
+    Scaffold(containerColor = Color(0xFF404040), snackbarHost = {
+        SnackbarHost(hostState = snackBarHostState) { data ->
+            Snackbar(
+                snackbarData = data,
+                containerColor = ColorPalette.White,
+                contentColor = ColorPalette.Black
+            )
+        }
+    }, topBar = {
+
+    }, content = { paddingValues ->
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+        ) {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.SpaceAround,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                ButtonPrimaryXL(label = "Error notification", onClick = { setShownError(true) })
+                ButtonPrimaryXL(label = "Info notification", onClick = { setShownInfo(true) })
+                ButtonPrimaryXL(label = "Warning notification", onClick = { setShownWarning(true) })
+                ButtonPrimaryXL(label = "Success notification", onClick = { setShownSuccess(true) })
+            }
+        }
+    }, bottomBar = {
+    })
+
+
+    ErrorNotification(
+        headline = "Headline",
+        message = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr.",
+        shown = shownError,
+        duration = 2.toDuration(DurationUnit.SECONDS)
+    )
+
+
+    InfoNotification(
+        headline = "Headline",
+        message = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr.",
+        shown = shownInfo,
+        duration = 2.toDuration(DurationUnit.SECONDS)
+    )
+
+
+    WarningNotification(
+        headline = "Headline",
+        message = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr.",
+        shown = shownWarning,
+        duration = 2.toDuration(DurationUnit.SECONDS)
+    )
+
+
+    SuccessNotification(
+        headline = "Headline",
+        message = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr.",
+        shown = shownSuccess,
+        duration = 2.toDuration(DurationUnit.SECONDS)
+    )
 }
 
 enum class InputFieldStylesSample {

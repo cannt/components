@@ -11,6 +11,7 @@ data class InputFieldStyle(
     val border: BorderStroke = inputFieldBorder,
     val leadingIcon: InputFieldIconType = InputFieldIconType.None,
     val trailingIcon: InputFieldIconType = InputFieldIconType.None,
+    val isSingleLine: Boolean = true,
     val keyboardOptions: KeyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
     val keyboardActions: KeyboardActions = KeyboardActions.Default,
 )
@@ -19,6 +20,7 @@ fun inputFieldStyle(
     border: BorderStroke = inputFieldBorder,
     leadingIcon: InputFieldIconType = InputFieldIconType.None,
     trailingIcon: InputFieldIconType = InputFieldIconType.None,
+    isSingleLine: Boolean = true,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
     keyboardActions: KeyboardActions = KeyboardActions.Default,
 ): InputFieldStyle {
@@ -26,6 +28,7 @@ fun inputFieldStyle(
         border,
         leadingIcon,
         trailingIcon,
+        isSingleLine = isSingleLine,
         keyboardOptions,
         keyboardActions
     )
