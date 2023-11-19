@@ -9,7 +9,7 @@ data class NotificationStyles(
     val backgroundColor: Color = NotificationColors.notificationInfoBackgroundColor,
     val leadingIcon: NotificationIconType = NotificationIconType.Drawable(
         drawable = R.drawable.ic_notification_info,
-        NotificationColors.notificationErrorIconColor
+        NotificationColors.notificationInfoIconColor
     )
 )
 
@@ -17,7 +17,7 @@ fun notificationStyles(
     backgroundColor: Color = NotificationColors.notificationInfoBackgroundColor,
     leadingIcon: NotificationIconType = NotificationIconType.Drawable(
         drawable = R.drawable.ic_notification_info,
-        NotificationColors.notificationErrorIconColor
+        NotificationColors.notificationInfoIconColor
     )
 ): NotificationStyles {
     return NotificationStyles(
