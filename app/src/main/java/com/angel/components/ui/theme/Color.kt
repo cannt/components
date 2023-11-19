@@ -177,6 +177,7 @@ object InputFieldColors{
 
     val inputFieldBackgroundColor = White
     val inputFieldBorderColor = Grey.grey200
+    val inputFieldActiveBorderColor = Black
 
     val inputFieldErrorColor = Red.color500
 

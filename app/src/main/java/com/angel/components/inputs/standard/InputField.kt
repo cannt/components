@@ -30,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.tooling.preview.Preview
 import com.angel.components.R
@@ -85,7 +86,7 @@ fun InputField(
     HandleFocus(interactionSource, isFocused)
 
     Column(modifier = modifier) {
-        InputFieldContainer(size, style.border) {
+        InputFieldContainer(size, isFocused, style.border, style.borderActive) {
             InputFieldContent(
                 isFocused,
                 label,
@@ -105,7 +106,9 @@ fun InputField(
 @Composable
 private fun InputFieldContainer(
     size: InputFieldSize,
+    isFocused: MutableState<Boolean>,
     border: BorderStroke,
+    borderActive: BorderStroke,
     content: @Composable () -> Unit
 ) {
     Box(
@@ -113,7 +116,7 @@ private fun InputFieldContainer(
         modifier = Modifier
             .applyInputDimensions(size)
             .clip(inputFieldShape)
-            .border(border, inputFieldShape)
+            .border(if (isFocused.value) borderActive else border, inputFieldShape)
             .background(inputFieldBackgroundColor)
     ) {
         content()
@@ -143,7 +146,6 @@ private fun InputFieldContent(
         if (style.leadingIcon != None) {
             Spacer(modifier = Modifier.width(InputFieldGaps.iconsGap))
         }
-
         Column(
             modifier = Modifier
                 .weight(1f)
@@ -153,28 +155,31 @@ private fun InputFieldContent(
         ) {
             if (!isFocused.value || size == InputFieldSize.XL) {
                 label?.let {
-                    Text(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable(
-                                interactionSource = interactionSource,
-                                indication = null
-                            ) {
-                                if (!isFocused.value) {
-                                    isFocused.value = true
-                                }
-                            },
-                        text = label,
-                        style = if (isFocused.value && size == InputFieldSize.XL) InputFieldLabelStyle else InputFieldStyles.InputFieldPlaceholderStyle,
-                        color = if (isEnabled) if (isError) inputFieldErrorColor else InputFieldColors.inputFieldLabelColor else inputFieldDisabledColor
-                    )
+                    if (label.isNotEmpty()) {
+                        Text(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable(
+                                    interactionSource = interactionSource,
+                                    indication = null
+                                ) {
+                                    if (!isFocused.value) {
+                                        isFocused.value = true
+                                    }
+                                },
+                            text = label,
+                            style = if (isFocused.value && size == InputFieldSize.XL) InputFieldLabelStyle else InputFieldStyles.InputFieldPlaceholderStyle,
+                            color = if (isEnabled) if (isError) inputFieldErrorColor else InputFieldColors.inputFieldLabelColor else inputFieldDisabledColor
+                        )
+                    }
                 }
             }
-            if (isFocused.value) {
+            if (isFocused.value || label.isNullOrEmpty()) {
                 BasicTextField(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .focusRequester(focusRequester),
+                        .focusRequester(focusRequester)
+                        .applyFocusChange(label.isNullOrEmpty(), isFocused),
                     value = valueState.value,
                     onValueChange = { valueState.value = it },
                     enabled = isEnabled,
@@ -186,7 +191,9 @@ private fun InputFieldContent(
                     keyboardActions = style.keyboardActions
                 )
                 LaunchedEffect(Unit) {
-                    focusRequester.requestFocus()
+                    if (!label.isNullOrEmpty()) {
+                        focusRequester.requestFocus()
+                    }
                 }
             }
         }
@@ -223,12 +230,17 @@ private fun HandleFocus(
 @Composable
 private fun DisplayErrorText(isError: Boolean, errorText: String?) {
     errorText?.let {
-        if (isError) {
+        if (isError && errorText.isNotEmpty()) {
             Spacer(modifier = Modifier.height(InputFieldGaps.errorGap))
             Text(text = "* $errorText", style = InputFieldErrorStyle, color = inputFieldErrorColor)
         }
     }
 }
+
+private fun Modifier.applyFocusChange(should: Boolean, isFocused: MutableState<Boolean>): Modifier =
+    if (should)
+        this.onFocusChanged { isFocused.value = it.isFocused }
+    else this
 
 private fun Modifier.applyInputDimensions(size: InputFieldSize): Modifier = this
     .width(

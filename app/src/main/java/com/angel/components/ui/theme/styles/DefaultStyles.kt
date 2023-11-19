@@ -193,6 +193,7 @@ object DefaultInputFieldStyles {
 
         val searchInput =  inputFieldStyle(
             border = inputFieldNotBorder,
+            borderActive = inputFieldNotBorder,
             leadingIcon =InputFieldIconType.Drawable(R.drawable.ic_search, inputFieldTrailingIconColor),
             trailingIcon = InputFieldIconType.Drawable(R.drawable.ic_mic, inputFieldTrailingIconColor)
         )

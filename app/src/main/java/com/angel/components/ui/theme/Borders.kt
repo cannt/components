@@ -2,6 +2,7 @@ package com.angel.components.ui.theme
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.ui.unit.dp
+import com.angel.components.ui.theme.InputFieldColors.inputFieldActiveBorderColor
 import com.angel.components.ui.theme.InputFieldColors.inputFieldBorderColor
 
 object ButtonBorders {
@@ -13,5 +14,6 @@ object ButtonBorders {
 
 object InputFieldBorders {
     val inputFieldBorder = BorderStroke(1.dp, inputFieldBorderColor)
+    val inputFieldActiveBorder = BorderStroke(1.dp, inputFieldActiveBorderColor)
     val inputFieldNotBorder = BorderStroke(0.dp, inputFieldBorderColor)
 }

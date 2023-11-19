@@ -454,8 +454,8 @@ fun InputFieldsSample() {
     val isError = remember { mutableStateOf(false) }
     val isSuccess = remember { mutableStateOf(false) }
 
-    val error = remember { mutableStateOf("") }
-    val label = remember { mutableStateOf("") }
+    val error = remember { mutableStateOf<String?>(null) }
+    val label = remember { mutableStateOf<String?>(null) }
 
     val border = remember { mutableStateOf(inputFieldBorder) }
     val leadingIcon = remember { mutableStateOf<InputFieldIconType>(InputFieldIconType.None) }
@@ -485,12 +485,12 @@ fun InputFieldsSample() {
         ) {
             Column(
                 modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.SpaceAround,
+                verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Column {
                     TextField(
-                        value = label.value,
+                        value = label.value?:"",
                         onValueChange = { label.value = it },
                         placeholder = {
                             Text(
@@ -500,7 +500,7 @@ fun InputFieldsSample() {
                         label = { Text(text = "Label text", color = Color.White) })
                     Spacer(modifier = Modifier.height(8.dp))
                     TextField(
-                        value = error.value,
+                        value = error.value?:"",
                         onValueChange = { error.value = it },
                         placeholder = {
                             Text(
