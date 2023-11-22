@@ -8,7 +8,6 @@ import androidx.compose.ui.unit.LayoutDirection
 import com.angel.components.messages.util.components.MessageContent
 import com.angel.components.messages.util.components.MessageRow
 import com.angel.components.messages.util.models.MessageAvatarSide
-import com.angel.components.ui.theme.styles.avatar.AvatarStyle
 import com.angel.components.ui.theme.styles.DefaultMessageStyles
 import com.angel.components.ui.theme.styles.message.MessageStyles
 import java.time.LocalTime
@@ -21,17 +20,17 @@ fun Message(
     style: MessageStyles = DefaultMessageStyles.MessageType.answerMessage,
 ) {
     val formattedHour = hour.format(DateTimeFormatter.ofPattern("h:mm a"))
-    val layoutDirection = getLayoutDirection(style.avatar)
-    val textAlign = getTextAlign(style.avatar)
+    val layoutDirection = getLayoutDirection(style.avatarSide)
+    val textAlign = getTextAlign(style.avatarSide)
 
     CompositionLocalProvider(LocalLayoutDirection provides layoutDirection) {
         MessageRow(style.backgroundColor, style.avatar) {
-            MessageContent(text, formattedHour, style.textColor, style.hourColor, textAlign, style.avatar.avatarSide)
+            MessageContent(text, formattedHour, style.textColor, style.hourColor, textAlign, style.avatarSide)
         }
     }
 }
 
-private fun getLayoutDirection(avatar: AvatarStyle): LayoutDirection =
-    if (avatar.avatarSide == MessageAvatarSide.Start) LayoutDirection.Ltr else LayoutDirection.Rtl
-private fun getTextAlign(avatar: AvatarStyle): TextAlign =
-    if (avatar.avatarSide == MessageAvatarSide.Start) TextAlign.Start else TextAlign.End
+private fun getLayoutDirection(side: MessageAvatarSide): LayoutDirection =
+    if (side == MessageAvatarSide.Start) LayoutDirection.Ltr else LayoutDirection.Rtl
+private fun getTextAlign(side: MessageAvatarSide): TextAlign =
+    if (side == MessageAvatarSide.Start) TextAlign.Start else TextAlign.End

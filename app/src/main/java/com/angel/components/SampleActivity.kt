@@ -7,6 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -50,6 +51,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -72,6 +74,8 @@ import com.angel.components.avatars.util.models.AvatarMainContent
 import com.angel.components.avatars.util.models.AvatarSize
 import com.angel.components.avatars.util.models.AvatarStatus
 import com.angel.components.avatars.util.models.BadgeContent
+import com.angel.components.bottomNavigation.BottomNavigation
+import com.angel.components.bottomNavigation.models.BottomNavigationIconType
 import com.angel.components.buttons.ghost.large.ButtonGhostLarge
 import com.angel.components.buttons.ghost.medium.ButtonGhostMedium
 import com.angel.components.buttons.ghost.small.ButtonGhostSmall
@@ -104,10 +108,16 @@ import com.angel.components.notifications.error.ErrorNotification
 import com.angel.components.notifications.info.InfoNotification
 import com.angel.components.notifications.success.SuccessNotification
 import com.angel.components.notifications.warning.WarningNotification
+import com.angel.components.topNavigation.topNavigationProfile.TopNavigationProfile
+import com.angel.components.topNavigation.topNavigationSearch.TopNavigationSearch
+import com.angel.components.topNavigation.topNavigationTitle.TopNavigationTitle
+import com.angel.components.topNavigation.topNavigationTitleSearch.TopNavigationTitleSearch
+import com.angel.components.topNavigation.utils.models.TopNavigationIconType
 import com.angel.components.ui.theme.AvatarColors
 import com.angel.components.ui.theme.ColorPalette
 import com.angel.components.ui.theme.ComponentsTheme
 import com.angel.components.ui.theme.InputFieldBorders.inputFieldBorder
+import com.angel.components.ui.theme.TopNavigationColors.topNavigationIconColor
 import com.angel.components.ui.theme.styles.DefaultInputFieldStyles
 import com.angel.components.ui.theme.styles.DefaultMessageStyles.MessageType.answerMessage
 import com.angel.components.ui.theme.styles.DefaultMessageStyles.MessageType.responseMessage
@@ -115,8 +125,6 @@ import com.angel.components.ui.theme.styles.avatar.avatarStyle
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.time.LocalTime
-import kotlin.time.DurationUnit
-import kotlin.time.toDuration
 
 
 @ExperimentalMaterial3Api
@@ -135,6 +143,7 @@ enum class Components {
 @ExperimentalMaterial3Api
 @Composable
 fun SampleScreen() {
+    val interactionSource = remember { MutableInteractionSource() }
     val coroutineScope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Open)
     val selectedComponent = remember { mutableStateOf(Buttons) }
@@ -181,19 +190,24 @@ fun SampleScreen() {
                         Messages -> MessagesSample()
                         Inputs -> InputFieldsSample()
                         Notifications -> NotificationsSample()
-                        Badge, BottomNavigation, BottomSheet, IconButton, Card, Chip, CoachMark, LineItem, Menu, Toggle, PageIndicator, SegmentedControl, TabControl, TopNavigation, NotificationBadge -> Box(
+                        BottomNavigation -> BottomNavigationSample()
+                        TopNavigation -> TopNavigationSample()
+                        Badge, BottomSheet, IconButton, Card, Chip, CoachMark, LineItem, Menu, Toggle, PageIndicator, SegmentedControl, TabControl, NotificationBadge -> Box(
                             Modifier.wrapContentSize()
                         )
                     }
                     Box(
                         modifier = Modifier
                             .align(Alignment.CenterStart)
-                            .clickable { coroutineScope.launch { drawerState.apply { open() } } }
+                            .clickable(
+                                interactionSource = interactionSource,
+                                indication = null
+                            ) { coroutineScope.launch { drawerState.apply { open() } } }
                     ) {
                         Icon(
                             modifier = Modifier.size(32.dp),
                             painter = painterResource(id = R.drawable.ic_expand),
-                            tint = Color.Black,
+                            tint = Color.White,
                             contentDescription = null
                         )
                     }
@@ -201,6 +215,179 @@ fun SampleScreen() {
             }
         }
     }
+}
+
+@ExperimentalMaterial3Api
+@Composable
+fun BottomNavigationSample() {
+    val sampleIcons = AvailableBottomNavigationIcon.values()
+
+    Scaffold(
+        containerColor = Color(0xFF404040),
+        snackbarHost = {
+        }, topBar = {
+        }, content = { paddingValues ->
+            Box(modifier = Modifier.padding(paddingValues))
+        }, bottomBar = {
+            Column(
+                modifier =Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ){
+                var selectedItemDouble by remember { mutableIntStateOf(0) }
+                BottomNavigation {
+                    sampleIcons.take(2).forEachIndexed { index, navigationIcon ->
+                        val icon = navigationIcon.icon
+                        val label = "Label $index"
+                        item(
+                            selected = index == selectedItemDouble,
+                            icon = icon,
+                            label = { Text(label) },
+                            onClick = {
+                                selectedItemDouble = index
+                            })
+                    }
+                }
+
+                var selectedItemTriple by remember { mutableIntStateOf(0) }
+                BottomNavigation {
+                    sampleIcons.take(3).forEachIndexed { index, navigationIcon ->
+                        val icon = navigationIcon.icon
+                        val label = "Label $index"
+                        item(
+                            selected = index == selectedItemTriple,
+                            icon = icon,
+                            label = { Text(label) },
+                            onClick = {
+                                selectedItemTriple = index
+                            })
+                    }
+                }
+
+                var selectedItemQuadruple by remember { mutableIntStateOf(0) }
+                BottomNavigation {
+                    sampleIcons.take(4).forEachIndexed { index, navigationIcon ->
+                        val icon = navigationIcon.icon
+                        val label = "Label $index"
+                        item(
+                            selected = index == selectedItemQuadruple,
+                            icon = icon,
+                            label = { Text(label) },
+                            onClick = {
+                                selectedItemQuadruple = index
+                            })
+                    }
+                }
+
+                var selectedItemQuintuple by remember { mutableIntStateOf(0) }
+                BottomNavigation {
+                    sampleIcons.take(5).forEachIndexed { index, navigationIcon ->
+                        val icon = navigationIcon.icon
+                        val label = "Label $index"
+                        item(
+                            selected = index == selectedItemQuintuple,
+                            icon = icon,
+                            label = { Text(label) },
+                            onClick = {
+                                selectedItemQuintuple = index
+                            })
+                    }
+                }
+            }
+        })
+}
+
+@ExperimentalMaterial3Api
+@Composable
+fun TopNavigationSample() {
+    val searchValueState = remember { mutableStateOf("") }
+
+    val searchIsEnabled = remember { mutableStateOf(true) }
+    val searchIsError = remember { mutableStateOf(false) }
+    val searchIsSuccess = remember { mutableStateOf(false) }
+
+    val searchError = remember { mutableStateOf<String?>(null) }
+    Scaffold(
+        containerColor = Color(0xFF404040),
+        snackbarHost = {
+        }, topBar = {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                TopNavigationTitle(
+                    title = "Description",
+                    leadingIcon = TopNavigationIconType.Drawable(
+                        drawable = R.drawable.ic_default,
+                        tint = topNavigationIconColor,
+                        onClick = {}
+                    ),
+                    trailingIcon = TopNavigationIconType.Drawable(
+                        drawable = R.drawable.ic_default,
+                        tint = topNavigationIconColor,
+                        onClick = {}
+                    )
+                )
+                TopNavigationProfile(
+                    title = "Description",
+                    firstIcon = TopNavigationIconType.Drawable(
+                        drawable = R.drawable.ic_default,
+                        tint = topNavigationIconColor,
+                        onClick = {}
+                    ),
+                    secondIcon = TopNavigationIconType.Drawable(
+                        drawable = R.drawable.ic_default,
+                        tint = topNavigationIconColor,
+                        onClick = {}
+                    )
+                )
+                TopNavigationSearch(
+                    leadingIcon = TopNavigationIconType.Drawable(
+                        drawable = R.drawable.ic_default,
+                        tint = topNavigationIconColor,
+                        onClick = {}
+                    ),
+                    trailingIcon = TopNavigationIconType.Drawable(
+                        drawable = R.drawable.ic_default,
+                        tint = topNavigationIconColor,
+                        onClick = {}
+                    ),
+                    searchValueState = searchValueState,
+                    searchIsEnabled = searchIsEnabled.value,
+                    searchIsError = searchIsError.value,
+                    searchIsSuccess = searchIsSuccess.value,
+                    searchError = searchError.value,
+                )
+                TopNavigationTitleSearch(
+                    title = "Description",
+                    leadingIcon = TopNavigationIconType.Drawable(
+                        drawable = R.drawable.ic_default,
+                        tint = topNavigationIconColor,
+                        onClick = {}
+                    ),
+                    trailingIcon = TopNavigationIconType.Drawable(
+                        drawable = R.drawable.ic_default,
+                        tint = topNavigationIconColor,
+                        onClick = {}
+                    ),
+                    searchValueState = searchValueState,
+                    searchIsEnabled = searchIsEnabled.value,
+                    searchIsError = searchIsError.value,
+                    searchIsSuccess = searchIsSuccess.value,
+                    searchError = searchError.value,
+                )
+            }
+        }, content = { paddingValues ->
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .fillMaxSize()
+            ) {
+            }
+        }, bottomBar = {
+
+        })
 }
 
 
@@ -213,19 +400,19 @@ fun NotificationsSample() {
     val shownWarning = remember { mutableStateOf(false) }
     val shownSuccess = remember { mutableStateOf(false) }
 
-    fun setShownError(shown: Boolean){
+    fun setShownError(shown: Boolean) {
         shownError.value = shown
     }
 
-    fun setShownInfo(shown: Boolean){
+    fun setShownInfo(shown: Boolean) {
         shownInfo.value = shown
     }
 
-    fun setShownWarning(shown: Boolean){
+    fun setShownWarning(shown: Boolean) {
         shownWarning.value = shown
     }
 
-    fun setShownSuccess(shown: Boolean){
+    fun setShownSuccess(shown: Boolean) {
         shownSuccess.value = shown
     }
 
@@ -251,46 +438,52 @@ fun NotificationsSample() {
                 verticalArrangement = Arrangement.SpaceAround,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                ButtonPrimaryXL(label = "Error notification", onClick = { setShownError(true) })
-                ButtonPrimaryXL(label = "Info notification", onClick = { setShownInfo(true) })
-                ButtonPrimaryXL(label = "Warning notification", onClick = { setShownWarning(true) })
-                ButtonPrimaryXL(label = "Success notification", onClick = { setShownSuccess(true) })
+                if (shownError.value) {
+                    ErrorNotification(
+                        headline = "Headline",
+                        message = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr.",
+                        shown = shownError
+                    )
+                } else {
+                    ButtonPrimaryXL(label = "Error notification", onClick = { setShownError(true) })
+                }
+                if (shownInfo.value) {
+                    InfoNotification(
+                        headline = "Headline",
+                        message = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr.",
+                        shown = shownInfo
+                    )
+                } else {
+                    ButtonPrimaryXL(label = "Info notification", onClick = { setShownInfo(true) })
+                }
+                if (shownWarning.value) {
+                    WarningNotification(
+                        headline = "Headline",
+                        message = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr.",
+                        shown = shownWarning
+                    )
+                } else {
+                    ButtonPrimaryXL(
+                        label = "Warning notification",
+                        onClick = { setShownWarning(true) })
+                }
+                if (shownSuccess.value) {
+                    SuccessNotification(
+                        headline = "Headline",
+                        message = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr.",
+                        shown = shownSuccess
+                    )
+                } else {
+                    ButtonPrimaryXL(
+                        label = "Success notification",
+                        onClick = { setShownSuccess(true) })
+                }
             }
         }
     }, bottomBar = {
     })
 
 
-    ErrorNotification(
-        headline = "Headline",
-        message = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr.",
-        shown = shownError,
-        duration = 2.toDuration(DurationUnit.SECONDS)
-    )
-
-
-    InfoNotification(
-        headline = "Headline",
-        message = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr.",
-        shown = shownInfo,
-        duration = 2.toDuration(DurationUnit.SECONDS)
-    )
-
-
-    WarningNotification(
-        headline = "Headline",
-        message = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr.",
-        shown = shownWarning,
-        duration = 2.toDuration(DurationUnit.SECONDS)
-    )
-
-
-    SuccessNotification(
-        headline = "Headline",
-        message = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr.",
-        shown = shownSuccess,
-        duration = 2.toDuration(DurationUnit.SECONDS)
-    )
 }
 
 enum class InputFieldStylesSample {
@@ -490,7 +683,7 @@ fun InputFieldsSample() {
             ) {
                 Column {
                     TextField(
-                        value = label.value?:"",
+                        value = label.value ?: "",
                         onValueChange = { label.value = it },
                         placeholder = {
                             Text(
@@ -500,7 +693,7 @@ fun InputFieldsSample() {
                         label = { Text(text = "Label text", color = Color.White) })
                     Spacer(modifier = Modifier.height(8.dp))
                     TextField(
-                        value = error.value?:"",
+                        value = error.value ?: "",
                         onValueChange = { error.value = it },
                         placeholder = {
                             Text(
@@ -1196,6 +1389,15 @@ enum class AvailableIndicatorIcon(val icon: AvatarIconType) {
     Favorite(AvatarIconType.Drawable(R.drawable.ic_favorite)),
     Cancel(AvatarIconType.Drawable(R.drawable.ic_cancel)),
 }
+
+enum class AvailableBottomNavigationIcon(val icon: BottomNavigationIconType) {
+    FiberManualRecord(BottomNavigationIconType.Drawable(R.drawable.ic_default)),
+    Stars(BottomNavigationIconType.Drawable(R.drawable.ic_stars)),
+    Favorite(BottomNavigationIconType.Drawable(R.drawable.ic_favorite)),
+    Cancel(BottomNavigationIconType.Drawable(R.drawable.ic_cancel)),
+    None(BottomNavigationIconType.Drawable(R.drawable.ic_none)),
+}
+
 
 @Composable
 fun BottomBar(

@@ -22,3 +22,7 @@ object NotificationGaps{
     val notificationContentGap = 8.dp
     val notificationTextGap = 8.dp
 }
+
+object TopNavigationGaps{
+    val topNavigationTitleContentGap = 8.dp
+}

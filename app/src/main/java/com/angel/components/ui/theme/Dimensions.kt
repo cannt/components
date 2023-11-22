@@ -46,13 +46,13 @@ object MessageDimensions {
 
 object InputFieldDimensions {
     val inputFieldXLHeight = 56.dp
-    val inputFieldXLWidth = 320.dp
+    val inputFieldXLWidth = 150.dp
 
     val inputFieldLargeHeight = 48.dp
-    val inputFieldLargeWidth = 320.dp
+    val inputFieldLargeWidth = 150.dp
 
     val inputFieldMediumHeight = 40.dp
-    val inputFieldMediumWidth = 320.dp
+    val inputFieldMediumWidth = 150.dp
 
     val inputFieldIconsSize = 24.dp
 
@@ -65,6 +65,23 @@ object NotificationDimensions {
     val notificationContentHeight = 72.dp
 
     val notificationIconsSize = 24.dp
+
+}
+
+object BottomNavigationDimensions {
+    val bottomNavigationHeight = 64.dp
+
+    val bottomNavigationIconSize = 16.dp
+
+}
+
+object TopNavigationDimensions {
+    val topNavigationProfileHeight = 56.dp
+    val topNavigationTitleHeight = 56.dp
+    val topNavigationSearchHeight = 56.dp
+    val topNavigationTitleSearchHeight = 96.dp
+
+    val topNavigationIconSize = 16.dp
 
 }
 

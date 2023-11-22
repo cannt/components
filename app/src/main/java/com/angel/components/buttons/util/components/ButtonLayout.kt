@@ -2,7 +2,7 @@ package com.angel.components.buttons.util.components
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -39,7 +39,7 @@ fun ButtonLayout(
                     icon = startIcon,
                     tint = style.labelColor
                 )
-                Spacer(Modifier.width(style.gap))
+                Spacer(Modifier.requiredWidth(style.gap))
             }
 
             ButtonLabel(
@@ -49,7 +49,7 @@ fun ButtonLayout(
             )
 
             if (endIcon != null) {
-                Spacer(Modifier.width(style.gap))
+                Spacer(Modifier.requiredWidth(style.gap))
                 ButtonIcon(
                     icon = endIcon,
                     tint = style.labelColor

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -38,7 +39,7 @@ fun MessageRow(
         horizontalArrangement = Arrangement.Center,
     ) {
         Avatar(style = avatar)
-        Spacer(modifier = Modifier.width(MessageGaps.messageGap))
+        Spacer(modifier = Modifier.requiredWidth(MessageGaps.messageGap))
         MessageBubble(backgroundColor, content)
     }
 }

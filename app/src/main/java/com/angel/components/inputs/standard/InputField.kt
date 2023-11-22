@@ -13,9 +13,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.requiredHeight
+import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -32,13 +32,13 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
 import com.angel.components.R
 import com.angel.components.inputs.util.components.InputFieldIcon
 import com.angel.components.inputs.util.models.InputFieldIconType
 import com.angel.components.inputs.util.models.InputFieldIconType.None
 import com.angel.components.inputs.util.models.InputFieldSize
-import com.angel.components.ui.theme.ComponentsTheme
 import com.angel.components.ui.theme.InputFieldColors
 import com.angel.components.ui.theme.InputFieldColors.inputFieldBackgroundColor
 import com.angel.components.ui.theme.InputFieldColors.inputFieldCheckIconColor
@@ -86,7 +86,7 @@ fun InputField(
     HandleFocus(interactionSource, isFocused)
 
     Column(modifier = modifier) {
-        InputFieldContainer(size, isFocused, style.border, style.borderActive) {
+        InputFieldContainer(size, valueState, isFocused, style.border, style.borderActive) {
             InputFieldContent(
                 isFocused,
                 label,
@@ -106,17 +106,26 @@ fun InputField(
 @Composable
 private fun InputFieldContainer(
     size: InputFieldSize,
+    valueState: MutableState<String>,
     isFocused: MutableState<Boolean>,
     border: BorderStroke,
     borderActive: BorderStroke,
     content: @Composable () -> Unit
 ) {
+    val focusManager = LocalFocusManager.current
     Box(
         contentAlignment = Alignment.CenterStart,
         modifier = Modifier
+            .detectTapGesturesOutsideInput {
+                focusManager.clearFocus()
+                isFocused.value = false
+            }
             .applyInputDimensions(size)
             .clip(inputFieldShape)
-            .border(if (isFocused.value) borderActive else border, inputFieldShape)
+            .border(
+                if (isFocused.value || valueState.value.isNotEmpty()) borderActive else border,
+                inputFieldShape
+            )
             .background(inputFieldBackgroundColor)
     ) {
         content()
@@ -139,12 +148,15 @@ private fun InputFieldContent(
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
-            .applyInputPaddings(size = size, isFocused = isFocused.value && label != null)
+            .applyInputPaddings(
+                size = size,
+                isFocused = (isFocused.value || valueState.value.isNotEmpty()) && label != null
+            )
             .fillMaxWidth()
     ) {
         style.leadingIcon.asIconComposable()?.invoke()
         if (style.leadingIcon != None) {
-            Spacer(modifier = Modifier.width(InputFieldGaps.iconsGap))
+            Spacer(modifier = Modifier.requiredWidth(InputFieldGaps.iconsGap))
         }
         Column(
             modifier = Modifier
@@ -168,13 +180,13 @@ private fun InputFieldContent(
                                     }
                                 },
                             text = label,
-                            style = if (isFocused.value && size == InputFieldSize.XL) InputFieldLabelStyle else InputFieldStyles.InputFieldPlaceholderStyle,
+                            style = if ((isFocused.value || valueState.value.isNotEmpty()) && size == InputFieldSize.XL) InputFieldLabelStyle else InputFieldStyles.InputFieldPlaceholderStyle,
                             color = if (isEnabled) if (isError) inputFieldErrorColor else InputFieldColors.inputFieldLabelColor else inputFieldDisabledColor
                         )
                     }
                 }
             }
-            if (isFocused.value || label.isNullOrEmpty()) {
+            if (isFocused.value || label.isNullOrEmpty() || valueState.value.isNotEmpty()) {
                 BasicTextField(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -199,7 +211,7 @@ private fun InputFieldContent(
         }
 
         if (style.trailingIcon != None) {
-            Spacer(modifier = Modifier.width(InputFieldGaps.iconsGap))
+            Spacer(modifier = Modifier.requiredWidth(InputFieldGaps.iconsGap))
         }
         determineTrailingIcon(
             isError = isError,
@@ -207,6 +219,21 @@ private fun InputFieldContent(
             isSuccess = isSuccess,
             style = style
         )?.invoke()
+    }
+}
+
+@Composable
+fun Modifier.detectTapGesturesOutsideInput(onTapOutside: () -> Unit): Modifier {
+    return this.pointerInput(Unit) {
+        awaitPointerEventScope {
+            while (true) {
+                val event = awaitPointerEvent()
+                if (event.changes.any { it.pressed }) {
+                    onTapOutside()
+                    break
+                }
+            }
+        }
     }
 }
 
@@ -231,7 +258,7 @@ private fun HandleFocus(
 private fun DisplayErrorText(isError: Boolean, errorText: String?) {
     errorText?.let {
         if (isError && errorText.isNotEmpty()) {
-            Spacer(modifier = Modifier.height(InputFieldGaps.errorGap))
+            Spacer(modifier = Modifier.requiredHeight(InputFieldGaps.errorGap))
             Text(text = "* $errorText", style = InputFieldErrorStyle, color = inputFieldErrorColor)
         }
     }
@@ -243,21 +270,20 @@ private fun Modifier.applyFocusChange(should: Boolean, isFocused: MutableState<B
     else this
 
 private fun Modifier.applyInputDimensions(size: InputFieldSize): Modifier = this
-    .width(
-        when (size) {
+    .defaultMinSize(
+        minHeight = when (size) {
+            InputFieldSize.XL -> inputFieldXLHeight
+            InputFieldSize.LARGE -> inputFieldLargeHeight
+            InputFieldSize.MEDIUM -> inputFieldMediumHeight
+        },
+        minWidth = when (size) {
             InputFieldSize.XL -> inputFieldXLWidth
             InputFieldSize.LARGE -> inputFieldLargeWidth
             InputFieldSize.MEDIUM -> inputFieldMediumWidth
         }
     )
     .wrapContentHeight()
-    .defaultMinSize(
-        minHeight = when (size) {
-            InputFieldSize.XL -> inputFieldXLHeight
-            InputFieldSize.LARGE -> inputFieldLargeHeight
-            InputFieldSize.MEDIUM -> inputFieldMediumHeight
-        }
-    )
+    .fillMaxWidth()
 
 private fun Modifier.applyInputPaddings(size: InputFieldSize, isFocused: Boolean): Modifier =
     this.padding(
@@ -295,24 +321,5 @@ private fun determineTrailingIcon(
 
         style.trailingIcon != None -> style.trailingIcon.asIconComposable()
         else -> null
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Preview
-@Composable
-fun PreviewInputField() {
-    val textState = remember { mutableStateOf("text") }
-    ComponentsTheme {
-        InputField(
-            valueState = textState,
-            isEnabled = true,
-            isError = false,
-            label = "Test label",
-            isSuccess = false,
-            errorText = null,
-            size = InputFieldSize.XL,
-            style = DefaultInputFieldStyles.InputFieldType.standardInput
-        )
     }
 }

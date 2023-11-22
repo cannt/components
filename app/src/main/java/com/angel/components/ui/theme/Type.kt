@@ -220,3 +220,12 @@ object NotificationTextStyles {
     val NotificationHeadlineStyle = BodyLargeBold
     val NotificationMessageStyle = BodySmall
 }
+
+object BottomNavigationTextStyles {
+    val BottomNavigationLabelStyle = Navigation
+}
+
+object TopNavigationTextStyles {
+    val TopNavigationTitleStyle = BodyLargeBold
+    val TopNavigationProfileStyle = Title2
+}

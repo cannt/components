@@ -1,9 +1,8 @@
 package com.angel.components.notifications
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
-import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,6 +12,8 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredHeight
+import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -38,8 +39,6 @@ import com.angel.components.ui.theme.NotificationShapes
 import com.angel.components.ui.theme.NotificationTextStyles
 import com.angel.components.ui.theme.styles.DefaultNotificationStyles
 import com.angel.components.ui.theme.styles.notification.NotificationStyles
-import kotlinx.coroutines.delay
-import kotlin.time.Duration
 
 
 @Composable
@@ -47,7 +46,6 @@ fun Notification(
     headline: String,
     message: String,
     shown: MutableState<Boolean>,
-    duration: Duration? = null,
     style: NotificationStyles = DefaultNotificationStyles.NotificationType.infoNotification
 ) {
     val showKey = remember { mutableStateOf(0) }
@@ -58,15 +56,10 @@ fun Notification(
         }
     }
 
-    DismissAfterDuration(showKey.value, shown, duration)
-
     AnimatedVisibility(
         visible = shown.value,
         enter = fadeIn(),
-        exit = slideOutVertically(
-            targetOffsetY = { -it },
-            animationSpec = tween(durationMillis = 300)
-        )
+        exit = fadeOut()
     ) {
         Box(
             modifier = Modifier
@@ -76,7 +69,7 @@ fun Notification(
         ) {
             Surface(
                 modifier = Modifier
-                    .width(NotificationDimensions.notificationWidth)
+                    .requiredWidth(NotificationDimensions.notificationWidth)
                     .defaultMinSize(minHeight = NotificationDimensions.notificationHeight),
                 color = style.backgroundColor,
                 shape = NotificationShapes.notificationShape,
@@ -92,7 +85,7 @@ fun Notification(
                     NotificationIcon(
                         icon = style.leadingIcon
                     )
-                    Spacer(modifier = Modifier.width(NotificationGaps.notificationContentGap))
+                    Spacer(modifier = Modifier.requiredWidth(NotificationGaps.notificationContentGap))
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -112,7 +105,7 @@ fun Notification(
                                 color = NotificationColors.notificationHeadlineColor
                             )
                         }
-                        Spacer(modifier = Modifier.height(NotificationGaps.notificationTextGap))
+                        Spacer(modifier = Modifier.requiredHeight(NotificationGaps.notificationTextGap))
                         CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                             Box(
                                 modifier = Modifier
@@ -129,7 +122,7 @@ fun Notification(
                             }
                         }
                     }
-                    Spacer(modifier = Modifier.width(NotificationGaps.notificationContentGap))
+                    Spacer(modifier = Modifier.requiredWidth(NotificationGaps.notificationContentGap))
                     NotificationIcon(
                         icon = NotificationIconType.Drawable(
                             drawable = R.drawable.ic_notification_close,
@@ -139,16 +132,6 @@ fun Notification(
                     )
                 }
             }
-        }
-    }
-}
-
-@Composable
-fun DismissAfterDuration(key: Int, shown: MutableState<Boolean>, duration: Duration?) {
-    LaunchedEffect(key) {
-        duration?.let {
-            delay(it.inWholeMilliseconds)
-            shown.value = false
         }
     }
 }

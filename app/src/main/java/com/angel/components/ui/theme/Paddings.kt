@@ -24,3 +24,11 @@ object InputFieldPaddings{
 object NotificationPaddings {
     val notificationPadding = PaddingValues(16.dp)
 }
+
+object BottomNavigationPaddings {
+    val bottomNavigationPadding = PaddingValues(start = 8.dp, end = 8.dp)
+}
+
+object TopNavigationPaddings {
+    val topNavigationTitleSearchPadding = PaddingValues(start = 16.dp, end = 16.dp)
+}

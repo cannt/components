@@ -199,11 +199,33 @@ object NotificationColors{
 
     val notificationHeadlineColor = Black
     val notificationMessageColor = Black
-
     val notificationErrorIconColor = Red.color500
     val notificationSuccessIconColor = Green.color500
     val notificationWarningIconColor = Yellow.color500
     val notificationInfoIconColor = Purple.color500
 
     val notificationDismissIconColor = Black
+}
+
+
+object BottomNavigationColors{
+    val bottomNavigationBackgroundColor = White
+
+    val bottomNavigationBorderColor = Grey.grey200
+
+    val bottomNavigationSelectedLabelColor = Black
+    val bottomNavigationUnselectedLabelColor = Grey.grey400
+
+    val bottomNavigationSelectedIconColor = Black
+    val bottomNavigationUnselectedIconColor = Grey.grey400
+}
+
+
+
+object TopNavigationColors{
+    val topNavigationBackgroundColor = White
+
+    val topNavigationTextColor = Black
+
+    val topNavigationIconColor = Black
 }

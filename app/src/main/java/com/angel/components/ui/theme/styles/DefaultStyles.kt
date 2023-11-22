@@ -1,5 +1,7 @@
 package com.angel.components.ui.theme.styles
 
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import com.angel.components.R
 import com.angel.components.avatars.util.models.AvatarIndicatorContent
 import com.angel.components.avatars.util.models.AvatarMainContent
@@ -8,6 +10,7 @@ import com.angel.components.buttons.util.models.ButtonSize
 import com.angel.components.inputs.util.models.InputFieldIconType
 import com.angel.components.messages.util.models.MessageAvatarSide
 import com.angel.components.notifications.util.components.NotificationIconType
+import com.angel.components.ui.theme.BottomNavigationColors
 import com.angel.components.ui.theme.ButtonBorders
 import com.angel.components.ui.theme.ButtonColors
 import com.angel.components.ui.theme.ButtonLabelStyles
@@ -16,6 +19,7 @@ import com.angel.components.ui.theme.InputFieldColors.inputFieldTrailingIconColo
 import com.angel.components.ui.theme.MessageColors
 import com.angel.components.ui.theme.NotificationColors
 import com.angel.components.ui.theme.styles.avatar.avatarStyle
+import com.angel.components.ui.theme.styles.bottomNavigationItem.BottomNavigationItemColors
 import com.angel.components.ui.theme.styles.button.buttonStyle
 import com.angel.components.ui.theme.styles.input.inputFieldStyle
 import com.angel.components.ui.theme.styles.message.messageStyles
@@ -155,17 +159,26 @@ object DefaultAvatarStyles {
             size = AvatarSize.Small,
             mainContent = AvatarMainContent.None,
             indicatorContent = AvatarIndicatorContent.None,
-            avatarSide = MessageAvatarSide.Start,
             onClick = null
         )
         val messageAvatarStyleEnd = avatarStyle(
             size = AvatarSize.Small,
             mainContent = AvatarMainContent.None,
             indicatorContent = AvatarIndicatorContent.None,
-            avatarSide = MessageAvatarSide.End,
             onClick = null
         )
     }
+
+    object TopNavigationAvatar {
+        val profileAvatarStyle = avatarStyle(
+            size = AvatarSize.Medium,
+            mainContent = AvatarMainContent.None,
+            indicatorContent = AvatarIndicatorContent.None,
+            onClick = null
+        )
+    }
+
+
 }
 
 object DefaultMessageStyles {
@@ -173,12 +186,14 @@ object DefaultMessageStyles {
     object MessageType {
         val responseMessage =  messageStyles(
             avatar = DefaultAvatarStyles.MessageAvatar.messageAvatarStyleStart,
+            avatarSide = MessageAvatarSide.Start,
             backgroundColor = MessageColors.messageBackgroundColor1,
             textColor = MessageColors.messageTextColor1,
             hourColor = MessageColors.messageHourTextColor1
         )
         val answerMessage = messageStyles(
             avatar = DefaultAvatarStyles.MessageAvatar.messageAvatarStyleEnd,
+            avatarSide = MessageAvatarSide.End,
             backgroundColor = MessageColors.messageBackgroundColor2,
             textColor = MessageColors.messageTextColor2,
             hourColor = MessageColors.messageHourTextColor2
@@ -237,3 +252,18 @@ object DefaultNotificationStyles {
     }
 }
 
+object BottomNavigationItemStyles {
+
+    @Composable
+    fun colors(
+        selectedIconColor: Color = BottomNavigationColors.bottomNavigationSelectedIconColor,
+        selectedLabelColor: Color = BottomNavigationColors.bottomNavigationSelectedLabelColor,
+        unselectedIconColor: Color = BottomNavigationColors.bottomNavigationUnselectedIconColor,
+        unselectedLabelColor: Color = BottomNavigationColors.bottomNavigationUnselectedLabelColor,
+    ): BottomNavigationItemColors = BottomNavigationItemColors(
+        selectedIconColor = selectedIconColor,
+        selectedLabelColor = selectedLabelColor,
+        unselectedIconColor = unselectedIconColor,
+        unselectedLabelColor = unselectedLabelColor,
+    )
+}
