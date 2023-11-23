@@ -7,6 +7,8 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.dp
 import com.angel.components.ui.theme.InputFieldColors.inputFieldActiveBorderColor
 import com.angel.components.ui.theme.InputFieldColors.inputFieldBorderColor
+import com.angel.components.ui.theme.NotificationBadgeColors.notificationBadgeBorderColor
+import com.angel.components.ui.theme.NotificationBadgeDimensions.notificationBadgeBorderSize
 
 object ButtonBorders {
     val primaryButtonBorder = BorderStroke(0.dp, ButtonColors.primaryBorder)
@@ -31,4 +33,7 @@ object BottomNavigationBorders {
             end = Offset(x = size.width, y = 0f)
         )
     }
+}
+object NotificationBadgeBorders {
+    val notificationBadgeBorder = BorderStroke(notificationBadgeBorderSize, notificationBadgeBorderColor)
 }

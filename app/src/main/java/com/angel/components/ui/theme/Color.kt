@@ -146,7 +146,7 @@ object ButtonColors {
     val ghostText = Purple.color500
 }
 
-object AvatarColors{
+object AvatarColors {
     val avatarBackgroundColor = White
     val avatarBorderColor = Grey.grey200
     val avatarIconColor = Black
@@ -159,7 +159,7 @@ object AvatarColors{
     val avatarInactiveIndicatorContentColor = Black
 }
 
-object MessageColors{
+object MessageColors {
     val messageBackgroundColor1 = Grey.grey50
     val messageBackgroundColor2 = Grey.grey600
 
@@ -170,7 +170,7 @@ object MessageColors{
     val messageHourTextColor2 = Grey.grey500
 }
 
-object InputFieldColors{
+object InputFieldColors {
     val inputFieldCursorColor = Black
 
     val inputFieldDisabledColor = Grey.grey300
@@ -191,7 +191,7 @@ object InputFieldColors{
     val inputFieldCheckIconColor = Green.color600
 }
 
-object NotificationColors{
+object NotificationColors {
     val notificationErrorBackgroundColor = Red.color50
     val notificationSuccessBackgroundColor = Green.color50
     val notificationWarningBackgroundColor = Yellow.color50
@@ -208,7 +208,7 @@ object NotificationColors{
 }
 
 
-object BottomNavigationColors{
+object BottomNavigationColors {
     val bottomNavigationBackgroundColor = White
 
     val bottomNavigationBorderColor = Grey.grey200
@@ -221,11 +221,34 @@ object BottomNavigationColors{
 }
 
 
-
-object TopNavigationColors{
+object TopNavigationColors {
     val topNavigationBackgroundColor = White
 
     val topNavigationTextColor = Black
 
     val topNavigationIconColor = Black
+}
+
+
+object PageIndicatorColors {
+    val pageIndicatorLightSelected = Black
+    val pageIndicatorLightUnselected = Black.copy(alpha = 0.40f)
+
+    val pageIndicatorDarkSelected = White
+    val pageIndicatorDarkUnselected = White.copy(alpha = 0.40f)
+}
+
+
+object BadgeColors {
+    val badgeDefaultBackgroundColor = Black
+    val badgeSuccessBackgroundColor = Green.color500
+    val badgeRemovedBackgroundColor = Red.color500
+    val badgeNewBackgroundColor = Purple.color500
+}
+
+
+object NotificationBadgeColors {
+    val notificationBadgeBackgroundColor = Red.color500
+    val notificationBadgeBorderColor = White
+    val notificationBadgeContentColor = White
 }

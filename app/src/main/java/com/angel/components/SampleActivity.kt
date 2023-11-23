@@ -5,6 +5,7 @@ package com.angel.components
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -64,7 +65,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.angel.components.Components.*
 import com.angel.components.avatars.Avatar
@@ -74,6 +74,10 @@ import com.angel.components.avatars.util.models.AvatarMainContent
 import com.angel.components.avatars.util.models.AvatarSize
 import com.angel.components.avatars.util.models.AvatarStatus
 import com.angel.components.avatars.util.models.BadgeContent
+import com.angel.components.badge.Badge
+import com.angel.components.badge.new.BadgeNew
+import com.angel.components.badge.removed.BadgeRemoved
+import com.angel.components.badge.success.BadgeSuccess
 import com.angel.components.bottomNavigation.BottomNavigation
 import com.angel.components.bottomNavigation.models.BottomNavigationIconType
 import com.angel.components.buttons.ghost.large.ButtonGhostLarge
@@ -104,10 +108,13 @@ import com.angel.components.inputs.standard.InputField
 import com.angel.components.inputs.util.models.InputFieldIconType
 import com.angel.components.inputs.util.models.InputFieldSize
 import com.angel.components.messages.Message
+import com.angel.components.notificationBadge.NotificationBadge
 import com.angel.components.notifications.error.ErrorNotification
 import com.angel.components.notifications.info.InfoNotification
 import com.angel.components.notifications.success.SuccessNotification
 import com.angel.components.notifications.warning.WarningNotification
+import com.angel.components.pageIndicator.dark.PageIndicatorDark
+import com.angel.components.pageIndicator.light.PageIndicatorLight
 import com.angel.components.topNavigation.topNavigationProfile.TopNavigationProfile
 import com.angel.components.topNavigation.topNavigationSearch.TopNavigationSearch
 import com.angel.components.topNavigation.topNavigationTitle.TopNavigationTitle
@@ -127,6 +134,7 @@ import kotlinx.coroutines.launch
 import java.time.LocalTime
 
 
+@ExperimentalFoundationApi
 @ExperimentalMaterial3Api
 class SampleActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -140,6 +148,7 @@ enum class Components {
 }
 
 
+@ExperimentalFoundationApi
 @ExperimentalMaterial3Api
 @Composable
 fun SampleScreen() {
@@ -179,7 +188,6 @@ fun SampleScreen() {
                 }
             }
         }) {
-
             Surface(
                 modifier = Modifier.fillMaxSize(), color = Color(0xFF404040)
             ) {
@@ -192,7 +200,10 @@ fun SampleScreen() {
                         Notifications -> NotificationsSample()
                         BottomNavigation -> BottomNavigationSample()
                         TopNavigation -> TopNavigationSample()
-                        Badge, BottomSheet, IconButton, Card, Chip, CoachMark, LineItem, Menu, Toggle, PageIndicator, SegmentedControl, TabControl, NotificationBadge -> Box(
+                        PageIndicator -> PageIndicatorSample()
+                        Badge -> BadgeSample()
+                        NotificationBadge -> NotificationBadgeSample()
+                        BottomSheet, IconButton, Card, Chip, CoachMark, LineItem, Menu, Toggle, SegmentedControl, TabControl -> Box(
                             Modifier.wrapContentSize()
                         )
                     }
@@ -219,6 +230,119 @@ fun SampleScreen() {
 
 @ExperimentalMaterial3Api
 @Composable
+fun BadgeSample() {
+    Scaffold(
+        containerColor = Color(0xFF404040),
+        snackbarHost = {
+        }, topBar = {
+        }, content = { paddingValues ->
+            Box(
+                modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
+                contentAlignment = Alignment.Center,
+            ) {
+                Column(
+                    modifier =
+                    Modifier
+                        .fillMaxSize(),
+                    verticalArrangement = Arrangement.SpaceEvenly,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Badge(text = "Value")
+                    BadgeSuccess(text = "Value")
+                    BadgeRemoved(text = "Value")
+                    BadgeNew(text = "Value")
+                }
+            }
+        }, bottomBar = {
+
+        }
+    )
+}
+
+@ExperimentalMaterial3Api
+@Composable
+fun NotificationBadgeSample() {
+    Scaffold(
+        containerColor = Color(0xFF404040),
+        snackbarHost = {
+        }, topBar = {
+        }, content = { paddingValues ->
+            Box(
+                modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
+                contentAlignment = Alignment.Center,
+            ) {
+                Column(
+                    modifier =
+                    Modifier
+                        .fillMaxSize(),
+                    verticalArrangement = Arrangement.SpaceEvenly,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    NotificationBadge()
+                    NotificationBadge {
+                        Text(text = "3")
+                    }
+                    NotificationBadge {
+                        Text(text = "100")
+                    }
+                    NotificationBadge {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_default),
+                            contentDescription = null
+                        )
+                    }
+                }
+            }
+        }, bottomBar = {
+
+        }
+    )
+}
+
+@ExperimentalFoundationApi
+@ExperimentalMaterial3Api
+@Composable
+fun PageIndicatorSample() {
+    Scaffold(
+        containerColor = Color(0xFF404040),
+        snackbarHost = {
+        }, topBar = {
+        }, content = { paddingValues ->
+            Box(
+                modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
+                contentAlignment = Alignment.Center
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    val pageCount = 5
+                    val selectedIndexLight = remember { mutableStateOf(0) }
+                    val selectedIndexDark = remember { mutableStateOf(0) }
+                    PageIndicatorLight(pageCount = pageCount, currentPage = selectedIndexLight)
+                    PageIndicatorDark(pageCount = pageCount, currentPage = selectedIndexDark)
+                }
+            }
+        }, bottomBar = {
+
+        }
+    )
+}
+
+
+@ExperimentalMaterial3Api
+@Composable
 fun BottomNavigationSample() {
     val sampleIcons = AvailableBottomNavigationIcon.values()
 
@@ -230,10 +354,10 @@ fun BottomNavigationSample() {
             Box(modifier = Modifier.padding(paddingValues))
         }, bottomBar = {
             Column(
-                modifier =Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
-            ){
+            ) {
                 var selectedItemDouble by remember { mutableIntStateOf(0) }
                 BottomNavigation {
                     sampleIcons.take(2).forEachIndexed { index, navigationIcon ->
@@ -1648,15 +1772,6 @@ fun ButtonGhostSample(
     }
 }
 
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true)
-@Composable
-fun ButtonSamplesPreview() {
-    ComponentsTheme {
-        AvatarsSample()
-    }
-}
 
 
 

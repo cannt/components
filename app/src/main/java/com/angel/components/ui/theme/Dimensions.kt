@@ -86,5 +86,17 @@ object TopNavigationDimensions {
 }
 
 
+object PageIndicatorDimensions {
+    val pageIndicatorSize = 8.dp
+}
+
+
+
+object NotificationBadgeDimensions {
+    val notificationBadgeIconSize = 16.dp
+    val notificationBadgeBorderSize = 2.dp
+}
+
+
 
 

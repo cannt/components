@@ -229,3 +229,11 @@ object TopNavigationTextStyles {
     val TopNavigationTitleStyle = BodyLargeBold
     val TopNavigationProfileStyle = Title2
 }
+
+object BadgeTextStyles {
+    val BadgeTextStyle = Navigation
+}
+
+object NotificationBadgeTextStyles {
+    val NotificationBadgeTextStyle = AvatarBadgeLarge
+}
