@@ -21,3 +21,26 @@ object InputFieldShapes{
 object NotificationShapes{
     val notificationShape =  RoundedCornerShape(12.dp)
 }
+
+object NotificationBadgeShapes{
+    val notificationBadgeShape =  RoundedCornerShape(100.dp)
+}
+
+object BadgeShapes{
+    val badgeShape =  RoundedCornerShape(100.dp)
+}
+
+object ChipShapes{
+    val chipShape =  RoundedCornerShape(100.dp)
+}
+
+object ToggleShapes{
+    val toggleShape =  RoundedCornerShape(100.dp)
+}
+
+object IconButtonShapes{
+    val XLIconButtonShape =  RoundedCornerShape(12.dp)
+    val LargeIconButtonShape =  RoundedCornerShape(12.dp)
+    val MediumIconButtonShape =  RoundedCornerShape(100.dp)
+    val SmallIconButtonShape =  RoundedCornerShape(100.dp)
+}

@@ -7,14 +7,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredWidth
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.angel.components.avatars.Avatar
+import com.angel.components.avatar.Avatar
 import com.angel.components.ui.theme.MessageDimensions.messageBoxMaxWidth
 import com.angel.components.ui.theme.MessageDimensions.messageBoxMinHeight
 import com.angel.components.ui.theme.MessageGaps

@@ -123,6 +123,14 @@ val AvatarBadgeSmall = TextStyle(
     letterSpacing = 0.em
 )
 
+val ChipCounterSmall = TextStyle(
+    fontFamily = FontFamily.SansSerif,
+    fontWeight = FontWeight.Normal,
+    fontSize = 8.sp,
+    lineHeight = 12.sp,
+    letterSpacing = 0.em
+)
+
 val Typography = Typography(
     displayLarge = LargeTitle,
     headlineLarge = Title1,
@@ -236,4 +244,18 @@ object BadgeTextStyles {
 
 object NotificationBadgeTextStyles {
     val NotificationBadgeTextStyle = AvatarBadgeLarge
+}
+
+object ChipTextStyles {
+    val ChipLargeEmojiTextStyle = BodyLarge
+    val ChipLargeTextStyle = BodyLarge
+    val ChipLargeCounterTextStyle = Caption
+
+    val ChipMediumEmojiTextStyle = BodySmall
+    val ChipMediumTextStyle = BodySmall
+    val ChipMediumCounterTextStyle = Caption
+
+    val ChipSmallEmojiTextStyle = Caption
+    val ChipSmallTextStyle = Caption
+    val ChipSmallCounterTextStyle = ChipCounterSmall
 }

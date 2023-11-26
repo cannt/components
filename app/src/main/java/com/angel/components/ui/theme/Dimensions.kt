@@ -17,6 +17,15 @@ object ButtonDimensions {
 
 }
 
+object IconButtonDimensions {
+    val XLIconButtonSize = 56.dp
+    val LargeIconButtonSize = 48.dp
+    val MediumIconButtonSize = 40.dp
+    val SmallIconButtonSize = 32.dp
+
+    val IconButtonIconSize = 24.dp
+}
+
 object AvatarDimensions {
     val XLAvatarSize = 56.dp
     val XLAvatarIconSize = 24.dp
@@ -93,10 +102,37 @@ object PageIndicatorDimensions {
 
 
 object NotificationBadgeDimensions {
-    val notificationBadgeIconSize = 16.dp
+    val notificationBadgeSmallSize = 16.dp
+    val notificationBadgeMediumSize = 24.dp
+    val notificationBadgeLargeSize = 24.dp
+
+    val notificationBadgeIconSize = 12.dp
     val notificationBadgeBorderSize = 2.dp
 }
 
+object ChipDimensions {
+    val chipSmallHeight = 24.dp
+    val chipMediumHeight = 36.dp
+    val chipLargeHeight = 40.dp
 
+    val chipSmallWidth = 83.dp
+    val chipMediumWidth = 107.dp
+    val chipLargeWidth = 129.dp
 
+    val chipSmallCounterHeight = 12.dp
+    val chipMediumCounterHeight = 16.dp
+    val chipLargeCounterHeight = 16.dp
 
+    val chipSmallCounterWidth = 21.dp
+    val chipMediumCounterWidth = 30.dp
+    val chipLargeCounterWidth = 30.dp
+
+    val chipBorderSize = 1.dp
+}
+
+object ToggleDimensions {
+    val toggleBackgroundHeight = 32.dp
+    val toggleBackgroundWidth = 50.dp
+
+    val toggleDotSize = 28.dp
+}

@@ -1,8 +1,8 @@
 package com.angel.components.ui.theme.styles.avatar
 
-import com.angel.components.avatars.util.models.AvatarIndicatorContent
-import com.angel.components.avatars.util.models.AvatarMainContent
-import com.angel.components.avatars.util.models.AvatarSize
+import com.angel.components.avatar.util.models.AvatarIndicatorContent
+import com.angel.components.avatar.util.models.AvatarMainContent
+import com.angel.components.avatar.util.models.AvatarSize
 
 data class AvatarStyle(
     val size: AvatarSize,

@@ -16,8 +16,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.angel.components.avatars.Avatar
-import com.angel.components.avatars.util.models.AvatarMainContent
+import com.angel.components.avatar.Avatar
+import com.angel.components.avatar.util.models.AvatarMainContent
 import com.angel.components.topNavigation.utils.components.TopNavigationIcon
 import com.angel.components.topNavigation.utils.models.TopNavigationIconType
 import com.angel.components.ui.theme.TopNavigationColors.topNavigationBackgroundColor

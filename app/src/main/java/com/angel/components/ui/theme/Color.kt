@@ -146,6 +146,20 @@ object ButtonColors {
     val ghostText = Purple.color500
 }
 
+object IconButtonColors {
+    val primaryBackground = Purple.color500
+    val primaryBorder = Transparent
+    val primaryIcon = White
+
+    val secondaryBackground = Grey.grey800
+    val secondaryBorder = Transparent
+    val secondaryIcon = White
+
+    val tertiaryBackground = White
+    val tertiaryBorder = Grey.grey200
+    val tertiaryIcon = Black
+}
+
 object AvatarColors {
     val avatarBackgroundColor = White
     val avatarBorderColor = Grey.grey200
@@ -251,4 +265,21 @@ object NotificationBadgeColors {
     val notificationBadgeBackgroundColor = Red.color500
     val notificationBadgeBorderColor = White
     val notificationBadgeContentColor = White
+}
+
+object ChipColors {
+    val chipBackgroundColor = White
+    val chipTextColor = Black
+    val chipCounterColor = Black
+
+    val chipCounterBackgroundColor = Grey.grey200
+
+    val chipBorderColor = Grey.grey200
+}
+
+object ToggleColors {
+    val toggleActiveBackgroundColor = Purple.color500
+    val toggleInactiveBackgroundColor = Grey.grey200
+
+    val toggleDotColor = White
 }

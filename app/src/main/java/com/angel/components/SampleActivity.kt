@@ -67,13 +67,13 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.angel.components.Components.*
-import com.angel.components.avatars.Avatar
-import com.angel.components.avatars.util.models.AvatarIconType
-import com.angel.components.avatars.util.models.AvatarIndicatorContent
-import com.angel.components.avatars.util.models.AvatarMainContent
-import com.angel.components.avatars.util.models.AvatarSize
-import com.angel.components.avatars.util.models.AvatarStatus
-import com.angel.components.avatars.util.models.BadgeContent
+import com.angel.components.avatar.Avatar
+import com.angel.components.avatar.util.models.AvatarIconType
+import com.angel.components.avatar.util.models.AvatarIndicatorContent
+import com.angel.components.avatar.util.models.AvatarMainContent
+import com.angel.components.avatar.util.models.AvatarSize
+import com.angel.components.avatar.util.models.AvatarStatus
+import com.angel.components.avatar.util.models.BadgeContent
 import com.angel.components.badge.Badge
 import com.angel.components.badge.new.BadgeNew
 import com.angel.components.badge.removed.BadgeRemoved
@@ -104,17 +104,39 @@ import com.angel.components.buttons.util.models.ButtonSize.Large
 import com.angel.components.buttons.util.models.ButtonSize.Medium
 import com.angel.components.buttons.util.models.ButtonSize.Small
 import com.angel.components.buttons.util.models.ButtonSize.XL
+import com.angel.components.chip.large.ChipLarge
+import com.angel.components.chip.medium.ChipMedium
+import com.angel.components.chip.small.ChipSmall
+import com.angel.components.iconButton.primary.large.IconButtonPrimaryLarge
+import com.angel.components.iconButton.primary.medium.IconButtonPrimaryMedium
+import com.angel.components.iconButton.primary.small.IconButtonPrimarySmall
+import com.angel.components.iconButton.primary.xl.IconButtonPrimaryXL
+import com.angel.components.iconButton.secondary.large.IconButtonSecondaryLarge
+import com.angel.components.iconButton.secondary.medium.IconButtonSecondaryMedium
+import com.angel.components.iconButton.secondary.small.IconButtonSecondarySmall
+import com.angel.components.iconButton.secondary.xl.IconButtonSecondaryXL
+import com.angel.components.iconButton.tertiary.large.IconButtonTertiaryLarge
+import com.angel.components.iconButton.tertiary.medium.IconButtonTertiaryMedium
+import com.angel.components.iconButton.tertiary.small.IconButtonTertiarySmall
+import com.angel.components.iconButton.tertiary.xl.IconButtonTertiaryXL
+import com.angel.components.iconButton.util.models.IconButtonIconType
+import com.angel.components.iconButton.util.models.IconButtonSize
 import com.angel.components.inputs.standard.InputField
 import com.angel.components.inputs.util.models.InputFieldIconType
 import com.angel.components.inputs.util.models.InputFieldSize
 import com.angel.components.messages.Message
-import com.angel.components.notificationBadge.NotificationBadge
-import com.angel.components.notifications.error.ErrorNotification
-import com.angel.components.notifications.info.InfoNotification
-import com.angel.components.notifications.success.SuccessNotification
-import com.angel.components.notifications.warning.WarningNotification
+import com.angel.components.notification.error.ErrorNotification
+import com.angel.components.notification.info.InfoNotification
+import com.angel.components.notification.success.SuccessNotification
+import com.angel.components.notification.warning.WarningNotification
+import com.angel.components.notificationBadge.icon.NotificationBadgeIcon
+import com.angel.components.notificationBadge.large.NotificationBadgeLarge
+import com.angel.components.notificationBadge.medium.NotificationBadgeMedium
+import com.angel.components.notificationBadge.small.NotificationBadgeSmall
+import com.angel.components.notificationBadge.util.models.NotificationBadgeIconType
 import com.angel.components.pageIndicator.dark.PageIndicatorDark
 import com.angel.components.pageIndicator.light.PageIndicatorLight
+import com.angel.components.toggle.Toggle
 import com.angel.components.topNavigation.topNavigationProfile.TopNavigationProfile
 import com.angel.components.topNavigation.topNavigationSearch.TopNavigationSearch
 import com.angel.components.topNavigation.topNavigationTitle.TopNavigationTitle
@@ -203,7 +225,11 @@ fun SampleScreen() {
                         PageIndicator -> PageIndicatorSample()
                         Badge -> BadgeSample()
                         NotificationBadge -> NotificationBadgeSample()
-                        BottomSheet, IconButton, Card, Chip, CoachMark, LineItem, Menu, Toggle, SegmentedControl, TabControl -> Box(
+                        Chip -> ChipSample()
+                        Toggle -> ToggleSample()
+                        IconButton -> IconButtonSample(coroutineScope = coroutineScope)
+                        Card -> CardSample()
+                        BottomSheet, CoachMark, LineItem, Menu, SegmentedControl, TabControl -> Box(
                             Modifier.wrapContentSize()
                         )
                     }
@@ -264,6 +290,94 @@ fun BadgeSample() {
 
 @ExperimentalMaterial3Api
 @Composable
+fun ToggleSample() {
+    Scaffold(
+        containerColor = Color(0xFF404040),
+        snackbarHost = {
+        }, topBar = {
+        }, content = { paddingValues ->
+            Box(
+                modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
+                contentAlignment = Alignment.Center,
+            ) {
+                val toggle = remember { mutableStateOf(false) }
+                Toggle(toggle = toggle)
+            }
+        }, bottomBar = {
+
+        }
+    )
+}
+
+@ExperimentalMaterial3Api
+@Composable
+fun CardSample() {
+    Scaffold(
+        containerColor = Color(0xFF404040),
+        snackbarHost = {
+        }, topBar = {
+        }, content = { paddingValues ->
+            Box(
+                modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
+                contentAlignment = Alignment.Center,
+            ) {
+                Column(
+                    modifier =
+                    Modifier
+                        .fillMaxSize(),
+                    verticalArrangement = Arrangement.SpaceEvenly,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+
+                }
+            }
+        }, bottomBar = {
+
+        }
+    )
+}
+
+@ExperimentalMaterial3Api
+@Composable
+fun ChipSample() {
+    Scaffold(
+        containerColor = Color(0xFF404040),
+        snackbarHost = {
+        }, topBar = {
+        }, content = { paddingValues ->
+            Box(
+                modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
+                contentAlignment = Alignment.Center,
+            ) {
+                Column(
+                    modifier =
+                    Modifier
+                        .fillMaxSize(),
+                    verticalArrangement = Arrangement.SpaceEvenly,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    ChipLarge(emoji = "\uD83D\uDD25", text = "Chip", count = 10)
+                    ChipMedium(emoji = "\uD83D\uDD25", text = "Chip", count = 10)
+                    ChipSmall(emoji = "\uD83D\uDD25", text = "Chip", count = 10)
+                }
+            }
+        }, bottomBar = {
+
+        }
+    )
+}
+
+@ExperimentalMaterial3Api
+@Composable
 fun NotificationBadgeSample() {
     Scaffold(
         containerColor = Color(0xFF404040),
@@ -284,19 +398,16 @@ fun NotificationBadgeSample() {
                     verticalArrangement = Arrangement.SpaceEvenly,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    NotificationBadge()
-                    NotificationBadge {
-                        Text(text = "3")
-                    }
-                    NotificationBadge {
-                        Text(text = "100")
-                    }
-                    NotificationBadge {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_default),
-                            contentDescription = null
+                    NotificationBadgeSmall()
+                    NotificationBadgeMedium(number = 3)
+                    NotificationBadgeLarge(number = 100)
+                    NotificationBadgeIcon(
+                        icon = NotificationBadgeIconType.Drawable(
+                            drawable = R.drawable.ic_default,
+                            tint = Color.White,
+                            onClick = {}
                         )
-                    }
+                    )
                 }
             }
         }, bottomBar = {
@@ -1294,7 +1405,7 @@ fun ButtonsSample(coroutineScope: CoroutineScope) {
             )
         }
     }, bottomBar = {
-        BottomBar(
+        ButtonBottomBar(
             selectedSize = selectedSize,
             onSizeSelected = { selected -> selectedSize = selected })
     })
@@ -1498,6 +1609,14 @@ enum class AvailableButtonIcon(val icon: ButtonIconType) {
     Cancel(ButtonIconType.Drawable(R.drawable.ic_cancel)),
 }
 
+enum class AvailableIconButtonIcon(val icon: IconButtonIconType) {
+    FiberManualRecord(IconButtonIconType.Drawable(R.drawable.ic_default)),
+    Stars(IconButtonIconType.Drawable(R.drawable.ic_stars)),
+
+    Favorite(IconButtonIconType.Drawable(R.drawable.ic_favorite)),
+    Cancel(IconButtonIconType.Drawable(R.drawable.ic_cancel)),
+}
+
 enum class AvailableInputFieldIcon(val icon: InputFieldIconType) {
     FiberManualRecord(InputFieldIconType.Drawable(R.drawable.ic_default)),
     Stars(InputFieldIconType.Drawable(R.drawable.ic_stars)),
@@ -1524,7 +1643,7 @@ enum class AvailableBottomNavigationIcon(val icon: BottomNavigationIconType) {
 
 
 @Composable
-fun BottomBar(
+fun ButtonBottomBar(
     selectedSize: ButtonSize, onSizeSelected: (ButtonSize) -> Unit
 ) {
     NavigationBar(
@@ -1773,6 +1892,291 @@ fun ButtonGhostSample(
 }
 
 
+@ExperimentalMaterial3Api
+@Composable
+fun IconButtonBottomBar(
+    selectedSize: IconButtonSize, onSizeSelected: (IconButtonSize) -> Unit
+) {
+    NavigationBar(
+        containerColor = ColorPalette.White, contentColor = ColorPalette.Black
+    ) {
+        IconButtonSize.values().forEach { size ->
+            val label = size.name
+            NavigationBarItem(
+                icon = {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_size),
+                        contentDescription = size.name
+                    )
+                },
+                label = { Text(label) },
+                selected = selectedSize == size,
+                onClick = { onSizeSelected(size) },
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = ColorPalette.White,
+                    selectedTextColor = ColorPalette.Black,
+                    indicatorColor = ColorPalette.Black,
+                    unselectedIconColor = ColorPalette.Black,
+                    unselectedTextColor = ColorPalette.Black
+                )
+            )
+        }
+    }
+}
+
+
+@Composable
+fun IconButtonGroup(
+    selectedSize: IconButtonSize,
+    selectedIcon: IconButtonIconType,
+    snackBarHostState: SnackbarHostState,
+    coroutineScope: CoroutineScope
+) {
+    val buttonAction: (String) -> Unit = { label ->
+        coroutineScope.launch {
+            snackBarHostState.currentSnackbarData?.dismiss()
+            snackBarHostState.showSnackbar(
+                message = "Pressed $label", duration = SnackbarDuration.Short
+            )
+        }
+    }
+
+    IconButtonColumn(selectedSize, selectedIcon, buttonAction)
+}
+
+@Composable
+fun IconButtonPrimarySample(
+    size: IconButtonSize,
+    icon: IconButtonIconType = IconButtonIconType.Drawable(R.drawable.ic_default),
+    buttonAction: (String) -> Unit
+) {
+    val textSize = size.name
+    val onClick = { buttonAction("Primary $textSize") }
+
+    when (size) {
+        IconButtonSize.XL -> IconButtonPrimaryXL(
+            icon = icon,
+            onClick = onClick
+        )
+
+        IconButtonSize.Large -> IconButtonPrimaryLarge(
+            icon = icon,
+            onClick = onClick
+        )
+
+        IconButtonSize.Medium -> IconButtonPrimaryMedium(
+            icon = icon,
+            onClick = onClick
+        )
+
+        IconButtonSize.Small -> IconButtonPrimarySmall(
+            icon = icon,
+            onClick = onClick
+        )
+    }
+}
+
+@Composable
+fun IconButtonSecondarySample(
+    size: IconButtonSize,
+    icon: IconButtonIconType = IconButtonIconType.Drawable(R.drawable.ic_default),
+    buttonAction: (String) -> Unit
+) {
+    val textSize = size.name
+    val onClick = { buttonAction("Secondary $textSize") }
+
+    when (size) {
+        IconButtonSize.XL -> IconButtonSecondaryXL(
+            icon = icon,
+            onClick = onClick
+        )
+
+        IconButtonSize.Large -> IconButtonSecondaryLarge(
+            icon = icon,
+            onClick = onClick
+        )
+
+        IconButtonSize.Medium -> IconButtonSecondaryMedium(
+            icon = icon,
+            onClick = onClick
+        )
+
+        IconButtonSize.Small -> IconButtonSecondarySmall(
+            icon = icon,
+            onClick = onClick
+        )
+    }
+}
+
+@Composable
+fun IconButtonTertiarySample(
+    size: IconButtonSize,
+    icon: IconButtonIconType = IconButtonIconType.Drawable(R.drawable.ic_default),
+    buttonAction: (String) -> Unit
+) {
+    val textSize = size.name
+    val onClick = { buttonAction("Tertiary $textSize") }
+
+    when (size) {
+        IconButtonSize.XL -> IconButtonTertiaryXL(
+            icon = icon,
+            onClick = onClick
+        )
+
+        IconButtonSize.Large -> IconButtonTertiaryLarge(
+            icon = icon,
+            onClick = onClick
+        )
+
+        IconButtonSize.Medium -> IconButtonTertiaryMedium(
+            icon = icon,
+            onClick = onClick
+        )
+
+        IconButtonSize.Small -> IconButtonTertiarySmall(
+            icon = icon,
+            onClick = onClick
+        )
+    }
+}
+
+@Composable
+fun IconButtonColumn(
+    size: IconButtonSize,
+    icon: IconButtonIconType = IconButtonIconType.Drawable(R.drawable.ic_default),
+    buttonAction: (String) -> Unit
+) {
+    val textSize = size.name
+
+    Column(
+        Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+
+        Text(
+            text = "Primary IconButton $textSize",
+            style = MaterialTheme.typography.labelMedium,
+            color = ColorPalette.White
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        IconButtonPrimarySample(
+            icon = icon,
+            size = size,
+            buttonAction = { text -> buttonAction(text) }
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Text(
+            text = "Secondary IconButton $textSize",
+            style = MaterialTheme.typography.labelMedium,
+            color = ColorPalette.White
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        IconButtonSecondarySample(
+            icon = icon, size = size, buttonAction = { buttonAction("Secondary $size") })
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Text(
+            text = "Tertiary IconButton $textSize",
+            style = MaterialTheme.typography.labelMedium,
+            color = ColorPalette.White
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        IconButtonTertiarySample(
+            icon = icon, size = size, buttonAction = { buttonAction("Tertiary $size") })
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Text(
+            text = "Ghost IconButton $textSize",
+            style = MaterialTheme.typography.labelMedium,
+            color = ColorPalette.White
+        )
+    }
+}
+
+@Composable
+fun IconButtonSettingsTopBar(
+    selectedIcon: AvailableIconButtonIcon,
+    onIconSelected: (AvailableIconButtonIcon) -> Unit
+
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(ColorPalette.White),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text("IconButton settings", color = ColorPalette.Black)
+        NavigationBar(
+            containerColor = ColorPalette.White, contentColor = ColorPalette.Black
+        ) {
+            AvailableIconButtonIcon.values().forEach { icon ->
+                NavigationBarItem(
+                    selected = selectedIcon == icon,
+                    onClick = { onIconSelected(icon) },
+                    icon = {
+                        Icon(
+                            painter = painterResource((icon.icon as IconButtonIconType.Drawable).drawable),
+                            contentDescription = icon.name
+                        )
+                    },
+                    colors = NavigationBarItemDefaults.colors(
+                        selectedIconColor = ColorPalette.White,
+                        selectedTextColor = ColorPalette.Black,
+                        indicatorColor = ColorPalette.Black,
+                        unselectedIconColor = ColorPalette.Black,
+                        unselectedTextColor = ColorPalette.Black
+                    )
+                )
+            }
+        }
+    }
+
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun IconButtonSample(coroutineScope: CoroutineScope) {
+    val snackBarHostState = remember { SnackbarHostState() }
+    var selectedIcon by remember { mutableStateOf(AvailableIconButtonIcon.FiberManualRecord) }
+    var selectedSize by remember { mutableStateOf(IconButtonSize.XL) }
+
+    Scaffold(containerColor = Color(0xFF404040), snackbarHost = {
+        SnackbarHost(hostState = snackBarHostState) { data ->
+            Snackbar(
+                snackbarData = data,
+                containerColor = ColorPalette.White,
+                contentColor = ColorPalette.Black
+            )
+        }
+    }, topBar = {
+        IconButtonSettingsTopBar(
+            selectedIcon = selectedIcon,
+            onIconSelected = { selected -> selectedIcon = selected }
+        )
+    }, content = { paddingValues ->
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+        ) {
+            IconButtonGroup(
+                selectedSize = selectedSize,
+                selectedIcon = selectedIcon.icon,
+                snackBarHostState = snackBarHostState,
+                coroutineScope = coroutineScope
+            )
+        }
+    }, bottomBar = {
+        IconButtonBottomBar(
+            selectedSize = selectedSize,
+            onSizeSelected = { selected -> selectedSize = selected })
+    })
+}
 
 
 

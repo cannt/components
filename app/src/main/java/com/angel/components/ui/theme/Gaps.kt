@@ -30,3 +30,9 @@ object TopNavigationGaps{
 object PageIndicatorGaps{
     val pageIndicatorGap = 8.dp
 }
+
+object ChipGaps{
+    val chipLargeGap = 8.dp
+    val chipMediumGap = 4.dp
+    val chipSmallGap = 4.dp
+}

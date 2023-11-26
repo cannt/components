@@ -3,17 +3,20 @@ package com.angel.components.ui.theme.styles
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import com.angel.components.R
-import com.angel.components.avatars.util.models.AvatarIndicatorContent
-import com.angel.components.avatars.util.models.AvatarMainContent
-import com.angel.components.avatars.util.models.AvatarSize
+import com.angel.components.avatar.util.models.AvatarIndicatorContent
+import com.angel.components.avatar.util.models.AvatarMainContent
+import com.angel.components.avatar.util.models.AvatarSize
 import com.angel.components.buttons.util.models.ButtonSize
+import com.angel.components.iconButton.util.models.IconButtonSize
 import com.angel.components.inputs.util.models.InputFieldIconType
 import com.angel.components.messages.util.models.MessageAvatarSide
-import com.angel.components.notifications.util.components.NotificationIconType
+import com.angel.components.notification.util.components.NotificationIconType
 import com.angel.components.ui.theme.BottomNavigationColors
 import com.angel.components.ui.theme.ButtonBorders
 import com.angel.components.ui.theme.ButtonColors
 import com.angel.components.ui.theme.ButtonLabelStyles
+import com.angel.components.ui.theme.IconButtonBorders
+import com.angel.components.ui.theme.IconButtonColors
 import com.angel.components.ui.theme.InputFieldBorders.inputFieldNotBorder
 import com.angel.components.ui.theme.InputFieldColors.inputFieldTrailingIconColor
 import com.angel.components.ui.theme.MessageColors
@@ -21,6 +24,7 @@ import com.angel.components.ui.theme.NotificationColors
 import com.angel.components.ui.theme.styles.avatar.avatarStyle
 import com.angel.components.ui.theme.styles.bottomNavigationItem.BottomNavigationItemColors
 import com.angel.components.ui.theme.styles.button.buttonStyle
+import com.angel.components.ui.theme.styles.iconButton.iconButtonStyle
 import com.angel.components.ui.theme.styles.input.inputFieldStyle
 import com.angel.components.ui.theme.styles.message.messageStyles
 import com.angel.components.ui.theme.styles.notification.notificationStyles
@@ -152,6 +156,90 @@ object DefaultButtonStyles {
     }
 }
 
+object DefaultIconButtonStyles {
+
+    object PrimaryIconButton {
+        val xlStyle = iconButtonStyle(
+            size = IconButtonSize.XL,
+            backgroundColor = IconButtonColors.primaryBackground,
+            iconColor = IconButtonColors.primaryIcon,
+            border = IconButtonBorders.primaryIconButtonBorder
+        )
+        val largeStyle = iconButtonStyle(
+            size = IconButtonSize.Large,
+            backgroundColor = IconButtonColors.primaryBackground,
+            iconColor = IconButtonColors.primaryIcon,
+            border = IconButtonBorders.primaryIconButtonBorder
+        )
+        val mediumStyle = iconButtonStyle(
+            size = IconButtonSize.Medium,
+            backgroundColor = IconButtonColors.primaryBackground,
+            iconColor = IconButtonColors.primaryIcon,
+            border = IconButtonBorders.primaryIconButtonBorder
+        )
+        val smallStyle = iconButtonStyle(
+            size = IconButtonSize.Small,
+            backgroundColor = IconButtonColors.primaryBackground,
+            iconColor = IconButtonColors.primaryIcon,
+            border = IconButtonBorders.primaryIconButtonBorder
+        )
+    }
+
+    object SecondaryIconButton {
+        val xlStyle = iconButtonStyle(
+            size = IconButtonSize.XL,
+            backgroundColor = IconButtonColors.secondaryBackground,
+            iconColor = IconButtonColors.secondaryIcon,
+            border = IconButtonBorders.secondaryIconButtonBorder
+        )
+        val largeStyle = iconButtonStyle(
+            size = IconButtonSize.Large,
+            backgroundColor = IconButtonColors.secondaryBackground,
+            iconColor = IconButtonColors.secondaryIcon,
+            border = IconButtonBorders.secondaryIconButtonBorder
+        )
+        val mediumStyle = iconButtonStyle(
+            size = IconButtonSize.Medium,
+            backgroundColor = IconButtonColors.secondaryBackground,
+            iconColor = IconButtonColors.secondaryIcon,
+            border = IconButtonBorders.secondaryIconButtonBorder
+        )
+        val smallStyle = iconButtonStyle(
+            size = IconButtonSize.Small,
+            backgroundColor = IconButtonColors.secondaryBackground,
+            iconColor = IconButtonColors.secondaryIcon,
+            border = IconButtonBorders.secondaryIconButtonBorder
+        )
+    }
+
+    object TertiaryIconButton {
+        val xlStyle = iconButtonStyle(
+            size = IconButtonSize.XL,
+            backgroundColor = IconButtonColors.tertiaryBackground,
+            iconColor = IconButtonColors.tertiaryIcon,
+            border = IconButtonBorders.tertiaryIconButtonBorder
+        )
+        val largeStyle = iconButtonStyle(
+            size = IconButtonSize.Large,
+            backgroundColor = IconButtonColors.tertiaryBackground,
+            iconColor = IconButtonColors.tertiaryIcon,
+            border = IconButtonBorders.tertiaryIconButtonBorder
+        )
+        val mediumStyle = iconButtonStyle(
+            size = IconButtonSize.Medium,
+            backgroundColor = IconButtonColors.tertiaryBackground,
+            iconColor = IconButtonColors.tertiaryIcon,
+            border = IconButtonBorders.tertiaryIconButtonBorder
+        )
+        val smallStyle = iconButtonStyle(
+            size = IconButtonSize.Small,
+            backgroundColor = IconButtonColors.tertiaryBackground,
+            iconColor = IconButtonColors.tertiaryIcon,
+            border = IconButtonBorders.tertiaryIconButtonBorder
+        )
+    }
+}
+
 object DefaultAvatarStyles {
 
     object MessageAvatar {
@@ -184,7 +272,7 @@ object DefaultAvatarStyles {
 object DefaultMessageStyles {
 
     object MessageType {
-        val responseMessage =  messageStyles(
+        val responseMessage = messageStyles(
             avatar = DefaultAvatarStyles.MessageAvatar.messageAvatarStyleStart,
             avatarSide = MessageAvatarSide.Start,
             backgroundColor = MessageColors.messageBackgroundColor1,
@@ -204,17 +292,26 @@ object DefaultMessageStyles {
 object DefaultInputFieldStyles {
 
     object InputFieldType {
-        val standardInput =  inputFieldStyle()
+        val standardInput = inputFieldStyle()
 
-        val searchInput =  inputFieldStyle(
+        val searchInput = inputFieldStyle(
             border = inputFieldNotBorder,
             borderActive = inputFieldNotBorder,
-            leadingIcon =InputFieldIconType.Drawable(R.drawable.ic_search, inputFieldTrailingIconColor),
-            trailingIcon = InputFieldIconType.Drawable(R.drawable.ic_mic, inputFieldTrailingIconColor)
+            leadingIcon = InputFieldIconType.Drawable(
+                R.drawable.ic_search,
+                inputFieldTrailingIconColor
+            ),
+            trailingIcon = InputFieldIconType.Drawable(
+                R.drawable.ic_mic,
+                inputFieldTrailingIconColor
+            )
         )
 
-        val infoInput =  inputFieldStyle(
-            trailingIcon = InputFieldIconType.Drawable(R.drawable.ic_input_info, inputFieldTrailingIconColor)
+        val infoInput = inputFieldStyle(
+            trailingIcon = InputFieldIconType.Drawable(
+                R.drawable.ic_input_info,
+                inputFieldTrailingIconColor
+            )
         )
     }
 }
@@ -226,7 +323,7 @@ object DefaultNotificationStyles {
 
         val infoNotification = notificationStyles()
 
-        val errorNotification =  notificationStyles(
+        val errorNotification = notificationStyles(
             backgroundColor = NotificationColors.notificationErrorBackgroundColor,
             leadingIcon = NotificationIconType.Drawable(
                 drawable = R.drawable.ic_notification_error,
@@ -234,7 +331,7 @@ object DefaultNotificationStyles {
             )
         )
 
-        val successNotification =  notificationStyles(
+        val successNotification = notificationStyles(
             backgroundColor = NotificationColors.notificationSuccessBackgroundColor,
             leadingIcon = NotificationIconType.Drawable(
                 drawable = R.drawable.ic_notification_success,
@@ -242,7 +339,7 @@ object DefaultNotificationStyles {
             )
         )
 
-        val warningNotification =  notificationStyles(
+        val warningNotification = notificationStyles(
             backgroundColor = NotificationColors.notificationWarningBackgroundColor,
             leadingIcon = NotificationIconType.Drawable(
                 drawable = R.drawable.ic_notification_warning,

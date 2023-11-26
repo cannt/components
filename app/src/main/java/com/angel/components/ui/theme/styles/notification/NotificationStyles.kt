@@ -2,7 +2,7 @@ package com.angel.components.ui.theme.styles.notification
 
 import androidx.compose.ui.graphics.Color
 import com.angel.components.R
-import com.angel.components.notifications.util.components.NotificationIconType
+import com.angel.components.notification.util.components.NotificationIconType
 import com.angel.components.ui.theme.NotificationColors
 
 data class NotificationStyles(
