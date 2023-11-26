@@ -7,6 +7,7 @@ import com.angel.components.avatar.util.models.AvatarIndicatorContent
 import com.angel.components.avatar.util.models.AvatarMainContent
 import com.angel.components.avatar.util.models.AvatarSize
 import com.angel.components.buttons.util.models.ButtonSize
+import com.angel.components.card.util.models.CardSize
 import com.angel.components.iconButton.util.models.IconButtonSize
 import com.angel.components.inputs.util.models.InputFieldIconType
 import com.angel.components.messages.util.models.MessageAvatarSide
@@ -24,6 +25,7 @@ import com.angel.components.ui.theme.NotificationColors
 import com.angel.components.ui.theme.styles.avatar.avatarStyle
 import com.angel.components.ui.theme.styles.bottomNavigationItem.BottomNavigationItemColors
 import com.angel.components.ui.theme.styles.button.buttonStyle
+import com.angel.components.ui.theme.styles.card.cardStyle
 import com.angel.components.ui.theme.styles.iconButton.iconButtonStyle
 import com.angel.components.ui.theme.styles.input.inputFieldStyle
 import com.angel.components.ui.theme.styles.message.messageStyles
@@ -363,4 +365,13 @@ object BottomNavigationItemStyles {
         unselectedIconColor = unselectedIconColor,
         unselectedLabelColor = unselectedLabelColor,
     )
+}
+
+object CardStyles {
+
+    object CardType {
+        val smallCard = cardStyle()
+        val mediumCard = cardStyle(cardSize = CardSize.Medium)
+        val largeCard = cardStyle(cardSize = CardSize.Large)
+    }
 }

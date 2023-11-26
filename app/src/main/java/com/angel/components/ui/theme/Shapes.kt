@@ -44,3 +44,7 @@ object IconButtonShapes{
     val MediumIconButtonShape =  RoundedCornerShape(100.dp)
     val SmallIconButtonShape =  RoundedCornerShape(100.dp)
 }
+
+object CardShapes{
+    val cardShape =  RoundedCornerShape(12.dp)
+}

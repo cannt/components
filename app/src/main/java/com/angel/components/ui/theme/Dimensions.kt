@@ -136,3 +136,14 @@ object ToggleDimensions {
 
     val toggleDotSize = 28.dp
 }
+
+object CardDimensions {
+    val cardSmallHeight = 64.dp
+    val cardSmallWidth = 163.5.dp
+
+    val cardMediumHeight = 128.dp
+    val cardMediumWidth = 164.dp
+
+    val cardLargeHeight = 144.dp
+    val cardLargeWidth = 223.dp
+}

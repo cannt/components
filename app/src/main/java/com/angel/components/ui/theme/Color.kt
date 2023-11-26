@@ -283,3 +283,11 @@ object ToggleColors {
 
     val toggleDotColor = White
 }
+
+object CardColors {
+    val cardBackgroundColor = White
+    val cardBorderColor = Grey.grey200
+
+    val cardTitleTextColor = Black
+    val cardDescriptionTextColor = Grey.grey500
+}

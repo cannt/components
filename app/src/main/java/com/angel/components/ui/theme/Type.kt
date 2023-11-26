@@ -259,3 +259,14 @@ object ChipTextStyles {
     val ChipSmallTextStyle = Caption
     val ChipSmallCounterTextStyle = ChipCounterSmall
 }
+
+object CardTextStyles {
+    val CardSmallTitleStyle = BodySmallBold
+    val CardSmallDescriptionStyle = BodySmall
+
+    val CardMediumTitleStyle = BodySmallBold
+    val CardMediumDescriptionStyle = BodySmall
+
+    val CardLargeTitleStyle = BodyLargeBold
+    val CardLargeDescriptionStyle = BodySmall
+}

@@ -104,6 +104,9 @@ import com.angel.components.buttons.util.models.ButtonSize.Large
 import com.angel.components.buttons.util.models.ButtonSize.Medium
 import com.angel.components.buttons.util.models.ButtonSize.Small
 import com.angel.components.buttons.util.models.ButtonSize.XL
+import com.angel.components.card.large.LargeCard
+import com.angel.components.card.medium.MediumCard
+import com.angel.components.card.small.SmallCard
 import com.angel.components.chip.large.ChipLarge
 import com.angel.components.chip.medium.ChipMedium
 import com.angel.components.chip.small.ChipSmall
@@ -334,6 +337,30 @@ fun CardSample() {
                     verticalArrangement = Arrangement.SpaceEvenly,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+
+                    SmallCard(
+                        title = "Title",
+                        description = "Description",
+                        onClick = {
+
+                        }
+                    )
+
+                    MediumCard(
+                        title = "Title",
+                        description = "Description",
+                        onClick = {
+
+                        }
+                    )
+
+                    LargeCard(
+                        title = "Title",
+                        description = "Description",
+                        onClick = {
+
+                        }
+                    )
 
                 }
             }

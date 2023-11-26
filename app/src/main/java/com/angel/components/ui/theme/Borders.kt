@@ -54,3 +54,8 @@ object NotificationBadgeBorders {
 object ChipBorders {
     val chipBorder = BorderStroke(chipBorderSize, chipBorderColor)
 }
+
+
+object CardBorders {
+    val cardBorder = BorderStroke(1.dp, CardColors.cardBorderColor)
+}

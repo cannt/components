@@ -36,3 +36,9 @@ object ChipGaps{
     val chipMediumGap = 4.dp
     val chipSmallGap = 4.dp
 }
+
+object CardGaps{
+    val cardSmallGap = 12.dp
+    val cardMediumGap = 16.dp
+    val cardLargeGap = 8.dp
+}

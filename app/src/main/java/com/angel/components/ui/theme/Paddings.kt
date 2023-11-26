@@ -45,3 +45,10 @@ object IconButtonPaddings {
     val MediumIconButtonPadding = PaddingValues(horizontal = 8.dp, vertical = 8.dp)
     val SmallIconButtonPadding = PaddingValues(horizontal = 4.dp, vertical = 4.dp)
 }
+
+object CardPaddings {
+    val SmallCardPadding = PaddingValues(12.dp)
+    val MediumCardPadding = PaddingValues(16.dp)
+    val LargeCardPadding = PaddingValues(horizontal = 16.dp, vertical = 24.dp)
+
+}
