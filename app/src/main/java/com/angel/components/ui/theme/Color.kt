@@ -291,3 +291,11 @@ object CardColors {
     val cardTitleTextColor = Black
     val cardDescriptionTextColor = Grey.grey500
 }
+
+object MenuColors {
+    val menuBackgroundColor = White
+    val menuBorderColor = Grey.grey200
+
+    val menuTextColor = Black
+    val menuIconColor = Black
+}

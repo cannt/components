@@ -16,7 +16,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Fill
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.angel.components.ui.theme.PageIndicatorColors.pageIndicatorDarkSelected
@@ -75,10 +74,4 @@ private fun Indicator(
             style = Fill
         )
     }
-}
-
-@Preview
-@Composable
-fun PreviewPageIndicator() {
-    /*PageIndicator(pageCount = 5, currentPage = 2)*/
 }

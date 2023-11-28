@@ -48,3 +48,9 @@ object IconButtonShapes{
 object CardShapes{
     val cardShape =  RoundedCornerShape(12.dp)
 }
+
+object MenuShapes{
+    val menuItemFirst =  RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)
+    val menuItemMiddle =  RoundedCornerShape(0.dp)
+    val menuItemLast =  RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp)
+}

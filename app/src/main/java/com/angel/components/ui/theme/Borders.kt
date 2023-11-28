@@ -59,3 +59,7 @@ object ChipBorders {
 object CardBorders {
     val cardBorder = BorderStroke(1.dp, CardColors.cardBorderColor)
 }
+
+object MenuBorders {
+    val menuBorder = BorderStroke(1.dp, MenuColors.menuBorderColor)
+}

@@ -42,3 +42,7 @@ object CardGaps{
     val cardMediumGap = 16.dp
     val cardLargeGap = 8.dp
 }
+
+object MenuGaps{
+    val menuGap = 8.dp
+}

@@ -127,6 +127,9 @@ import com.angel.components.iconButton.util.models.IconButtonSize
 import com.angel.components.inputs.standard.InputField
 import com.angel.components.inputs.util.models.InputFieldIconType
 import com.angel.components.inputs.util.models.InputFieldSize
+import com.angel.components.menu.Menu
+import com.angel.components.menu.models.MenuItemIconType
+import com.angel.components.menu.models.MenuItemProperties
 import com.angel.components.messages.Message
 import com.angel.components.notification.error.ErrorNotification
 import com.angel.components.notification.info.InfoNotification
@@ -232,7 +235,8 @@ fun SampleScreen() {
                         Toggle -> ToggleSample()
                         IconButton -> IconButtonSample(coroutineScope = coroutineScope)
                         Card -> CardSample()
-                        BottomSheet, CoachMark, LineItem, Menu, SegmentedControl, TabControl -> Box(
+                        Menu -> MenuSample()
+                        BottomSheet, CoachMark, LineItem, SegmentedControl, TabControl -> Box(
                             Modifier.wrapContentSize()
                         )
                     }
@@ -256,6 +260,68 @@ fun SampleScreen() {
         }
     }
 }
+
+@ExperimentalMaterial3Api
+@Composable
+fun MenuSample() {
+
+    Scaffold(
+        containerColor = Color(0xFF404040),
+        snackbarHost = {
+        }, topBar = {
+        }, content = { paddingValues ->
+            Box(
+                modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
+                contentAlignment = Alignment.Center,
+            ) {
+                Column(
+                    modifier =
+                    Modifier
+                        .fillMaxSize(),
+                    verticalArrangement = Arrangement.SpaceEvenly,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ){
+                    Menu(
+                        items = (1..2).map {
+                            MenuItemProperties(
+                                icon = MenuItemIconType.Drawable(R.drawable.ic_default),
+                                label = "Label",
+                                onClick = {}
+                            )
+                        }
+                    )
+
+                    Menu(
+                        items = (1..3).map {
+                            MenuItemProperties(
+                                icon = MenuItemIconType.Drawable(R.drawable.ic_default),
+                                label = "Label",
+                                onClick = {}
+                            )
+                        }
+                    )
+
+                    Menu(
+                        items = (1..4).map {
+                            MenuItemProperties(
+                                icon = MenuItemIconType.Drawable(R.drawable.ic_default),
+                                label = "Label",
+                                onClick = {}
+                            )
+                        }
+                    )
+                }
+            }
+        }, bottomBar = {
+
+        }
+    )
+
+}
+
 
 @ExperimentalMaterial3Api
 @Composable

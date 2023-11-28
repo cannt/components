@@ -147,3 +147,10 @@ object CardDimensions {
     val cardLargeHeight = 144.dp
     val cardLargeWidth = 223.dp
 }
+
+object MenuDimensions {
+    val menuItemHeight = 48.dp
+    val menuItemWidth = 254.dp
+
+    val menuItemIconSize = 24.dp
+}

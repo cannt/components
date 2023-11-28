@@ -270,3 +270,7 @@ object CardTextStyles {
     val CardLargeTitleStyle = BodyLargeBold
     val CardLargeDescriptionStyle = BodySmall
 }
+
+object MenuTextStyles {
+    val MenuLabelStyle = BodyLarge
+}
