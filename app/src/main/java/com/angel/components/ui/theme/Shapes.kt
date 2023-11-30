@@ -54,3 +54,4 @@ object MenuShapes{
     val menuItemMiddle =  RoundedCornerShape(0.dp)
     val menuItemLast =  RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp)
 }
+

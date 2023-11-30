@@ -22,6 +22,7 @@ import com.angel.components.ui.theme.InputFieldBorders.inputFieldNotBorder
 import com.angel.components.ui.theme.InputFieldColors.inputFieldTrailingIconColor
 import com.angel.components.ui.theme.MessageColors
 import com.angel.components.ui.theme.NotificationColors
+import com.angel.components.ui.theme.TabControlColors
 import com.angel.components.ui.theme.styles.avatar.avatarStyle
 import com.angel.components.ui.theme.styles.bottomNavigationItem.BottomNavigationItemColors
 import com.angel.components.ui.theme.styles.button.buttonStyle
@@ -30,6 +31,7 @@ import com.angel.components.ui.theme.styles.iconButton.iconButtonStyle
 import com.angel.components.ui.theme.styles.input.inputFieldStyle
 import com.angel.components.ui.theme.styles.message.messageStyles
 import com.angel.components.ui.theme.styles.notification.notificationStyles
+import com.angel.components.ui.theme.styles.tabControl.TabControlItemColors
 
 object DefaultButtonStyles {
 
@@ -360,6 +362,22 @@ object BottomNavigationItemStyles {
         unselectedIconColor: Color = BottomNavigationColors.bottomNavigationUnselectedIconColor,
         unselectedLabelColor: Color = BottomNavigationColors.bottomNavigationUnselectedLabelColor,
     ): BottomNavigationItemColors = BottomNavigationItemColors(
+        selectedIconColor = selectedIconColor,
+        selectedLabelColor = selectedLabelColor,
+        unselectedIconColor = unselectedIconColor,
+        unselectedLabelColor = unselectedLabelColor,
+    )
+}
+
+object TabControlItemStyles {
+
+    @Composable
+    fun colors(
+        selectedIconColor: Color = TabControlColors.tabSelectedIconColor,
+        selectedLabelColor: Color = TabControlColors.tabSelectedLabelColor,
+        unselectedIconColor: Color = TabControlColors.tabUnselectedIconColor,
+        unselectedLabelColor: Color = TabControlColors.tabUnselectedLabelColor,
+    ): TabControlItemColors = TabControlItemColors(
         selectedIconColor = selectedIconColor,
         selectedLabelColor = selectedLabelColor,
         unselectedIconColor = unselectedIconColor,

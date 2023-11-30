@@ -154,3 +154,10 @@ object MenuDimensions {
 
     val menuItemIconSize = 24.dp
 }
+
+object TabControlDimensions {
+    val tabControlHeight = 56.dp
+    val tabControlWidth = 375.dp
+
+    val tabControlIconSize = 24.dp
+}

@@ -142,6 +142,8 @@ import com.angel.components.notificationBadge.small.NotificationBadgeSmall
 import com.angel.components.notificationBadge.util.models.NotificationBadgeIconType
 import com.angel.components.pageIndicator.dark.PageIndicatorDark
 import com.angel.components.pageIndicator.light.PageIndicatorLight
+import com.angel.components.tabControl.TabControl
+import com.angel.components.tabControl.models.TabControlIconType
 import com.angel.components.toggle.Toggle
 import com.angel.components.topNavigation.topNavigationProfile.TopNavigationProfile
 import com.angel.components.topNavigation.topNavigationSearch.TopNavigationSearch
@@ -236,7 +238,8 @@ fun SampleScreen() {
                         IconButton -> IconButtonSample(coroutineScope = coroutineScope)
                         Card -> CardSample()
                         Menu -> MenuSample()
-                        BottomSheet, CoachMark, LineItem, SegmentedControl, TabControl -> Box(
+                        TabControl -> TabControlSample()
+                        BottomSheet, CoachMark, LineItem, SegmentedControl -> Box(
                             Modifier.wrapContentSize()
                         )
                     }
@@ -283,7 +286,7 @@ fun MenuSample() {
                         .fillMaxSize(),
                     verticalArrangement = Arrangement.SpaceEvenly,
                     horizontalAlignment = Alignment.CenterHorizontally
-                ){
+                ) {
                     Menu(
                         items = (1..2).map {
                             MenuItemProperties(
@@ -609,6 +612,87 @@ fun BottomNavigationSample() {
 
                 var selectedItemQuintuple by remember { mutableIntStateOf(0) }
                 BottomNavigation {
+                    sampleIcons.take(5).forEachIndexed { index, navigationIcon ->
+                        val icon = navigationIcon.icon
+                        val label = "Label $index"
+                        item(
+                            selected = index == selectedItemQuintuple,
+                            icon = icon,
+                            label = { Text(label) },
+                            onClick = {
+                                selectedItemQuintuple = index
+                            })
+                    }
+                }
+            }
+        })
+}
+
+@ExperimentalMaterial3Api
+@Composable
+fun TabControlSample() {
+    val sampleIcons = AvailableTabControlIcon.values()
+
+    Scaffold(
+        containerColor = Color(0xFF404040),
+        snackbarHost = {
+        }, topBar = {
+        }, content = { paddingValues ->
+            Box(modifier = Modifier.padding(paddingValues))
+        }, bottomBar = {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                var selectedItemDouble by remember { mutableIntStateOf(0) }
+
+                TabControl {
+                    sampleIcons.take(2).forEachIndexed { index, navigationIcon ->
+                        val icon = navigationIcon.icon
+                        val label = "Label $index"
+                        item(
+                            selected = index == selectedItemDouble,
+                            icon = icon,
+                            label = { Text(label) },
+                            onClick = {
+                                selectedItemDouble = index
+                            })
+                    }
+                }
+
+                var selectedItemTriple by remember { mutableIntStateOf(0) }
+                TabControl {
+                    sampleIcons.take(3).forEachIndexed { index, navigationIcon ->
+                        val icon = navigationIcon.icon
+                        val label = "Label $index"
+                        item(
+                            selected = index == selectedItemTriple,
+                            icon = icon,
+                            label = { Text(label) },
+                            onClick = {
+                                selectedItemTriple = index
+                            })
+                    }
+                }
+
+                var selectedItemQuadruple by remember { mutableIntStateOf(0) }
+                TabControl {
+                    sampleIcons.take(4).forEachIndexed { index, navigationIcon ->
+                        val icon = navigationIcon.icon
+                        val label = "Label $index"
+                        item(
+                            selected = index == selectedItemQuadruple,
+                            icon = icon,
+                            label = { Text(label) },
+                            onClick = {
+                                selectedItemQuadruple = index
+                            })
+                    }
+                }
+
+                var selectedItemQuintuple by remember { mutableIntStateOf(0) }
+                TabControl {
                     sampleIcons.take(5).forEachIndexed { index, navigationIcon ->
                         val icon = navigationIcon.icon
                         val label = "Label $index"
@@ -1732,6 +1816,14 @@ enum class AvailableBottomNavigationIcon(val icon: BottomNavigationIconType) {
     Favorite(BottomNavigationIconType.Drawable(R.drawable.ic_favorite)),
     Cancel(BottomNavigationIconType.Drawable(R.drawable.ic_cancel)),
     None(BottomNavigationIconType.Drawable(R.drawable.ic_none)),
+}
+
+enum class AvailableTabControlIcon(val icon: TabControlIconType) {
+    FiberManualRecord(TabControlIconType.Drawable(R.drawable.ic_default)),
+    Stars(TabControlIconType.Drawable(R.drawable.ic_stars)),
+    Favorite(TabControlIconType.Drawable(R.drawable.ic_favorite)),
+    Cancel(TabControlIconType.Drawable(R.drawable.ic_cancel)),
+    None(TabControlIconType.Drawable(R.drawable.ic_none)),
 }
 
 

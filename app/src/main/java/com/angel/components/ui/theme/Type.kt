@@ -274,3 +274,7 @@ object CardTextStyles {
 object MenuTextStyles {
     val MenuLabelStyle = BodyLarge
 }
+
+object TabControl {
+    val TabLabelStyle = BodyLargeBold
+}

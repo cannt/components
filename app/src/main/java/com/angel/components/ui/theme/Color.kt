@@ -299,3 +299,17 @@ object MenuColors {
     val menuTextColor = Black
     val menuIconColor = Black
 }
+
+object TabControlColors {
+    val tabBackgroundColor = White
+    val tabSelectedIndicatorColor = Black
+    val tabSelectedLabelColor = Black
+    val tabSelectedIconColor = Black
+
+    val tabUnselectedIndicatorColor = Grey.grey200
+    val tabUnselectedLabelColor = Grey.grey200
+    val tabUnselectedIconColor = Grey.grey200
+
+
+
+}

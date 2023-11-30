@@ -56,3 +56,7 @@ object CardPaddings {
 object MenuPaddings {
     val menuItemPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp)
 }
+
+object TabControlPaddings {
+    val tabPadding = PaddingValues(horizontal = 8.dp, vertical = 16.dp)
+}

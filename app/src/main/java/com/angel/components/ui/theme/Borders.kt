@@ -63,3 +63,4 @@ object CardBorders {
 object MenuBorders {
     val menuBorder = BorderStroke(1.dp, MenuColors.menuBorderColor)
 }
+
