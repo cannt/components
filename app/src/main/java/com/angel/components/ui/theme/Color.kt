@@ -309,7 +309,17 @@ object TabControlColors {
     val tabUnselectedIndicatorColor = Grey.grey200
     val tabUnselectedLabelColor = Grey.grey200
     val tabUnselectedIconColor = Grey.grey200
+}
 
+object SegmentedControlColors {
+    val segmentedControlBackgroundColor = Grey.grey100
 
+    val segmentedSelectedTabBackgroundColor = White
+    val segmentedSelectedTabLabelColor = Black
+    val segmentedSelectedTabIconColor = Black
+
+    val segmentedUnselectedTabBackgroundColor = Grey.grey100
+    val segmentedUnselectedTabLabelColor = Black
+    val segmentedUnselectedTabIconColor = Black
 
 }

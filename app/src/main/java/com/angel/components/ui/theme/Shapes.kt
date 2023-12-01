@@ -55,3 +55,9 @@ object MenuShapes{
     val menuItemLast =  RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp)
 }
 
+object SegmentedControlShapes{
+    val segmentedControlShape =  RoundedCornerShape(12.dp)
+
+    val segmentedControlTabShape =  RoundedCornerShape(8.dp)
+}
+

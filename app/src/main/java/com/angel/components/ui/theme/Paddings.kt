@@ -60,3 +60,10 @@ object MenuPaddings {
 object TabControlPaddings {
     val tabPadding = PaddingValues(horizontal = 8.dp, vertical = 16.dp)
 }
+
+object SegmentedControlPaddings {
+    val segmentedControlPadding = PaddingValues(4.dp)
+
+    val segmentedControlTabPadding = PaddingValues(horizontal = 16.dp, vertical = 4.dp)
+}
+

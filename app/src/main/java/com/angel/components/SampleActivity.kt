@@ -66,7 +66,26 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.angel.components.Components.*
+import com.angel.components.Components.Avatar
+import com.angel.components.Components.Badge
+import com.angel.components.Components.BottomNavigation
+import com.angel.components.Components.BottomSheet
+import com.angel.components.Components.Buttons
+import com.angel.components.Components.Card
+import com.angel.components.Components.Chip
+import com.angel.components.Components.CoachMark
+import com.angel.components.Components.IconButton
+import com.angel.components.Components.Inputs
+import com.angel.components.Components.LineItem
+import com.angel.components.Components.Menu
+import com.angel.components.Components.Messages
+import com.angel.components.Components.NotificationBadge
+import com.angel.components.Components.Notifications
+import com.angel.components.Components.PageIndicator
+import com.angel.components.Components.SegmentedControl
+import com.angel.components.Components.TabControl
+import com.angel.components.Components.Toggle
+import com.angel.components.Components.TopNavigation
 import com.angel.components.avatar.Avatar
 import com.angel.components.avatar.util.models.AvatarIconType
 import com.angel.components.avatar.util.models.AvatarIndicatorContent
@@ -98,7 +117,10 @@ import com.angel.components.buttons.tertiary.small.ButtonTertiarySmall
 import com.angel.components.buttons.tertiary.xl.ButtonTertiaryXL
 import com.angel.components.buttons.util.models.ButtonIconType
 import com.angel.components.buttons.util.models.ButtonIconsSettings
-import com.angel.components.buttons.util.models.ButtonIconsSettings.*
+import com.angel.components.buttons.util.models.ButtonIconsSettings.Both
+import com.angel.components.buttons.util.models.ButtonIconsSettings.End
+import com.angel.components.buttons.util.models.ButtonIconsSettings.None
+import com.angel.components.buttons.util.models.ButtonIconsSettings.Start
 import com.angel.components.buttons.util.models.ButtonSize
 import com.angel.components.buttons.util.models.ButtonSize.Large
 import com.angel.components.buttons.util.models.ButtonSize.Medium
@@ -142,6 +164,8 @@ import com.angel.components.notificationBadge.small.NotificationBadgeSmall
 import com.angel.components.notificationBadge.util.models.NotificationBadgeIconType
 import com.angel.components.pageIndicator.dark.PageIndicatorDark
 import com.angel.components.pageIndicator.light.PageIndicatorLight
+import com.angel.components.segmentedControl.SegmentedControl
+import com.angel.components.segmentedControl.models.SegmentedControlIconType
 import com.angel.components.tabControl.TabControl
 import com.angel.components.tabControl.models.TabControlIconType
 import com.angel.components.toggle.Toggle
@@ -196,7 +220,7 @@ fun SampleScreen() {
                 Text("Components", modifier = Modifier.padding(16.dp))
                 Divider(color = ColorPalette.White)
                 Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-                    Components.values().forEach { components ->
+                    Components.entries.forEach { components ->
                         NavigationDrawerItem(
                             label = { Text(text = components.name) },
                             selected = selectedComponent.value == components,
@@ -239,7 +263,8 @@ fun SampleScreen() {
                         Card -> CardSample()
                         Menu -> MenuSample()
                         TabControl -> TabControlSample()
-                        BottomSheet, CoachMark, LineItem, SegmentedControl -> Box(
+                        SegmentedControl -> SegmentedControlSample()
+                        BottomSheet, CoachMark, LineItem -> Box(
                             Modifier.wrapContentSize()
                         )
                     }
@@ -551,7 +576,7 @@ fun PageIndicatorSample() {
 @ExperimentalMaterial3Api
 @Composable
 fun BottomNavigationSample() {
-    val sampleIcons = AvailableBottomNavigationIcon.values()
+    val sampleIcons = AvailableBottomNavigationIcon.entries.toTypedArray()
 
     Scaffold(
         containerColor = Color(0xFF404040),
@@ -631,7 +656,7 @@ fun BottomNavigationSample() {
 @ExperimentalMaterial3Api
 @Composable
 fun TabControlSample() {
-    val sampleIcons = AvailableTabControlIcon.values()
+    val sampleIcons = AvailableTabControlIcon.entries.toTypedArray()
 
     Scaffold(
         containerColor = Color(0xFF404040),
@@ -675,33 +700,54 @@ fun TabControlSample() {
                             })
                     }
                 }
+            }
+        })
+}
 
-                var selectedItemQuadruple by remember { mutableIntStateOf(0) }
-                TabControl {
-                    sampleIcons.take(4).forEachIndexed { index, navigationIcon ->
+@ExperimentalMaterial3Api
+@Composable
+fun SegmentedControlSample() {
+    val sampleIcons = AvailableSegmentedControlIcon.entries.toTypedArray()
+
+    Scaffold(
+        containerColor = Color(0xFF404040),
+        snackbarHost = {
+        }, topBar = {
+        }, content = { paddingValues ->
+            Box(modifier = Modifier.padding(paddingValues))
+        }, bottomBar = {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                var selectedItemDouble by remember { mutableIntStateOf(0) }
+
+                SegmentedControl {
+                    sampleIcons.take(2).forEachIndexed { index, navigationIcon ->
                         val icon = navigationIcon.icon
                         val label = "Label $index"
                         item(
-                            selected = index == selectedItemQuadruple,
+                            selected = index == selectedItemDouble,
                             icon = icon,
                             label = { Text(label) },
                             onClick = {
-                                selectedItemQuadruple = index
+                                selectedItemDouble = index
                             })
                     }
                 }
 
-                var selectedItemQuintuple by remember { mutableIntStateOf(0) }
-                TabControl {
-                    sampleIcons.take(5).forEachIndexed { index, navigationIcon ->
+                var selectedItemTriple by remember { mutableIntStateOf(0) }
+                SegmentedControl {
+                    sampleIcons.take(3).forEachIndexed { index, navigationIcon ->
                         val icon = navigationIcon.icon
                         val label = "Label $index"
                         item(
-                            selected = index == selectedItemQuintuple,
+                            selected = index == selectedItemTriple,
                             icon = icon,
                             label = { Text(label) },
                             onClick = {
-                                selectedItemQuintuple = index
+                                selectedItemTriple = index
                             })
                     }
                 }
@@ -921,7 +967,7 @@ fun InputFieldsSettingsTopBar(
             containerColor = ColorPalette.White,
             contentColor = ColorPalette.Black
         ) {
-            InputFieldStylesSample.values().forEach { style ->
+            InputFieldStylesSample.entries.forEach { style ->
                 NavigationBarItem(
                     selected = selectedStyle == style,
                     onClick = {
@@ -959,7 +1005,7 @@ fun InputFieldsSettingsTopBar(
                 containerColor = ColorPalette.White,
                 contentColor = ColorPalette.Black
             ) {
-                AvailableInputFieldIcon.values().forEach { icon ->
+                AvailableInputFieldIcon.entries.forEach { icon ->
                     NavigationBarItem(
                         selected = selectedLeadingIcon == icon,
                         onClick = {
@@ -986,7 +1032,7 @@ fun InputFieldsSettingsTopBar(
                 containerColor = ColorPalette.White,
                 contentColor = ColorPalette.Black
             ) {
-                AvailableInputFieldIcon.values().forEach { icon ->
+                AvailableInputFieldIcon.entries.forEach { icon ->
                     NavigationBarItem(
                         selected = selectedTrailingIcon == icon,
                         onClick = {
@@ -1020,7 +1066,7 @@ fun InputFieldsBottomBar(
     NavigationBar(
         containerColor = ColorPalette.White, contentColor = ColorPalette.Black
     ) {
-        InputFieldSize.values().forEach { size ->
+        InputFieldSize.entries.forEach { size ->
             val label = size.name
             NavigationBarItem(
                 icon = {
@@ -1354,7 +1400,7 @@ fun AvatarsSettingsTopBar(
             NavigationBar(
                 containerColor = ColorPalette.White, contentColor = ColorPalette.Black
             ) {
-                AvatarStatus.values().forEach { avatarStatus ->
+                AvatarStatus.entries.forEach { avatarStatus ->
                     NavigationBarItem(selected = selectedAvatarStatus == avatarStatus, onClick = {
                         onIndicatorContentSelected(
                             when (selectedIndicatorContent) {
@@ -1422,7 +1468,7 @@ fun AvatarsSettingsTopBar(
                 NavigationBar(
                     containerColor = ColorPalette.White, contentColor = ColorPalette.Black
                 ) {
-                    AvailableIndicatorIcon.values().forEach { icon ->
+                    AvailableIndicatorIcon.entries.forEach { icon ->
                         NavigationBarItem(selected = selectedIcon == icon.icon, onClick = {
                             onIndicatorContentSelected(selectedIndicatorContent.copy(icon = icon.icon))
                         }, icon = {
@@ -1455,7 +1501,7 @@ fun AvatarBottomBar(
     NavigationBar(
         containerColor = ColorPalette.White, contentColor = ColorPalette.Black
     ) {
-        AvatarSize.values().forEach { size ->
+        AvatarSize.entries.forEach { size ->
             val label = size.name
             NavigationBarItem(
                 icon = {
@@ -1678,7 +1724,7 @@ fun IconsSettingsTopBar(
         NavigationBar(
             containerColor = ColorPalette.White, contentColor = ColorPalette.Black
         ) {
-            ButtonIconsSettings.values().forEach { iconsSettings ->
+            ButtonIconsSettings.entries.forEach { iconsSettings ->
                 val icon = painterResource(
                     when (iconsSettings) {
                         Both -> R.drawable.ic_both_icons
@@ -1717,7 +1763,7 @@ fun IconsSettingsTopBar(
             NavigationBar(
                 containerColor = ColorPalette.White, contentColor = ColorPalette.Black
             ) {
-                AvailableButtonIcon.values().forEach { icon ->
+                AvailableButtonIcon.entries.forEach { icon ->
                     NavigationBarItem(
                         selected = if (selectedIconsSetting == Start || selectedIconsSetting == Both) selectedStartIcon == icon else selectedEndIcon == icon,
                         onClick = {
@@ -1752,7 +1798,7 @@ fun IconsSettingsTopBar(
                 NavigationBar(
                     containerColor = ColorPalette.White, contentColor = ColorPalette.Black
                 ) {
-                    AvailableButtonIcon.values().forEach { icon ->
+                    AvailableButtonIcon.entries.forEach { icon ->
                         NavigationBarItem(
                             selected = selectedEndIcon == icon,
                             onClick = { onEndIconSelected(icon) },
@@ -1826,6 +1872,13 @@ enum class AvailableTabControlIcon(val icon: TabControlIconType) {
     None(TabControlIconType.Drawable(R.drawable.ic_none)),
 }
 
+enum class AvailableSegmentedControlIcon(val icon: SegmentedControlIconType) {
+    FiberManualRecord(SegmentedControlIconType.Drawable(R.drawable.ic_default)),
+    Stars(SegmentedControlIconType.Drawable(R.drawable.ic_stars)),
+    Favorite(SegmentedControlIconType.Drawable(R.drawable.ic_favorite)),
+    Cancel(SegmentedControlIconType.Drawable(R.drawable.ic_cancel)),
+    None(SegmentedControlIconType.Drawable(R.drawable.ic_none)),
+}
 
 @Composable
 fun ButtonBottomBar(

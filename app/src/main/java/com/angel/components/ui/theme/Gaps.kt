@@ -50,3 +50,7 @@ object MenuGaps{
 object TabControlGaps{
     val tabGap = 8.dp
 }
+
+object SegmentedControlGaps{
+    val segmentedControlGap = 8.dp
+}

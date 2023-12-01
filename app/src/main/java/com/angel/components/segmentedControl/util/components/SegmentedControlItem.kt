@@ -1,7 +1,5 @@
-package com.angel.components.tabControl.util.components
+package com.angel.components.segmentedControl.util.components
 
-import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -12,57 +10,43 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.ProvideTextStyle
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.dp
-import com.angel.components.tabControl.models.TabControlIconType
-import com.angel.components.ui.theme.TabControl.TabLabelStyle
-import com.angel.components.ui.theme.TabControlColors
-import com.angel.components.ui.theme.TabControlGaps
-import com.angel.components.ui.theme.TabControlPaddings.tabPadding
-import com.angel.components.ui.theme.styles.TabControlItemStyles
-import com.angel.components.ui.theme.styles.tabControl.TabControlItemColors
+import com.angel.components.segmentedControl.models.SegmentedControlIconType
+import com.angel.components.ui.theme.SegmentedControl.SegmentedControlLabelStyle
+import com.angel.components.ui.theme.SegmentedControlGaps
+import com.angel.components.ui.theme.SegmentedControlPaddings.segmentedControlPadding
+import com.angel.components.ui.theme.SegmentedControlPaddings.segmentedControlTabPadding
+import com.angel.components.ui.theme.SegmentedControlShapes
+import com.angel.components.ui.theme.styles.SegmentedControlItemStyles
+import com.angel.components.ui.theme.styles.segmentedControl.SegmentedControlItemColors
 
 @Composable
-fun RowScope.TabControlItem(
+fun RowScope.SegmentedControlItem(
     modifier: Modifier = Modifier,
     selected: Boolean,
     enabled: Boolean = true,
-    icon: TabControlIconType,
+    icon: SegmentedControlIconType,
     label: @Composable (() -> Unit),
     onClick: () -> Unit,
-    colors: TabControlItemColors = TabControlItemStyles.colors(),
+    colors: SegmentedControlItemColors = SegmentedControlItemStyles.colors(),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 ) {
-    val animatedBorderColor by animateColorAsState(
-        targetValue = if (selected) TabControlColors.tabSelectedIndicatorColor
-        else TabControlColors.tabUnselectedIndicatorColor,
-        animationSpec = tween(durationMillis = 300), label = ""
-    )
 
-    val borderModifier = modifier.drawBehind {
-        val strokeWidth = 2.dp.toPx()
-        val y = size.height - strokeWidth / 2
-        drawLine(
-            color = animatedBorderColor,
-            start = Offset(0f, y),
-            end = Offset(size.width, y),
-            strokeWidth = strokeWidth
-        )
-    }
+    val backgroundColor by colors.backgroundColor(selected = selected)
 
     val styledIcon = @Composable {
         val iconColor by colors.iconColor(selected = selected)
         Box {
             CompositionLocalProvider(
                 LocalContentColor provides iconColor, content = {
-                    TabControlIcon(
+                    SegmentedControlIcon(
                         icon = icon
                     )
                 }
@@ -71,27 +55,32 @@ fun RowScope.TabControlItem(
     }
 
     val styledLabel: @Composable () -> Unit = @Composable {
-        val style = TabLabelStyle
+        val style = SegmentedControlLabelStyle
         val textColor by colors.textColor(selected = selected)
         CompositionLocalProvider(LocalContentColor provides textColor) {
             ProvideTextStyle(style, content = label)
         }
     }
 
-    Box(
-        modifier = borderModifier
+    Surface(
+        modifier = modifier
             .clickable(
                 interactionSource = interactionSource,
                 indication = null
             ) { if(enabled) onClick() }
+            .padding(segmentedControlPadding)
             .fillMaxSize()
             .weight(1f),
-        contentAlignment = Alignment.Center
+        shape = SegmentedControlShapes.segmentedControlTabShape,
+        color = backgroundColor,
+        tonalElevation = 3.dp
     ) {
         Row(
-            modifier = Modifier.padding(tabPadding),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(segmentedControlTabPadding),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(TabControlGaps.tabGap)
+            horizontalArrangement = Arrangement.spacedBy(SegmentedControlGaps.segmentedControlGap)
         ) {
             styledIcon()
             styledLabel()

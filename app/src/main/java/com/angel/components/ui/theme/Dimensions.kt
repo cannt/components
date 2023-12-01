@@ -161,3 +161,11 @@ object TabControlDimensions {
 
     val tabControlIconSize = 24.dp
 }
+
+object SegmentedControlDimensions {
+    val segmentedControlHeight = 40.dp
+    val segmentedControlWidth = 343.dp
+
+    val segmentedControlIconSize = 24.dp
+}
+

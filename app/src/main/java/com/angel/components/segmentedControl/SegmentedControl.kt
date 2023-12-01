@@ -1,4 +1,4 @@
-package com.angel.components.tabControl
+package com.angel.components.segmentedControl
 
 import android.util.Log
 import androidx.compose.foundation.layout.Row
@@ -15,33 +15,34 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.angel.components.tabControl.util.components.TabControlScope
-import com.angel.components.ui.theme.TabControlColors.tabBackgroundColor
-import com.angel.components.ui.theme.TabControlDimensions
-import com.angel.components.ui.theme.TabControlDimensions.tabControlHeight
+import com.angel.components.segmentedControl.util.components.SegmentedControlScope
+import com.angel.components.ui.theme.SegmentedControlColors
+import com.angel.components.ui.theme.SegmentedControlDimensions
+import com.angel.components.ui.theme.SegmentedControlDimensions.segmentedControlHeight
+import com.angel.components.ui.theme.SegmentedControlShapes
 
 @Composable
-fun TabControl(
+fun SegmentedControl(
     modifier: Modifier = Modifier,
-    containerColor: Color = tabBackgroundColor,
+    containerColor: Color = SegmentedControlColors.segmentedControlBackgroundColor,
     windowInsets: WindowInsets = NavigationBarDefaults.windowInsets,
-    content: TabControlScope.() -> Unit
+    content: SegmentedControlScope.() -> Unit
 ) {
     val items = mutableListOf<@Composable RowScope.() -> Unit>()
-    TabControlScope(items).apply(content)
+    SegmentedControlScope(items).apply(content)
 
     when {
         items.size < 2 -> {
-            Log.w("TabControl", "TabControl requires at least 2 items. Currently: ${items.size}")
+            Log.w("SegmentedControl", "SegmentedControl requires at least 2 items. Currently: ${items.size}")
         }
         else -> {
-            RenderTabControlBar(items, modifier, containerColor, windowInsets)
+            RenderSegmentedControlBar(items, modifier, containerColor, windowInsets)
         }
     }
 }
 
 @Composable
-private fun RenderTabControlBar(
+private fun RenderSegmentedControlBar(
     items: List<@Composable RowScope.() -> Unit>,
     modifier: Modifier,
     containerColor: Color,
@@ -50,16 +51,17 @@ private fun RenderTabControlBar(
     Surface(
         modifier = modifier
             .fillMaxWidth()
-            .height(tabControlHeight)
+            .height(segmentedControlHeight)
             .windowInsetsPadding(windowInsets),
         color = containerColor,
+        shape = SegmentedControlShapes.segmentedControlShape,
         tonalElevation = 3.dp
     ) {
         Row(
             modifier = Modifier.run {
-                widthIn(min = TabControlDimensions.tabControlWidth)
+                widthIn(min = SegmentedControlDimensions.segmentedControlWidth)
                     .fillMaxWidth()
-                    .height(tabControlHeight)
+                    .height(segmentedControlHeight)
             },
             verticalAlignment = Alignment.CenterVertically,
         ) {

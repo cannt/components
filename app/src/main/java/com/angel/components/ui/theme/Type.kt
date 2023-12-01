@@ -4,6 +4,7 @@ import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
@@ -276,5 +277,9 @@ object MenuTextStyles {
 }
 
 object TabControl {
-    val TabLabelStyle = BodyLargeBold
+    val TabLabelStyle = BodyLargeBold.copy(textAlign = TextAlign.Center)
+}
+
+object SegmentedControl {
+    val SegmentedControlLabelStyle = BodyLarge
 }
