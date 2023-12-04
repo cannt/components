@@ -272,14 +272,11 @@ fun SampleScreen() {
                             Modifier.wrapContentSize()
                         )
                     }
-                    Box(
-                        modifier = Modifier
-                            .align(Alignment.CenterStart)
-                            .clickable(
-                                interactionSource = interactionSource,
-                                indication = null
-                            ) { coroutineScope.launch { drawerState.apply { open() } } }
-                    ) {
+                    Box(modifier = Modifier
+                        .align(Alignment.CenterStart)
+                        .clickable(
+                            interactionSource = interactionSource, indication = null
+                        ) { coroutineScope.launch { drawerState.apply { open() } } }) {
                         Icon(
                             modifier = Modifier.size(32.dp),
                             painter = painterResource(id = R.drawable.ic_expand),
@@ -297,60 +294,44 @@ fun SampleScreen() {
 @Composable
 fun MenuSample() {
 
-    Scaffold(
-        containerColor = Color(0xFF404040),
-        snackbarHost = {
-        }, topBar = {
-        }, content = { paddingValues ->
+    Scaffold(containerColor = Color(0xFF404040),
+        snackbarHost = {},
+        topBar = {},
+        content = { paddingValues ->
             Box(
-                modifier =
-                Modifier
+                modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues),
                 contentAlignment = Alignment.Center,
             ) {
                 Column(
-                    modifier =
-                    Modifier
-                        .fillMaxSize(),
+                    modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.SpaceEvenly,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Menu(
-                        items = (1..2).map {
-                            MenuItemProperties(
-                                icon = MenuItemIconType.Drawable(R.drawable.ic_default),
-                                label = "Label",
-                                onClick = {}
-                            )
-                        }
-                    )
+                    Menu(items = (1..2).map {
+                        MenuItemProperties(icon = MenuItemIconType.Drawable(R.drawable.ic_default),
+                            label = "Label",
+                            onClick = {})
+                    })
 
-                    Menu(
-                        items = (1..3).map {
-                            MenuItemProperties(
-                                icon = MenuItemIconType.Drawable(R.drawable.ic_default),
-                                label = "Label",
-                                onClick = {}
-                            )
-                        }
-                    )
+                    Menu(items = (1..3).map {
+                        MenuItemProperties(icon = MenuItemIconType.Drawable(R.drawable.ic_default),
+                            label = "Label",
+                            onClick = {})
+                    })
 
-                    Menu(
-                        items = (1..4).map {
-                            MenuItemProperties(
-                                icon = MenuItemIconType.Drawable(R.drawable.ic_default),
-                                label = "Label",
-                                onClick = {}
-                            )
-                        }
-                    )
+                    Menu(items = (1..4).map {
+                        MenuItemProperties(icon = MenuItemIconType.Drawable(R.drawable.ic_default),
+                            label = "Label",
+                            onClick = {})
+                    })
                 }
             }
-        }, bottomBar = {
+        },
+        bottomBar = {
 
-        }
-    )
+        })
 
 }
 
@@ -358,22 +339,18 @@ fun MenuSample() {
 @ExperimentalMaterial3Api
 @Composable
 fun BadgeSample() {
-    Scaffold(
-        containerColor = Color(0xFF404040),
-        snackbarHost = {
-        }, topBar = {
-        }, content = { paddingValues ->
+    Scaffold(containerColor = Color(0xFF404040),
+        snackbarHost = {},
+        topBar = {},
+        content = { paddingValues ->
             Box(
-                modifier =
-                Modifier
+                modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues),
                 contentAlignment = Alignment.Center,
             ) {
                 Column(
-                    modifier =
-                    Modifier
-                        .fillMaxSize(),
+                    modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.SpaceEvenly,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -383,14 +360,16 @@ fun BadgeSample() {
                     BadgeNew(text = "Value")
                 }
             }
-        }, bottomBar = {
+        },
+        bottomBar = {
 
-        }
-    )
+        })
 }
+
 @ExperimentalMaterial3Api
 @Composable
 fun CoachMarkSample() {
+    val open = remember { mutableStateOf(true) }
     val direction = remember { mutableStateOf(ArrowPosition.TOP) }
     val steps: List<CoachMarkStep> = (1..5).map {
         CoachMarkStep(
@@ -398,47 +377,53 @@ fun CoachMarkSample() {
             description = "Pack my box with five dozen liquor jugs. How vexingly quick draft.",
         )
     }
-    Scaffold(
-        containerColor = Color(0xFF404040),
-        snackbarHost = {
-        }, topBar = {
-        }, content = { paddingValues ->
+    Scaffold(containerColor = Color(0xFF404040),
+        snackbarHost = {},
+        topBar = {},
+        content = { paddingValues ->
             Box(
-                modifier =
-                Modifier
+                modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues),
                 contentAlignment = Alignment.Center,
             ) {
                 CoachMark(
                     arrowPosition = direction.value,
-                    steps = steps
+                    steps = steps,
+                    open = open,
                 )
             }
-        }, bottomBar = {
-            ButtonPrimaryXL(label = "Change arrow position", onClick = {
-                direction.value = when (direction.value) {
-                    ArrowPosition.TOP -> ArrowPosition.BOTTOM
-                    ArrowPosition.BOTTOM -> ArrowPosition.LEFT
-                    ArrowPosition.LEFT -> ArrowPosition.RIGHT
-                    ArrowPosition.RIGHT -> ArrowPosition.TOP
-                }
-            })
-        }
-    )
+        },
+        bottomBar = {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally)
+            ) {
+                ButtonPrimaryMedium(label = "Change direction", onClick = {
+                    direction.value = when (direction.value) {
+                        ArrowPosition.TOP -> ArrowPosition.BOTTOM
+                        ArrowPosition.BOTTOM -> ArrowPosition.LEFT
+                        ArrowPosition.LEFT -> ArrowPosition.RIGHT
+                        ArrowPosition.RIGHT -> ArrowPosition.TOP
+                    }
+                })
+
+                ButtonPrimaryMedium(label = if (open.value) "Close" else "Open", onClick = {
+                    open.value = !open.value
+                })
+            }
+        })
 }
 
 @ExperimentalMaterial3Api
 @Composable
 fun ToggleSample() {
-    Scaffold(
-        containerColor = Color(0xFF404040),
-        snackbarHost = {
-        }, topBar = {
-        }, content = { paddingValues ->
+    Scaffold(containerColor = Color(0xFF404040),
+        snackbarHost = {},
+        topBar = {},
+        content = { paddingValues ->
             Box(
-                modifier =
-                Modifier
+                modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues),
                 contentAlignment = Alignment.Center,
@@ -446,86 +431,66 @@ fun ToggleSample() {
                 val toggle = remember { mutableStateOf(false) }
                 Toggle(toggle = toggle)
             }
-        }, bottomBar = {
+        },
+        bottomBar = {
 
-        }
-    )
+        })
 }
 
 @ExperimentalMaterial3Api
 @Composable
 fun CardSample() {
-    Scaffold(
-        containerColor = Color(0xFF404040),
-        snackbarHost = {
-        }, topBar = {
-        }, content = { paddingValues ->
+    Scaffold(containerColor = Color(0xFF404040),
+        snackbarHost = {},
+        topBar = {},
+        content = { paddingValues ->
             Box(
-                modifier =
-                Modifier
+                modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues),
                 contentAlignment = Alignment.Center,
             ) {
                 Column(
-                    modifier =
-                    Modifier
-                        .fillMaxSize(),
+                    modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.SpaceEvenly,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
 
-                    SmallCard(
-                        title = "Title",
-                        description = "Description",
-                        onClick = {
+                    SmallCard(title = "Title", description = "Description", onClick = {
 
-                        }
-                    )
+                    })
 
-                    MediumCard(
-                        title = "Title",
-                        description = "Description",
-                        onClick = {
+                    MediumCard(title = "Title", description = "Description", onClick = {
 
-                        }
-                    )
+                    })
 
-                    LargeCard(
-                        title = "Title",
-                        description = "Description",
-                        onClick = {
+                    LargeCard(title = "Title", description = "Description", onClick = {
 
-                        }
-                    )
+                    })
 
                 }
             }
-        }, bottomBar = {
+        },
+        bottomBar = {
 
-        }
-    )
+        })
 }
 
 @ExperimentalMaterial3Api
 @Composable
 fun ChipSample() {
-    Scaffold(
-        containerColor = Color(0xFF404040),
-        snackbarHost = {
-        }, topBar = {
-        }, content = { paddingValues ->
+    Scaffold(containerColor = Color(0xFF404040),
+        snackbarHost = {},
+        topBar = {},
+        content = { paddingValues ->
             Box(
-                modifier =
-                Modifier
+                modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues),
                 contentAlignment = Alignment.Center,
             ) {
                 Column(
-                    modifier =
-                    Modifier
-                        .fillMaxSize(),
+                    modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.SpaceEvenly,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -534,31 +499,27 @@ fun ChipSample() {
                     ChipSmall(emoji = "\uD83D\uDD25", text = "Chip", count = 10)
                 }
             }
-        }, bottomBar = {
+        },
+        bottomBar = {
 
-        }
-    )
+        })
 }
 
 @ExperimentalMaterial3Api
 @Composable
 fun NotificationBadgeSample() {
-    Scaffold(
-        containerColor = Color(0xFF404040),
-        snackbarHost = {
-        }, topBar = {
-        }, content = { paddingValues ->
+    Scaffold(containerColor = Color(0xFF404040),
+        snackbarHost = {},
+        topBar = {},
+        content = { paddingValues ->
             Box(
-                modifier =
-                Modifier
+                modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues),
                 contentAlignment = Alignment.Center,
             ) {
                 Column(
-                    modifier =
-                    Modifier
-                        .fillMaxSize(),
+                    modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.SpaceEvenly,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -569,50 +530,54 @@ fun NotificationBadgeSample() {
                         icon = NotificationBadgeIconType.Drawable(
                             drawable = R.drawable.ic_default,
                             tint = Color.White,
-                            onClick = {}
-                        )
+                            onClick = {})
                     )
                 }
             }
-        }, bottomBar = {
+        },
+        bottomBar = {
 
-        }
-    )
+        })
 }
 
 @ExperimentalFoundationApi
 @ExperimentalMaterial3Api
 @Composable
 fun PageIndicatorSample() {
-    Scaffold(
-        containerColor = Color(0xFF404040),
-        snackbarHost = {
-        }, topBar = {
-        }, content = { paddingValues ->
+    Scaffold(containerColor = Color(0xFF404040),
+        snackbarHost = {},
+        topBar = {},
+        content = { paddingValues ->
             Box(
-                modifier =
-                Modifier
+                modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues),
                 contentAlignment = Alignment.Center
             ) {
                 Column(
-                    modifier = Modifier
-                        .fillMaxSize(),
+                    modifier = Modifier.fillMaxSize(),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.SpaceEvenly
                 ) {
                     val pageCount = 5
                     val selectedIndexLight = remember { mutableStateOf(0) }
                     val selectedIndexDark = remember { mutableStateOf(0) }
-                    PageIndicatorLight(pageCount = pageCount, currentPage = selectedIndexLight)
-                    PageIndicatorDark(pageCount = pageCount, currentPage = selectedIndexDark)
+                    PageIndicatorLight(pageCount = pageCount,
+                        currentPage = selectedIndexLight,
+                        onDotClicked = { index ->
+                            selectedIndexLight.value = index
+                        })
+                    PageIndicatorDark(pageCount = pageCount,
+                        currentPage = selectedIndexDark,
+                        onDotClicked = { index ->
+                            selectedIndexDark.value = index
+                        })
                 }
             }
-        }, bottomBar = {
+        },
+        bottomBar = {
 
-        }
-    )
+        })
 }
 
 
@@ -621,13 +586,13 @@ fun PageIndicatorSample() {
 fun BottomNavigationSample() {
     val sampleIcons = AvailableBottomNavigationIcon.entries.toTypedArray()
 
-    Scaffold(
-        containerColor = Color(0xFF404040),
-        snackbarHost = {
-        }, topBar = {
-        }, content = { paddingValues ->
+    Scaffold(containerColor = Color(0xFF404040),
+        snackbarHost = {},
+        topBar = {},
+        content = { paddingValues ->
             Box(modifier = Modifier.padding(paddingValues))
-        }, bottomBar = {
+        },
+        bottomBar = {
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -638,8 +603,7 @@ fun BottomNavigationSample() {
                     sampleIcons.take(2).forEachIndexed { index, navigationIcon ->
                         val icon = navigationIcon.icon
                         val label = "Label"
-                        item(
-                            selected = index == selectedItemDouble,
+                        item(selected = index == selectedItemDouble,
                             icon = icon,
                             label = { Text(label) },
                             onClick = {
@@ -653,8 +617,7 @@ fun BottomNavigationSample() {
                     sampleIcons.take(3).forEachIndexed { index, navigationIcon ->
                         val icon = navigationIcon.icon
                         val label = "Label"
-                        item(
-                            selected = index == selectedItemTriple,
+                        item(selected = index == selectedItemTriple,
                             icon = icon,
                             label = { Text(label) },
                             onClick = {
@@ -668,8 +631,7 @@ fun BottomNavigationSample() {
                     sampleIcons.take(4).forEachIndexed { index, navigationIcon ->
                         val icon = navigationIcon.icon
                         val label = "Label"
-                        item(
-                            selected = index == selectedItemQuadruple,
+                        item(selected = index == selectedItemQuadruple,
                             icon = icon,
                             label = { Text(label) },
                             onClick = {
@@ -683,8 +645,7 @@ fun BottomNavigationSample() {
                     sampleIcons.take(5).forEachIndexed { index, navigationIcon ->
                         val icon = navigationIcon.icon
                         val label = "Label"
-                        item(
-                            selected = index == selectedItemQuintuple,
+                        item(selected = index == selectedItemQuintuple,
                             icon = icon,
                             label = { Text(label) },
                             onClick = {
@@ -701,13 +662,13 @@ fun BottomNavigationSample() {
 fun TabControlSample() {
     val sampleIcons = AvailableTabControlIcon.entries.toTypedArray()
 
-    Scaffold(
-        containerColor = Color(0xFF404040),
-        snackbarHost = {
-        }, topBar = {
-        }, content = { paddingValues ->
+    Scaffold(containerColor = Color(0xFF404040),
+        snackbarHost = {},
+        topBar = {},
+        content = { paddingValues ->
             Box(modifier = Modifier.padding(paddingValues))
-        }, bottomBar = {
+        },
+        bottomBar = {
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -719,8 +680,7 @@ fun TabControlSample() {
                     sampleIcons.take(2).forEachIndexed { index, navigationIcon ->
                         val icon = navigationIcon.icon
                         val label = "Label"
-                        item(
-                            selected = index == selectedItemDouble,
+                        item(selected = index == selectedItemDouble,
                             icon = icon,
                             label = { Text(label) },
                             onClick = {
@@ -734,8 +694,7 @@ fun TabControlSample() {
                     sampleIcons.take(3).forEachIndexed { index, navigationIcon ->
                         val icon = navigationIcon.icon
                         val label = "Label"
-                        item(
-                            selected = index == selectedItemTriple,
+                        item(selected = index == selectedItemTriple,
                             icon = icon,
                             label = { Text(label) },
                             onClick = {
@@ -752,13 +711,13 @@ fun TabControlSample() {
 fun SegmentedControlSample() {
     val sampleIcons = AvailableSegmentedControlIcon.entries.toTypedArray()
 
-    Scaffold(
-        containerColor = Color(0xFF404040),
-        snackbarHost = {
-        }, topBar = {
-        }, content = { paddingValues ->
+    Scaffold(containerColor = Color(0xFF404040),
+        snackbarHost = {},
+        topBar = {},
+        content = { paddingValues ->
             Box(modifier = Modifier.padding(paddingValues))
-        }, bottomBar = {
+        },
+        bottomBar = {
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -770,8 +729,7 @@ fun SegmentedControlSample() {
                     sampleIcons.take(2).forEachIndexed { index, navigationIcon ->
                         val icon = navigationIcon.icon
                         val label = "Value"
-                        item(
-                            selected = index == selectedItemDouble,
+                        item(selected = index == selectedItemDouble,
                             icon = icon,
                             label = { Text(label) },
                             onClick = {
@@ -785,8 +743,7 @@ fun SegmentedControlSample() {
                     sampleIcons.take(3).forEachIndexed { index, navigationIcon ->
                         val icon = navigationIcon.icon
                         val label = "Value"
-                        item(
-                            selected = index == selectedItemTriple,
+                        item(selected = index == selectedItemTriple,
                             icon = icon,
                             label = { Text(label) },
                             onClick = {
@@ -808,87 +765,75 @@ fun TopNavigationSample() {
     val searchIsSuccess = remember { mutableStateOf(false) }
 
     val searchError = remember { mutableStateOf<String?>(null) }
-    Scaffold(
-        containerColor = Color(0xFF404040),
-        snackbarHost = {
-        }, topBar = {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                TopNavigationTitle(
-                    title = "Description",
-                    leadingIcon = TopNavigationIconType.Drawable(
-                        drawable = R.drawable.ic_default,
-                        tint = topNavigationIconColor,
-                        onClick = {}
-                    ),
-                    trailingIcon = TopNavigationIconType.Drawable(
-                        drawable = R.drawable.ic_default,
-                        tint = topNavigationIconColor,
-                        onClick = {}
-                    )
-                )
-                TopNavigationProfile(
-                    title = "Description",
-                    firstIcon = TopNavigationIconType.Drawable(
-                        drawable = R.drawable.ic_default,
-                        tint = topNavigationIconColor,
-                        onClick = {}
-                    ),
-                    secondIcon = TopNavigationIconType.Drawable(
-                        drawable = R.drawable.ic_default,
-                        tint = topNavigationIconColor,
-                        onClick = {}
-                    )
-                )
-                TopNavigationSearch(
-                    leadingIcon = TopNavigationIconType.Drawable(
-                        drawable = R.drawable.ic_default,
-                        tint = topNavigationIconColor,
-                        onClick = {}
-                    ),
-                    trailingIcon = TopNavigationIconType.Drawable(
-                        drawable = R.drawable.ic_default,
-                        tint = topNavigationIconColor,
-                        onClick = {}
-                    ),
-                    searchValueState = searchValueState,
-                    searchIsEnabled = searchIsEnabled.value,
-                    searchIsError = searchIsError.value,
-                    searchIsSuccess = searchIsSuccess.value,
-                    searchError = searchError.value,
-                )
-                TopNavigationTitleSearch(
-                    title = "Description",
-                    leadingIcon = TopNavigationIconType.Drawable(
-                        drawable = R.drawable.ic_default,
-                        tint = topNavigationIconColor,
-                        onClick = {}
-                    ),
-                    trailingIcon = TopNavigationIconType.Drawable(
-                        drawable = R.drawable.ic_default,
-                        tint = topNavigationIconColor,
-                        onClick = {}
-                    ),
-                    searchValueState = searchValueState,
-                    searchIsEnabled = searchIsEnabled.value,
-                    searchIsError = searchIsError.value,
-                    searchIsSuccess = searchIsSuccess.value,
-                    searchError = searchError.value,
-                )
-            }
-        }, content = { paddingValues ->
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .padding(paddingValues)
-                    .fillMaxSize()
-            ) {
-            }
-        }, bottomBar = {
+    Scaffold(containerColor = Color(0xFF404040), snackbarHost = {}, topBar = {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            TopNavigationTitle(
+                title = "Description",
+                leadingIcon = TopNavigationIconType.Drawable(
+                    drawable = R.drawable.ic_default,
+                    tint = topNavigationIconColor,
+                    onClick = {}),
+                trailingIcon = TopNavigationIconType.Drawable(
+                    drawable = R.drawable.ic_default,
+                    tint = topNavigationIconColor,
+                    onClick = {})
+            )
+            TopNavigationProfile(
+                title = "Description",
+                firstIcon = TopNavigationIconType.Drawable(
+                    drawable = R.drawable.ic_default,
+                    tint = topNavigationIconColor,
+                    onClick = {}),
+                secondIcon = TopNavigationIconType.Drawable(
+                    drawable = R.drawable.ic_default,
+                    tint = topNavigationIconColor,
+                    onClick = {})
+            )
+            TopNavigationSearch(
+                leadingIcon = TopNavigationIconType.Drawable(
+                    drawable = R.drawable.ic_default,
+                    tint = topNavigationIconColor,
+                    onClick = {}),
+                trailingIcon = TopNavigationIconType.Drawable(
+                    drawable = R.drawable.ic_default,
+                    tint = topNavigationIconColor,
+                    onClick = {}),
+                searchValueState = searchValueState,
+                searchIsEnabled = searchIsEnabled.value,
+                searchIsError = searchIsError.value,
+                searchIsSuccess = searchIsSuccess.value,
+                searchError = searchError.value,
+            )
+            TopNavigationTitleSearch(
+                title = "Description",
+                leadingIcon = TopNavigationIconType.Drawable(
+                    drawable = R.drawable.ic_default,
+                    tint = topNavigationIconColor,
+                    onClick = {}),
+                trailingIcon = TopNavigationIconType.Drawable(
+                    drawable = R.drawable.ic_default,
+                    tint = topNavigationIconColor,
+                    onClick = {}),
+                searchValueState = searchValueState,
+                searchIsEnabled = searchIsEnabled.value,
+                searchIsError = searchIsError.value,
+                searchIsSuccess = searchIsSuccess.value,
+                searchError = searchError.value,
+            )
+        }
+    }, content = { paddingValues ->
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .padding(paddingValues)
+                .fillMaxSize()
+        ) {}
+    }, bottomBar = {
 
-        })
+    })
 }
 
 
@@ -981,8 +926,7 @@ fun NotificationsSample() {
                 }
             }
         }
-    }, bottomBar = {
-    })
+    }, bottomBar = {})
 
 
 }
@@ -1007,36 +951,29 @@ fun InputFieldsSettingsTopBar(
     ) {
         Text("Avatar settings", color = ColorPalette.Black)
         NavigationBar(
-            containerColor = ColorPalette.White,
-            contentColor = ColorPalette.Black
+            containerColor = ColorPalette.White, contentColor = ColorPalette.Black
         ) {
             InputFieldStylesSample.entries.forEach { style ->
-                NavigationBarItem(
-                    selected = selectedStyle == style,
-                    onClick = {
-                        onStyleSelected(style)
-                    },
-                    label = { Text(text = style.name) },
-                    icon = {
-                        Icon(
-                            painter = painterResource(
-                                id = when (style) {
-                                    InputFieldStylesSample.Custom -> R.drawable.ic_custom
-                                    InputFieldStylesSample.Standard -> R.drawable.ic_standard
-                                    InputFieldStylesSample.Search -> R.drawable.ic_input_search
-                                    InputFieldStylesSample.Info -> R.drawable.ic_input_info
-                                }
-                            ),
-                            contentDescription = style.name
-                        )
-                    },
-                    colors = NavigationBarItemDefaults.colors(
-                        selectedIconColor = ColorPalette.White,
-                        selectedTextColor = ColorPalette.Black,
-                        indicatorColor = ColorPalette.Black,
-                        unselectedIconColor = ColorPalette.Black,
-                        unselectedTextColor = ColorPalette.Black
+                NavigationBarItem(selected = selectedStyle == style, onClick = {
+                    onStyleSelected(style)
+                }, label = { Text(text = style.name) }, icon = {
+                    Icon(
+                        painter = painterResource(
+                            id = when (style) {
+                                InputFieldStylesSample.Custom -> R.drawable.ic_custom
+                                InputFieldStylesSample.Standard -> R.drawable.ic_standard
+                                InputFieldStylesSample.Search -> R.drawable.ic_input_search
+                                InputFieldStylesSample.Info -> R.drawable.ic_input_info
+                            }
+                        ), contentDescription = style.name
                     )
+                }, colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = ColorPalette.White,
+                    selectedTextColor = ColorPalette.Black,
+                    indicatorColor = ColorPalette.Black,
+                    unselectedIconColor = ColorPalette.Black,
+                    unselectedTextColor = ColorPalette.Black
+                )
                 )
             }
         }
@@ -1045,55 +982,45 @@ fun InputFieldsSettingsTopBar(
             val selectedTrailingIcon by remember { mutableStateOf(AvailableInputFieldIcon.FiberManualRecord) }
             Text("Leading Icon", color = ColorPalette.Black)
             NavigationBar(
-                containerColor = ColorPalette.White,
-                contentColor = ColorPalette.Black
+                containerColor = ColorPalette.White, contentColor = ColorPalette.Black
             ) {
                 AvailableInputFieldIcon.entries.forEach { icon ->
-                    NavigationBarItem(
-                        selected = selectedLeadingIcon == icon,
-                        onClick = {
-                            onLeadingIconSelected(icon)
-                        },
-                        icon = {
-                            Icon(
-                                painter = painterResource((icon.icon as InputFieldIconType.Drawable).drawable),
-                                contentDescription = icon.name
-                            )
-                        },
-                        colors = NavigationBarItemDefaults.colors(
-                            selectedIconColor = ColorPalette.White,
-                            selectedTextColor = ColorPalette.Black,
-                            indicatorColor = ColorPalette.Black,
-                            unselectedIconColor = ColorPalette.Black,
-                            unselectedTextColor = ColorPalette.Black
+                    NavigationBarItem(selected = selectedLeadingIcon == icon, onClick = {
+                        onLeadingIconSelected(icon)
+                    }, icon = {
+                        Icon(
+                            painter = painterResource((icon.icon as InputFieldIconType.Drawable).drawable),
+                            contentDescription = icon.name
                         )
+                    }, colors = NavigationBarItemDefaults.colors(
+                        selectedIconColor = ColorPalette.White,
+                        selectedTextColor = ColorPalette.Black,
+                        indicatorColor = ColorPalette.Black,
+                        unselectedIconColor = ColorPalette.Black,
+                        unselectedTextColor = ColorPalette.Black
+                    )
                     )
                 }
             }
             Text("Trailing Icon", color = ColorPalette.Black)
             NavigationBar(
-                containerColor = ColorPalette.White,
-                contentColor = ColorPalette.Black
+                containerColor = ColorPalette.White, contentColor = ColorPalette.Black
             ) {
                 AvailableInputFieldIcon.entries.forEach { icon ->
-                    NavigationBarItem(
-                        selected = selectedTrailingIcon == icon,
-                        onClick = {
-                            onTrailingIconSelected(icon)
-                        },
-                        icon = {
-                            Icon(
-                                painter = painterResource((icon.icon as InputFieldIconType.Drawable).drawable),
-                                contentDescription = icon.name
-                            )
-                        },
-                        colors = NavigationBarItemDefaults.colors(
-                            selectedIconColor = ColorPalette.White,
-                            selectedTextColor = ColorPalette.Black,
-                            indicatorColor = ColorPalette.Black,
-                            unselectedIconColor = ColorPalette.Black,
-                            unselectedTextColor = ColorPalette.Black
+                    NavigationBarItem(selected = selectedTrailingIcon == icon, onClick = {
+                        onTrailingIconSelected(icon)
+                    }, icon = {
+                        Icon(
+                            painter = painterResource((icon.icon as InputFieldIconType.Drawable).drawable),
+                            contentDescription = icon.name
                         )
+                    }, colors = NavigationBarItemDefaults.colors(
+                        selectedIconColor = ColorPalette.White,
+                        selectedTextColor = ColorPalette.Black,
+                        indicatorColor = ColorPalette.Black,
+                        unselectedIconColor = ColorPalette.Black,
+                        unselectedTextColor = ColorPalette.Black
+                    )
                     )
                 }
             }
@@ -1164,12 +1091,10 @@ fun InputFieldsSample() {
             )
         }
     }, topBar = {
-        InputFieldsSettingsTopBar(
-            selectedStyle = selectedStyle,
+        InputFieldsSettingsTopBar(selectedStyle = selectedStyle,
             onStyleSelected = { selected -> selectedStyle = selected },
             onLeadingIconSelected = { selected -> leadingIcon.value = selected.icon },
-            onTrailingIconSelected = { selected -> trailingIcon.value = selected.icon }
-        )
+            onTrailingIconSelected = { selected -> trailingIcon.value = selected.icon })
     }, content = { paddingValues ->
         Box(
             contentAlignment = Alignment.Center,
@@ -1183,8 +1108,7 @@ fun InputFieldsSample() {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Column {
-                    TextField(
-                        value = label.value ?: "",
+                    TextField(value = label.value ?: "",
                         onValueChange = { label.value = it },
                         placeholder = {
                             Text(
@@ -1193,8 +1117,7 @@ fun InputFieldsSample() {
                         },
                         label = { Text(text = "Label text", color = Color.White) })
                     Spacer(modifier = Modifier.height(8.dp))
-                    TextField(
-                        value = error.value ?: "",
+                    TextField(value = error.value ?: "",
                         onValueChange = { error.value = it },
                         placeholder = {
                             Text(
@@ -1245,12 +1168,11 @@ fun InputFieldsSample() {
                     label = label.value,
                     size = selectedSize,
                     style = when (selectedStyle) {
-                        InputFieldStylesSample.Custom -> DefaultInputFieldStyles
-                            .InputFieldType.standardInput.copy(
-                                border = border.value,
-                                leadingIcon = leadingIcon.value,
-                                trailingIcon = trailingIcon.value,
-                            )
+                        InputFieldStylesSample.Custom -> DefaultInputFieldStyles.InputFieldType.standardInput.copy(
+                            border = border.value,
+                            leadingIcon = leadingIcon.value,
+                            trailingIcon = trailingIcon.value,
+                        )
 
                         InputFieldStylesSample.Standard -> DefaultInputFieldStyles.InputFieldType.standardInput
                         InputFieldStylesSample.Search -> DefaultInputFieldStyles.InputFieldType.searchInput
@@ -1369,8 +1291,7 @@ fun AvatarsSettingsTopBar(
                             )
 
                             AvatarIndicatorContent.None -> AvatarIndicatorContent.Icon(
-                                AvatarIconType.Drawable(R.drawable.ic_default),
-                                AvatarStatus.Active
+                                AvatarIconType.Drawable(R.drawable.ic_default), AvatarStatus.Active
                             )
                         }
                     )
@@ -1702,9 +1623,7 @@ fun MessagesSample() {
                     val style = if (index % 2 == 0) responseMessage else answerMessage
 
                     Message(
-                        text = message.first,
-                        hour = message.second,
-                        style = style
+                        text = message.first, hour = message.second, style = style
                     )
                 }
             }
@@ -1868,58 +1787,84 @@ fun IconsSettingsTopBar(
 }
 
 enum class AvailableButtonIcon(val icon: ButtonIconType) {
-    FiberManualRecord(ButtonIconType.Drawable(R.drawable.ic_default)),
-    Stars(ButtonIconType.Drawable(R.drawable.ic_stars)),
+    FiberManualRecord(ButtonIconType.Drawable(R.drawable.ic_default)), Stars(
+        ButtonIconType.Drawable(
+            R.drawable.ic_stars
+        )
+    ),
 
-    Favorite(ButtonIconType.Drawable(R.drawable.ic_favorite)),
-    Cancel(ButtonIconType.Drawable(R.drawable.ic_cancel)),
+    Favorite(ButtonIconType.Drawable(R.drawable.ic_favorite)), Cancel(ButtonIconType.Drawable(R.drawable.ic_cancel)),
 }
 
 enum class AvailableIconButtonIcon(val icon: IconButtonIconType) {
-    FiberManualRecord(IconButtonIconType.Drawable(R.drawable.ic_default)),
-    Stars(IconButtonIconType.Drawable(R.drawable.ic_stars)),
+    FiberManualRecord(IconButtonIconType.Drawable(R.drawable.ic_default)), Stars(
+        IconButtonIconType.Drawable(
+            R.drawable.ic_stars
+        )
+    ),
 
-    Favorite(IconButtonIconType.Drawable(R.drawable.ic_favorite)),
-    Cancel(IconButtonIconType.Drawable(R.drawable.ic_cancel)),
+    Favorite(IconButtonIconType.Drawable(R.drawable.ic_favorite)), Cancel(
+        IconButtonIconType.Drawable(
+            R.drawable.ic_cancel
+        )
+    ),
 }
 
 enum class AvailableInputFieldIcon(val icon: InputFieldIconType) {
-    FiberManualRecord(InputFieldIconType.Drawable(R.drawable.ic_default)),
-    Stars(InputFieldIconType.Drawable(R.drawable.ic_stars)),
+    FiberManualRecord(InputFieldIconType.Drawable(R.drawable.ic_default)), Stars(
+        InputFieldIconType.Drawable(
+            R.drawable.ic_stars
+        )
+    ),
 
-    Favorite(InputFieldIconType.Drawable(R.drawable.ic_favorite)),
-    Cancel(InputFieldIconType.Drawable(R.drawable.ic_cancel)),
+    Favorite(InputFieldIconType.Drawable(R.drawable.ic_favorite)), Cancel(
+        InputFieldIconType.Drawable(
+            R.drawable.ic_cancel
+        )
+    ),
 }
 
 enum class AvailableIndicatorIcon(val icon: AvatarIconType) {
-    FiberManualRecord(AvatarIconType.Drawable(R.drawable.ic_default)),
-    Stars(AvatarIconType.Drawable(R.drawable.ic_stars)),
+    FiberManualRecord(AvatarIconType.Drawable(R.drawable.ic_default)), Stars(
+        AvatarIconType.Drawable(
+            R.drawable.ic_stars
+        )
+    ),
 
-    Favorite(AvatarIconType.Drawable(R.drawable.ic_favorite)),
-    Cancel(AvatarIconType.Drawable(R.drawable.ic_cancel)),
+    Favorite(AvatarIconType.Drawable(R.drawable.ic_favorite)), Cancel(AvatarIconType.Drawable(R.drawable.ic_cancel)),
 }
 
 enum class AvailableBottomNavigationIcon(val icon: BottomNavigationIconType) {
-    FiberManualRecord(BottomNavigationIconType.Drawable(R.drawable.ic_default)),
-    Stars(BottomNavigationIconType.Drawable(R.drawable.ic_stars)),
-    Favorite(BottomNavigationIconType.Drawable(R.drawable.ic_favorite)),
-    Cancel(BottomNavigationIconType.Drawable(R.drawable.ic_cancel)),
+    FiberManualRecord(BottomNavigationIconType.Drawable(R.drawable.ic_default)), Stars(
+        BottomNavigationIconType.Drawable(R.drawable.ic_stars)
+    ),
+    Favorite(BottomNavigationIconType.Drawable(R.drawable.ic_favorite)), Cancel(
+        BottomNavigationIconType.Drawable(R.drawable.ic_cancel)
+    ),
     None(BottomNavigationIconType.Drawable(R.drawable.ic_none)),
 }
 
 enum class AvailableTabControlIcon(val icon: TabControlIconType) {
-    FiberManualRecord(TabControlIconType.Drawable(R.drawable.ic_default)),
-    Stars(TabControlIconType.Drawable(R.drawable.ic_stars)),
-    Favorite(TabControlIconType.Drawable(R.drawable.ic_favorite)),
-    Cancel(TabControlIconType.Drawable(R.drawable.ic_cancel)),
+    FiberManualRecord(TabControlIconType.Drawable(R.drawable.ic_default)), Stars(
+        TabControlIconType.Drawable(
+            R.drawable.ic_stars
+        )
+    ),
+    Favorite(TabControlIconType.Drawable(R.drawable.ic_favorite)), Cancel(
+        TabControlIconType.Drawable(
+            R.drawable.ic_cancel
+        )
+    ),
     None(TabControlIconType.Drawable(R.drawable.ic_none)),
 }
 
 enum class AvailableSegmentedControlIcon(val icon: SegmentedControlIconType) {
-    FiberManualRecord(SegmentedControlIconType.Drawable(R.drawable.ic_default)),
-    Stars(SegmentedControlIconType.Drawable(R.drawable.ic_stars)),
-    Favorite(SegmentedControlIconType.Drawable(R.drawable.ic_favorite)),
-    Cancel(SegmentedControlIconType.Drawable(R.drawable.ic_cancel)),
+    FiberManualRecord(SegmentedControlIconType.Drawable(R.drawable.ic_default)), Stars(
+        SegmentedControlIconType.Drawable(R.drawable.ic_stars)
+    ),
+    Favorite(SegmentedControlIconType.Drawable(R.drawable.ic_favorite)), Cancel(
+        SegmentedControlIconType.Drawable(R.drawable.ic_cancel)
+    ),
     None(SegmentedControlIconType.Drawable(R.drawable.ic_none)),
 }
 
@@ -2236,23 +2181,19 @@ fun IconButtonPrimarySample(
 
     when (size) {
         IconButtonSize.XL -> IconButtonPrimaryXL(
-            icon = icon,
-            onClick = onClick
+            icon = icon, onClick = onClick
         )
 
         IconButtonSize.Large -> IconButtonPrimaryLarge(
-            icon = icon,
-            onClick = onClick
+            icon = icon, onClick = onClick
         )
 
         IconButtonSize.Medium -> IconButtonPrimaryMedium(
-            icon = icon,
-            onClick = onClick
+            icon = icon, onClick = onClick
         )
 
         IconButtonSize.Small -> IconButtonPrimarySmall(
-            icon = icon,
-            onClick = onClick
+            icon = icon, onClick = onClick
         )
     }
 }
@@ -2268,23 +2209,19 @@ fun IconButtonSecondarySample(
 
     when (size) {
         IconButtonSize.XL -> IconButtonSecondaryXL(
-            icon = icon,
-            onClick = onClick
+            icon = icon, onClick = onClick
         )
 
         IconButtonSize.Large -> IconButtonSecondaryLarge(
-            icon = icon,
-            onClick = onClick
+            icon = icon, onClick = onClick
         )
 
         IconButtonSize.Medium -> IconButtonSecondaryMedium(
-            icon = icon,
-            onClick = onClick
+            icon = icon, onClick = onClick
         )
 
         IconButtonSize.Small -> IconButtonSecondarySmall(
-            icon = icon,
-            onClick = onClick
+            icon = icon, onClick = onClick
         )
     }
 }
@@ -2300,23 +2237,19 @@ fun IconButtonTertiarySample(
 
     when (size) {
         IconButtonSize.XL -> IconButtonTertiaryXL(
-            icon = icon,
-            onClick = onClick
+            icon = icon, onClick = onClick
         )
 
         IconButtonSize.Large -> IconButtonTertiaryLarge(
-            icon = icon,
-            onClick = onClick
+            icon = icon, onClick = onClick
         )
 
         IconButtonSize.Medium -> IconButtonTertiaryMedium(
-            icon = icon,
-            onClick = onClick
+            icon = icon, onClick = onClick
         )
 
         IconButtonSize.Small -> IconButtonTertiarySmall(
-            icon = icon,
-            onClick = onClick
+            icon = icon, onClick = onClick
         )
     }
 }
@@ -2344,8 +2277,7 @@ fun IconButtonColumn(
         IconButtonPrimarySample(
             icon = icon,
             size = size,
-            buttonAction = { text -> buttonAction(text) }
-        )
+            buttonAction = { text -> buttonAction(text) })
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
@@ -2355,7 +2287,9 @@ fun IconButtonColumn(
         )
         Spacer(modifier = Modifier.height(4.dp))
         IconButtonSecondarySample(
-            icon = icon, size = size, buttonAction = { buttonAction("Secondary $size") })
+            icon = icon,
+            size = size,
+            buttonAction = { buttonAction("Secondary $size") })
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
@@ -2365,7 +2299,9 @@ fun IconButtonColumn(
         )
         Spacer(modifier = Modifier.height(4.dp))
         IconButtonTertiarySample(
-            icon = icon, size = size, buttonAction = { buttonAction("Tertiary $size") })
+            icon = icon,
+            size = size,
+            buttonAction = { buttonAction("Tertiary $size") })
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
@@ -2378,8 +2314,7 @@ fun IconButtonColumn(
 
 @Composable
 fun IconButtonSettingsTopBar(
-    selectedIcon: AvailableIconButtonIcon,
-    onIconSelected: (AvailableIconButtonIcon) -> Unit
+    selectedIcon: AvailableIconButtonIcon, onIconSelected: (AvailableIconButtonIcon) -> Unit
 
 ) {
     Column(
@@ -2436,8 +2371,7 @@ fun IconButtonSample(coroutineScope: CoroutineScope) {
     }, topBar = {
         IconButtonSettingsTopBar(
             selectedIcon = selectedIcon,
-            onIconSelected = { selected -> selectedIcon = selected }
-        )
+            onIconSelected = { selected -> selectedIcon = selected })
     }, content = { paddingValues ->
         Box(
             contentAlignment = Alignment.Center,

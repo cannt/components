@@ -14,6 +14,7 @@ fun PageIndicatorDark(
     modifier: Modifier = Modifier,
     pageCount: Int,
     currentPage: MutableState<Int>,
+    onDotClicked: (Int) -> Unit,
     indicatorSize: Dp = pageIndicatorSize,
     spacing: Dp = pageIndicatorGap
 ) {
@@ -21,6 +22,7 @@ fun PageIndicatorDark(
         modifier = modifier,
         pageCount = pageCount,
         currentPage = currentPage,
+        onDotClicked = onDotClicked,
         indicatorSize = indicatorSize,
         spacing = spacing,
         activeColor = PageIndicatorColors.pageIndicatorDarkSelected,

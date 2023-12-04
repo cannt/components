@@ -1,7 +1,20 @@
 package com.angel.components.coachMark
 
+import android.util.Log
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
@@ -34,7 +47,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.angel.components.R
@@ -58,23 +70,52 @@ import kotlinx.coroutines.launch
 fun CoachMark(
     arrowPosition: ArrowPosition = ArrowPosition.BOTTOM,
     steps: List<CoachMarkStep>,
+    open: MutableState<Boolean>,
 ) {
-    val currentStep = remember { mutableStateOf(0) }
-    val pagerState = rememberPagerState(initialPage = 0, pageCount = { steps.size })
-
-    LaunchedEffect(pagerState.currentPage) {
-        currentStep.value = pagerState.currentPage
+    val slideInTransition: EnterTransition = when (arrowPosition) {
+        ArrowPosition.TOP -> slideInVertically { -it } + fadeIn() + scaleIn()
+        ArrowPosition.BOTTOM -> slideInVertically { it } + fadeIn() + scaleIn()
+        ArrowPosition.LEFT -> slideInHorizontally { -it } + fadeIn() + scaleIn()
+        ArrowPosition.RIGHT -> slideInHorizontally { it } + fadeIn() + scaleIn()
     }
 
-    CoachMarkLayout(arrowPosition = arrowPosition) {
-        HorizontalPager(state = pagerState) { page ->
-            StepLayout(step = steps[page])
+    val slideOutTransition: ExitTransition = when (arrowPosition) {
+        ArrowPosition.TOP -> slideOutVertically { -it } + fadeOut() + scaleOut()
+        ArrowPosition.BOTTOM -> slideOutVertically { it } + fadeOut() + scaleOut()
+        ArrowPosition.LEFT -> slideOutHorizontally { -it } + fadeOut() + scaleOut()
+        ArrowPosition.RIGHT -> slideOutHorizontally { it } + fadeOut() + scaleOut()
+    }
+
+    AnimatedVisibility(
+        visible = open.value,
+        enter = slideInTransition,
+        exit = slideOutTransition
+    ) {
+        val coroutineScope = rememberCoroutineScope()
+        val currentStep = remember { mutableStateOf(0) }
+        val pagerState = rememberPagerState(initialPage = 0, pageCount = { steps.size })
+
+        LaunchedEffect(pagerState.currentPage) {
+            currentStep.value = pagerState.currentPage
         }
-        CoachMarkControls(
-            stepsCount = steps.size,
-            currentStep = currentStep,
-            pagerState = pagerState
-        )
+
+
+
+        CoachMarkLayout(arrowPosition = arrowPosition, close = { open.value = false }) {
+            HorizontalPager(state = pagerState) { page ->
+                StepLayout(step = steps[page])
+            }
+            CoachMarkControls(
+                stepsCount = steps.size,
+                currentStep = currentStep,
+                pagerState = pagerState,
+                onStepChange = { newPage ->
+                    coroutineScope.launch {
+                        pagerState.animateScrollToPage(newPage)
+                    }
+                }
+            )
+        }
     }
 }
 
@@ -82,18 +123,19 @@ fun CoachMark(
 @Composable
 fun CoachMarkLayout(
     arrowPosition: ArrowPosition = ArrowPosition.BOTTOM,
+    close: () -> Unit = {},
     content: @Composable ColumnScope.() -> Unit = {}
 ) {
     when (arrowPosition) {
-        ArrowPosition.TOP -> CoachMarkLayoutTop(content = content)
-        ArrowPosition.BOTTOM -> CoachMarkLayoutBottom(content = content)
-        ArrowPosition.LEFT -> CoachMarkLayoutLeft(content = content)
-        ArrowPosition.RIGHT -> CoachMarkLayoutRight(content = content)
+        ArrowPosition.TOP -> CoachMarkLayoutTop(content = content, close = { close() })
+        ArrowPosition.BOTTOM -> CoachMarkLayoutBottom(content = content, close = { close() })
+        ArrowPosition.LEFT -> CoachMarkLayoutLeft(content = content, close = { close() })
+        ArrowPosition.RIGHT -> CoachMarkLayoutRight(content = content, close = { close() })
     }
 }
 
 @Composable
-fun CoachMarkLayoutTop(content: @Composable ColumnScope.() -> Unit = {}) {
+fun CoachMarkLayoutTop(content: @Composable ColumnScope.() -> Unit = {}, close: () -> Unit) {
 
     val arrowDrawable = R.drawable.ic_coach_mark_arrow_up
 
@@ -117,18 +159,36 @@ fun CoachMarkLayoutTop(content: @Composable ColumnScope.() -> Unit = {}) {
             shape = coachMarkShape,
             color = CoachMarkColors.coachMarkBackgroundColor,
         ) {
-            Column(
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                content()
+            Box {
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    content()
+                }
+                IconButton(
+                    modifier = Modifier
+                        .padding(15.dp)
+                        .align(Alignment.TopEnd)
+                        .size(CoachMarkDimensions.coachMarkIconSize),
+                    onClick = {
+                        Log.d("CoachMark", "Close button clicked")
+                        close()
+                    }
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_close_coach_mark),
+                        contentDescription = null,
+                        tint = CoachMarkColors.coachMarkCloseButtonColor,
+                    )
+                }
             }
         }
     }
 }
 
 @Composable
-fun CoachMarkLayoutBottom(content: @Composable ColumnScope.() -> Unit = {}) {
+fun CoachMarkLayoutBottom(content: @Composable ColumnScope.() -> Unit = {}, close: () -> Unit) {
 
     val arrowDrawable = R.drawable.ic_coach_mark_arrow_down
 
@@ -139,21 +199,38 @@ fun CoachMarkLayoutBottom(content: @Composable ColumnScope.() -> Unit = {}) {
     ) {
         Surface(
             modifier = Modifier
-                .offset(y = 1.dp)
                 .fillMaxWidth()
                 .wrapContentHeight(),
             shape = coachMarkShape,
             color = CoachMarkColors.coachMarkBackgroundColor,
         ) {
-            Column(
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                content()
+            Box {
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    content()
+                }
+                IconButton(modifier = Modifier
+                    .padding(15.dp)
+                    .align(Alignment.TopEnd)
+                    .size(CoachMarkDimensions.coachMarkIconSize),
+                    onClick = {
+                        Log.d("CoachMark", "Close button clicked")
+                        close()
+                    }
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_close_coach_mark),
+                        contentDescription = null,
+                        tint = CoachMarkColors.coachMarkCloseButtonColor,
+                    )
+                }
             }
         }
         Icon(
             modifier = Modifier
+                .offset(y = (-1).dp)
                 .size(24.dp, 12.dp),
             painter = painterResource(id = arrowDrawable),
             tint = CoachMarkColors.coachMarkArrowColor,
@@ -163,17 +240,15 @@ fun CoachMarkLayoutBottom(content: @Composable ColumnScope.() -> Unit = {}) {
 }
 
 @Composable
-fun CoachMarkLayoutLeft(content: @Composable ColumnScope.() -> Unit = {}) {
+fun CoachMarkLayoutLeft(content: @Composable ColumnScope.() -> Unit = {}, close: () -> Unit) {
     val layoutDirection = getLayoutDirection(ArrowPosition.LEFT)
 
     val arrowDrawable = R.drawable.ic_coach_mark_arrow_left
 
     CompositionLocalProvider(LocalLayoutDirection provides layoutDirection) {
-
-
         Row(
             modifier = Modifier.padding(30.dp),
-            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
+            verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
         ) {
             Icon(
@@ -191,11 +266,28 @@ fun CoachMarkLayoutLeft(content: @Composable ColumnScope.() -> Unit = {}) {
                 shape = coachMarkShape,
                 color = CoachMarkColors.coachMarkBackgroundColor,
             ) {
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    content()
+                Box {
+                    Column(
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        content()
+                    }
+                    IconButton(modifier = Modifier
+                        .padding(15.dp)
+                        .align(Alignment.TopEnd)
+                        .size(CoachMarkDimensions.coachMarkIconSize),
+                        onClick = {
+                            Log.d("CoachMark", "Close button clicked")
+                            close()
+                        }
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_close_coach_mark),
+                            contentDescription = null,
+                            tint = CoachMarkColors.coachMarkCloseButtonColor,
+                        )
+                    }
                 }
             }
         }
@@ -203,7 +295,7 @@ fun CoachMarkLayoutLeft(content: @Composable ColumnScope.() -> Unit = {}) {
 }
 
 @Composable
-fun CoachMarkLayoutRight(content: @Composable ColumnScope.() -> Unit = {}) {
+fun CoachMarkLayoutRight(content: @Composable ColumnScope.() -> Unit = {}, close: () -> Unit) {
     val layoutDirection = getLayoutDirection(ArrowPosition.RIGHT)
 
     val arrowDrawable = R.drawable.ic_coach_mark_arrow_right
@@ -215,6 +307,7 @@ fun CoachMarkLayoutRight(content: @Composable ColumnScope.() -> Unit = {}) {
         ) {
             Icon(
                 modifier = Modifier
+                    .offset(x = 1.dp)
                     .size(12.dp, 24.dp),
                 painter = painterResource(id = arrowDrawable),
                 tint = CoachMarkColors.coachMarkArrowColor,
@@ -222,19 +315,34 @@ fun CoachMarkLayoutRight(content: @Composable ColumnScope.() -> Unit = {}) {
             )
             Surface(
                 modifier = Modifier
-                    .offset(x = -1.dp)
                     .fillMaxWidth()
                     .wrapContentHeight(),
                 shape = coachMarkShape,
                 color = CoachMarkColors.coachMarkBackgroundColor,
             ) {
-                val layoutDirectionInverted = getLayoutDirectionInverted(ArrowPosition.RIGHT)
-                CompositionLocalProvider(LocalLayoutDirection provides layoutDirectionInverted) {
-                    Column(
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                    ) {
-                        content()
+                CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+                    Box {
+                        Column(
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                        ) {
+                            content()
+                        }
+                        IconButton(modifier = Modifier
+                            .padding(15.dp)
+                            .align(Alignment.TopEnd)
+                            .size(CoachMarkDimensions.coachMarkIconSize),
+                            onClick = {
+                                Log.d("CoachMark", "Close button clicked")
+                                close()
+                            }
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_close_coach_mark),
+                                contentDescription = null,
+                                tint = CoachMarkColors.coachMarkCloseButtonColor,
+                            )
+                        }
                     }
                 }
             }
@@ -245,8 +353,6 @@ fun CoachMarkLayoutRight(content: @Composable ColumnScope.() -> Unit = {}) {
 private fun getLayoutDirection(side: ArrowPosition): LayoutDirection =
     if (side == ArrowPosition.LEFT) LayoutDirection.Ltr else LayoutDirection.Rtl
 
-private fun getLayoutDirectionInverted(side: ArrowPosition): LayoutDirection =
-    if (side == ArrowPosition.LEFT) LayoutDirection.Rtl else LayoutDirection.Ltr
 
 @Composable
 fun StepLayout(step: CoachMarkStep) {
@@ -268,7 +374,7 @@ fun CoachMarkHeadline(title: String) {
             .fillMaxWidth()
             .padding(CoachMarkPaddings.coachMarkStepHeadline),
         horizontalArrangement = Arrangement.Center,
-        verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
             modifier = Modifier
@@ -279,17 +385,7 @@ fun CoachMarkHeadline(title: String) {
             color = CoachMarkColors.coachMarkHeadlineColor,
         )
         Spacer(modifier = Modifier.width(CoachMarkGaps.coachMarkGap))
-        IconButton(modifier = Modifier.size(
-            CoachMarkDimensions.coachMarkIconSize
-        ),
-            onClick = { }
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_close_coach_mark),
-                contentDescription = null,
-                tint = CoachMarkColors.coachMarkCloseButtonColor,
-            )
-        }
+        Box(modifier = Modifier.size(CoachMarkDimensions.coachMarkIconSize))
     }
 }
 
@@ -311,6 +407,7 @@ fun CoachMarkControls(
     stepsCount: Int,
     currentStep: MutableState<Int>,
     pagerState: PagerState,
+    onStepChange: (Int) -> Unit = {}
 ) {
     val coroutineScope = rememberCoroutineScope()
     Row(
@@ -323,6 +420,7 @@ fun CoachMarkControls(
         PageIndicatorDark(
             pageCount = stepsCount,
             currentPage = currentStep,
+            onDotClicked = onStepChange
         )
         Spacer(modifier = Modifier.width(CoachMarkGaps.coachMarkGap))
         Row(
@@ -382,11 +480,4 @@ fun CoachMarkControls(
 
         }
     }
-}
-
-
-@Composable
-@Preview
-fun CoachMarkLayoutPreview() {
-    CoachMarkLayout()
 }

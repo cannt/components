@@ -28,6 +28,7 @@ fun PageIndicator(
     modifier: Modifier = Modifier,
     pageCount: Int,
     currentPage: MutableState<Int>,
+    onDotClicked: (Int) -> Unit,
     indicatorSize: Dp = pageIndicatorSize,
     spacing: Dp = pageIndicatorGap,
     activeColor: Color = pageIndicatorDarkSelected,
@@ -45,7 +46,10 @@ fun PageIndicator(
                 .clickable(
                     interactionSource = interactionSource,
                     indication = null
-                ) { currentPage.value = pageIndex }
+                ) {
+                    currentPage.value = pageIndex
+                    onDotClicked(pageIndex)
+                }
             ) {
                 Indicator(
                     size = indicatorSize,
