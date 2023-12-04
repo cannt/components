@@ -170,8 +170,10 @@ object SegmentedControlDimensions {
 }
 
 object CoachMarkDimensions {
-    val coachMarkArrowSize = 24.dp
-    val coachMarkArrowOffset = 140
     val coachMarkIconSize = 24.dp
 }
 
+object LineItemDimensions {
+    val lineItemWidth = 343.dp
+    val lineItemIconSize = 24.dp
+}

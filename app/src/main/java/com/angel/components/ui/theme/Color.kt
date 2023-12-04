@@ -332,3 +332,19 @@ object CoachMarkColors {
 
     val coachMarkCloseButtonColor = White
 }
+
+object LineItemColors {
+    val lineItemButtonTextColor = Black
+    val lineItemIconColor = Black
+    val lineItemTextColor = Black
+
+    val lineItemSubtextColor = Grey.grey500
+
+    val lineItemButtonBorderColor = Grey.grey200
+
+    val lineItemButtonBackgroundColor = White
+
+    val lineItemBackgroundColor = White
+
+    val lineItemArrowButtonTextColor = Black
+}

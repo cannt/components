@@ -288,3 +288,10 @@ object CoachMark {
     val CoachMarkHeadlineStyle = BodyLargeBold
     val CoachMarkDescriptionStyle = BodySmall
 }
+
+object LineItem {
+    val LineItemTitleStyle = BodyLargeBold
+    val LineItemDescriptionStyle = BodySmall
+    val LineItemButtonStyle = BodySmallBold
+    val LineItemArrowButtonStyle = BodyLarge
+}

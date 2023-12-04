@@ -3,6 +3,7 @@
 package com.angel.components
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -61,6 +62,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -152,6 +154,12 @@ import com.angel.components.iconButton.util.models.IconButtonSize
 import com.angel.components.inputs.standard.InputField
 import com.angel.components.inputs.util.models.InputFieldIconType
 import com.angel.components.inputs.util.models.InputFieldSize
+import com.angel.components.lineItem.add.LineItemAdd
+import com.angel.components.lineItem.basic.LineItemBasic
+import com.angel.components.lineItem.lineItemDouble.LineItemDouble
+import com.angel.components.lineItem.lineItemText.LineItemText
+import com.angel.components.lineItem.lineItemToggle.LineItemToggle
+import com.angel.components.lineItem.utils.models.LineItemIconType
 import com.angel.components.menu.Menu
 import com.angel.components.menu.models.MenuItemIconType
 import com.angel.components.menu.models.MenuItemProperties
@@ -212,7 +220,7 @@ fun SampleScreen() {
     val interactionSource = remember { MutableInteractionSource() }
     val coroutineScope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    val selectedComponent = remember { mutableStateOf(CoachMark) }
+    val selectedComponent = remember { mutableStateOf(LineItem) }
 
     ComponentsTheme {
         ModalNavigationDrawer(drawerState = drawerState, drawerContent = {
@@ -268,7 +276,8 @@ fun SampleScreen() {
                         TabControl -> TabControlSample()
                         SegmentedControl -> SegmentedControlSample()
                         CoachMark -> CoachMarkSample()
-                        BottomSheet, LineItem -> Box(
+                        LineItem -> LineItemSample()
+                        BottomSheet -> Box(
                             Modifier.wrapContentSize()
                         )
                     }
@@ -288,6 +297,76 @@ fun SampleScreen() {
             }
         }
     }
+}
+
+@ExperimentalMaterial3Api
+@Composable
+fun LineItemSample() {
+    val context = LocalContext.current
+    Scaffold(containerColor = Color(0xFF404040),
+        snackbarHost = {},
+        topBar = {},
+        content = { paddingValues ->
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
+                contentAlignment = Alignment.Center,
+            ) {
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    LineItemBasic(
+                        icon = LineItemIconType.Drawable(R.drawable.ic_default),
+                        headLine = "Headline",
+                        subtitle = "Description"
+                    )
+                    LineItemAdd(
+                        icon = LineItemIconType.Drawable(R.drawable.ic_default),
+                        headLine = "Headline",
+                        subtitle = "Description",
+                        onAddClick = {
+                            Toast.makeText(
+                                context,
+                                "Add clicked",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    )
+                    LineItemToggle(
+                        icon = LineItemIconType.Drawable(R.drawable.ic_default),
+                        headLine = "Headline",
+                        subtitle = "Description",
+                        toggle = remember { mutableStateOf(false) }
+                    )
+                    LineItemText(
+                        icon = LineItemIconType.Drawable(R.drawable.ic_default),
+                        headLine = "Headline",
+                        subtitle = "Description",
+                        arrowText = "Text",
+                        onArrowClick = {
+                            Toast.makeText(
+                                context,
+                                "Arrow clicked",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    )
+                    LineItemDouble(
+                        icon = LineItemIconType.Drawable(R.drawable.ic_default),
+                        headLine1 = "Headline",
+                        subtitle1 = "Description",
+                        headLine2 = "Headline",
+                        subtitle2 = "Description"
+                    )
+                }
+            }
+        },
+        bottomBar = {
+
+        })
+
 }
 
 @ExperimentalMaterial3Api

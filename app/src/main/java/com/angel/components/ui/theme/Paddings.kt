@@ -79,3 +79,8 @@ object CoachMarkPaddings {
 
 }
 
+object LineItemPaddings {
+    val lineItemPadding = PaddingValues(vertical = 16.dp)
+    val lineItemPaddingButton = PaddingValues(horizontal = 12.dp, vertical = 4.dp)
+}
+

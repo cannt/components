@@ -13,6 +13,8 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,7 +33,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material3.ButtonDefaults
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
@@ -45,13 +47,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.angel.components.R
-import com.angel.components.buttons.util.components.ButtonBackground
-import com.angel.components.buttons.util.components.ButtonLabel
 import com.angel.components.coachMark.util.models.ArrowPosition
 import com.angel.components.coachMark.util.models.CoachMarkStep
 import com.angel.components.pageIndicator.dark.PageIndicatorDark
@@ -428,56 +429,49 @@ fun CoachMarkControls(
             horizontalArrangement = Arrangement.End,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            ButtonBackground(
-                modifier = Modifier.wrapContentSize(),
-                enabled = true,
-                shape = DefaultButtonStyles.SecondaryButtons.smallStyle.shape,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = ColorPalette.Grey.grey800,
-                    contentColor = ColorPalette.White
-                ),
-                paddingValues = PaddingValues(horizontal = 12.dp),
-                onClick = {
-                    if (pagerState.currentPage > 0) {
-                        coroutineScope.launch {
-                            pagerState.animateScrollToPage(pagerState.currentPage - 1)
+            Box(
+                modifier = Modifier
+                    .clip(RoundedCornerShape(100))
+                    .background(ColorPalette.Grey.grey800)
+                    .wrapContentSize()
+                    .clickable {
+                        if (pagerState.currentPage > 0) {
+                            coroutineScope.launch {
+                                pagerState.animateScrollToPage(pagerState.currentPage - 1)
+                            }
                         }
                     }
-                },
-                content = {
-                    ButtonLabel(
-                        label = "Back",
-                        labelColor = ColorPalette.White,
-                        labelStyle = DefaultButtonStyles.SecondaryButtons.smallStyle.labelStyle
-                    )
-                },
-            )
+            ) {
+                Text(
+                    text = "Back",
+                    color = ColorPalette.White,
+                    style = DefaultButtonStyles.SecondaryButtons.smallStyle.labelStyle,
+                    modifier = Modifier
+                        .padding(PaddingValues(horizontal = 12.dp, vertical = 4.dp))
+                )
+            }
             Spacer(modifier = Modifier.width(CoachMarkGaps.coachMarkGap))
-            ButtonBackground(
-                modifier = Modifier.wrapContentSize(),
-                enabled = true,
-                shape = DefaultButtonStyles.PrimaryButtons.smallStyle.shape,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = DefaultButtonStyles.PrimaryButtons.smallStyle.backgroundColor,
-                    contentColor = DefaultButtonStyles.PrimaryButtons.smallStyle.labelColor
-                ),
-                paddingValues = PaddingValues(horizontal = 12.dp),
-                onClick = {
-                    if (pagerState.currentPage < stepsCount - 1) {
-                        coroutineScope.launch {
-                            pagerState.animateScrollToPage(pagerState.currentPage + 1)
+            Box(
+                modifier = Modifier
+                    .clip(RoundedCornerShape(100))
+                    .background(DefaultButtonStyles.PrimaryButtons.smallStyle.backgroundColor)
+                    .wrapContentSize()
+                    .clickable {
+                        if (pagerState.currentPage < stepsCount - 1) {
+                            coroutineScope.launch {
+                                pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                            }
                         }
                     }
-                },
-                content = {
-                    ButtonLabel(
-                        label = "Next step",
-                        labelColor = DefaultButtonStyles.PrimaryButtons.smallStyle.labelColor,
-                        labelStyle = DefaultButtonStyles.PrimaryButtons.smallStyle.labelStyle
-                    )
-                },
-            )
-
+            ) {
+                Text(
+                    text = "Next step",
+                    color = DefaultButtonStyles.PrimaryButtons.smallStyle.labelColor,
+                    style = DefaultButtonStyles.PrimaryButtons.smallStyle.labelStyle,
+                    modifier = Modifier
+                        .padding(PaddingValues(horizontal = 12.dp, vertical = 4.dp))
+                )
+            }
         }
     }
 }
