@@ -54,3 +54,7 @@ object TabControlGaps{
 object SegmentedControlGaps{
     val segmentedControlGap = 8.dp
 }
+
+object CoachMarkGaps{
+    val coachMarkGap = 8.dp
+}

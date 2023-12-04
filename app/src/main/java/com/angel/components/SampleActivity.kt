@@ -132,6 +132,9 @@ import com.angel.components.card.small.SmallCard
 import com.angel.components.chip.large.ChipLarge
 import com.angel.components.chip.medium.ChipMedium
 import com.angel.components.chip.small.ChipSmall
+import com.angel.components.coachMark.CoachMark
+import com.angel.components.coachMark.util.models.ArrowPosition
+import com.angel.components.coachMark.util.models.CoachMarkStep
 import com.angel.components.iconButton.primary.large.IconButtonPrimaryLarge
 import com.angel.components.iconButton.primary.medium.IconButtonPrimaryMedium
 import com.angel.components.iconButton.primary.small.IconButtonPrimarySmall
@@ -208,8 +211,8 @@ enum class Components {
 fun SampleScreen() {
     val interactionSource = remember { MutableInteractionSource() }
     val coroutineScope = rememberCoroutineScope()
-    val drawerState = rememberDrawerState(initialValue = DrawerValue.Open)
-    val selectedComponent = remember { mutableStateOf(Buttons) }
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val selectedComponent = remember { mutableStateOf(CoachMark) }
 
     ComponentsTheme {
         ModalNavigationDrawer(drawerState = drawerState, drawerContent = {
@@ -264,7 +267,8 @@ fun SampleScreen() {
                         Menu -> MenuSample()
                         TabControl -> TabControlSample()
                         SegmentedControl -> SegmentedControlSample()
-                        BottomSheet, CoachMark, LineItem -> Box(
+                        CoachMark -> CoachMarkSample()
+                        BottomSheet, LineItem -> Box(
                             Modifier.wrapContentSize()
                         )
                     }
@@ -381,6 +385,45 @@ fun BadgeSample() {
             }
         }, bottomBar = {
 
+        }
+    )
+}
+@ExperimentalMaterial3Api
+@Composable
+fun CoachMarkSample() {
+    val direction = remember { mutableStateOf(ArrowPosition.TOP) }
+    val steps: List<CoachMarkStep> = (1..5).map {
+        CoachMarkStep(
+            title = "Headline $it",
+            description = "Pack my box with five dozen liquor jugs. How vexingly quick draft.",
+        )
+    }
+    Scaffold(
+        containerColor = Color(0xFF404040),
+        snackbarHost = {
+        }, topBar = {
+        }, content = { paddingValues ->
+            Box(
+                modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
+                contentAlignment = Alignment.Center,
+            ) {
+                CoachMark(
+                    arrowPosition = direction.value,
+                    steps = steps
+                )
+            }
+        }, bottomBar = {
+            ButtonPrimaryXL(label = "Change arrow position", onClick = {
+                direction.value = when (direction.value) {
+                    ArrowPosition.TOP -> ArrowPosition.BOTTOM
+                    ArrowPosition.BOTTOM -> ArrowPosition.LEFT
+                    ArrowPosition.LEFT -> ArrowPosition.RIGHT
+                    ArrowPosition.RIGHT -> ArrowPosition.TOP
+                }
+            })
         }
     )
 }
@@ -594,7 +637,7 @@ fun BottomNavigationSample() {
                 BottomNavigation {
                     sampleIcons.take(2).forEachIndexed { index, navigationIcon ->
                         val icon = navigationIcon.icon
-                        val label = "Label $index"
+                        val label = "Label"
                         item(
                             selected = index == selectedItemDouble,
                             icon = icon,
@@ -609,7 +652,7 @@ fun BottomNavigationSample() {
                 BottomNavigation {
                     sampleIcons.take(3).forEachIndexed { index, navigationIcon ->
                         val icon = navigationIcon.icon
-                        val label = "Label $index"
+                        val label = "Label"
                         item(
                             selected = index == selectedItemTriple,
                             icon = icon,
@@ -624,7 +667,7 @@ fun BottomNavigationSample() {
                 BottomNavigation {
                     sampleIcons.take(4).forEachIndexed { index, navigationIcon ->
                         val icon = navigationIcon.icon
-                        val label = "Label $index"
+                        val label = "Label"
                         item(
                             selected = index == selectedItemQuadruple,
                             icon = icon,
@@ -639,7 +682,7 @@ fun BottomNavigationSample() {
                 BottomNavigation {
                     sampleIcons.take(5).forEachIndexed { index, navigationIcon ->
                         val icon = navigationIcon.icon
-                        val label = "Label $index"
+                        val label = "Label"
                         item(
                             selected = index == selectedItemQuintuple,
                             icon = icon,
@@ -675,7 +718,7 @@ fun TabControlSample() {
                 TabControl {
                     sampleIcons.take(2).forEachIndexed { index, navigationIcon ->
                         val icon = navigationIcon.icon
-                        val label = "Label $index"
+                        val label = "Label"
                         item(
                             selected = index == selectedItemDouble,
                             icon = icon,
@@ -690,7 +733,7 @@ fun TabControlSample() {
                 TabControl {
                     sampleIcons.take(3).forEachIndexed { index, navigationIcon ->
                         val icon = navigationIcon.icon
-                        val label = "Label $index"
+                        val label = "Label"
                         item(
                             selected = index == selectedItemTriple,
                             icon = icon,
@@ -726,7 +769,7 @@ fun SegmentedControlSample() {
                 SegmentedControl {
                     sampleIcons.take(2).forEachIndexed { index, navigationIcon ->
                         val icon = navigationIcon.icon
-                        val label = "Label $index"
+                        val label = "Value"
                         item(
                             selected = index == selectedItemDouble,
                             icon = icon,
@@ -741,7 +784,7 @@ fun SegmentedControlSample() {
                 SegmentedControl {
                     sampleIcons.take(3).forEachIndexed { index, navigationIcon ->
                         val icon = navigationIcon.icon
-                        val label = "Label $index"
+                        val label = "Value"
                         item(
                             selected = index == selectedItemTriple,
                             icon = icon,

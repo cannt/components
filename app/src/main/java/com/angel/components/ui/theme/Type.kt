@@ -281,5 +281,10 @@ object TabControl {
 }
 
 object SegmentedControl {
-    val SegmentedControlLabelStyle = BodyLarge
+    val SegmentedControlLabelStyle = BodyLarge.copy(textAlign = TextAlign.Center)
+}
+
+object CoachMark {
+    val CoachMarkHeadlineStyle = BodyLargeBold
+    val CoachMarkDescriptionStyle = BodySmall
 }

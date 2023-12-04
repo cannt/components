@@ -321,5 +321,14 @@ object SegmentedControlColors {
     val segmentedUnselectedTabBackgroundColor = Grey.grey100
     val segmentedUnselectedTabLabelColor = Black
     val segmentedUnselectedTabIconColor = Black
+}
 
+object CoachMarkColors {
+    val coachMarkBackgroundColor = Black
+    val coachMarkArrowColor = Black
+
+    val coachMarkHeadlineColor = White
+    val coachMarkDescriptionColor = White
+
+    val coachMarkCloseButtonColor = White
 }

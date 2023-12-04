@@ -67,3 +67,15 @@ object SegmentedControlPaddings {
     val segmentedControlTabPadding = PaddingValues(horizontal = 16.dp, vertical = 4.dp)
 }
 
+object CoachMarkPaddings {
+    val coachMarkStepPadding = PaddingValues(vertical = 16.dp)
+
+    val coachMarkStepHeadline = PaddingValues(horizontal = 24.dp)
+
+    val coachMarkStepDescription = PaddingValues(horizontal = 24.dp)
+
+    val coachMarkStepButton = PaddingValues(start = 24.dp, end = 24.dp, bottom = 16.dp)
+
+
+}
+

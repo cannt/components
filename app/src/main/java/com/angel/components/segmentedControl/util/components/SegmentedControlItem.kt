@@ -6,8 +6,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Surface
@@ -67,7 +69,7 @@ fun RowScope.SegmentedControlItem(
             .clickable(
                 interactionSource = interactionSource,
                 indication = null
-            ) { if(enabled) onClick() }
+            ) { if (enabled) onClick() }
             .padding(segmentedControlPadding)
             .fillMaxSize()
             .weight(1f),
@@ -77,12 +79,14 @@ fun RowScope.SegmentedControlItem(
     ) {
         Row(
             modifier = Modifier
+                .align(Alignment.CenterVertically)
                 .fillMaxSize()
                 .padding(segmentedControlTabPadding),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(SegmentedControlGaps.segmentedControlGap)
+            horizontalArrangement = Arrangement.Center
         ) {
             styledIcon()
+            Spacer(modifier = Modifier.width(SegmentedControlGaps.segmentedControlGap))
             styledLabel()
         }
     }
