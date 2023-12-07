@@ -64,3 +64,9 @@ object SegmentedControlShapes{
 object CoachMarkShapes{
     val coachMarkShape =  RoundedCornerShape(16.dp)
 }
+
+object BottomSheetShapes{
+    val bottomSheetShape =  RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
+    val bottomSheetHandleShape =  RoundedCornerShape(4.dp)
+    val bottomSheetImageShape =  RoundedCornerShape(12.dp)
+}

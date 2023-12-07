@@ -16,7 +16,7 @@ data class ButtonStyle(
     val width: Dp,
     val height: Dp,
     val backgroundColor: Color,
-    val border: BorderStroke,
+    val border: BorderStroke?,
     val labelColor: Color,
     val labelStyle: TextStyle,
     val padding: PaddingValues,
@@ -29,7 +29,7 @@ fun buttonStyle(
     backgroundColor: Color,
     labelColor: Color,
     labelStyle: TextStyle,
-    border: BorderStroke
+    border: BorderStroke?
 ): ButtonStyle {
     return when (size) {
         ButtonSize.XL -> ButtonStyle(

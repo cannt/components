@@ -4,6 +4,7 @@ import androidx.compose.ui.graphics.Color
 import com.angel.components.ui.theme.ColorPalette.Black
 import com.angel.components.ui.theme.ColorPalette.Green
 import com.angel.components.ui.theme.ColorPalette.Grey
+import com.angel.components.ui.theme.ColorPalette.Platinum
 import com.angel.components.ui.theme.ColorPalette.Purple
 import com.angel.components.ui.theme.ColorPalette.Red
 import com.angel.components.ui.theme.ColorPalette.Transparent
@@ -347,4 +348,18 @@ object LineItemColors {
     val lineItemBackgroundColor = White
 
     val lineItemArrowButtonTextColor = Black
+}
+
+object BottomSheetColors {
+    val bottomSheetBackgroundColor = White
+    val bottomSheetHandleColor = Grey.grey200
+
+    val bottomSheetTopTitleTextColor = Platinum.color950
+    val bottomSheetTitleTextColor = Platinum.color950
+
+    val bottomSheetDescriptionTextColor = Platinum.color500
+
+    val bottomSheetImageBackgroundColor = Platinum.color50
+
+    val bottomSheetIconColor = Purple.color500
 }

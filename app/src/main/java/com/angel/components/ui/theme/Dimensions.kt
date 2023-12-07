@@ -177,3 +177,10 @@ object LineItemDimensions {
     val lineItemWidth = 343.dp
     val lineItemIconSize = 24.dp
 }
+
+object BottomSheetDimensions {
+    val bottomSheetImageHeight = 200.dp
+
+    val bottomSheetHandleHeight = 5.dp
+    val bottomSheetHandleWidth = 40.dp
+}

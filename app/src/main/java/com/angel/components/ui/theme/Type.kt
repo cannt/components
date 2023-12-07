@@ -295,3 +295,10 @@ object LineItem {
     val LineItemButtonStyle = BodySmallBold
     val LineItemArrowButtonStyle = BodyLarge
 }
+
+object BottomSheet {
+    val BottomSheetTitleStyle = Title2.copy(lineHeight = 28.sp,textAlign = TextAlign.Center)
+    val BottomSheetDescriptionStyle = BodyLarge.copy(textAlign = TextAlign.Center)
+
+    val bottomSheetTopTitleStyle = BodyLargeBold.copy(textAlign = TextAlign.Center)
+}

@@ -84,3 +84,12 @@ object LineItemPaddings {
     val lineItemPaddingButton = PaddingValues(horizontal = 12.dp, vertical = 4.dp)
 }
 
+object BottomSheetPaddings {
+    val bottomSheetTopPadding = PaddingValues(16.dp)
+    val bottomSheetContentPadding = PaddingValues(horizontal = 16.dp)
+    val bottomSheetInnerContentPadding = PaddingValues(vertical = 32.dp)
+
+    val bottomSheetButtonsPadding = PaddingValues(16.dp)
+
+    val bottomSheetDoubleButtonsPadding = PaddingValues(16.dp)
+}

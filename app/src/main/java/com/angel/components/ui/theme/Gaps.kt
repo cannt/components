@@ -62,3 +62,9 @@ object CoachMarkGaps{
 object LineItemGaps{
     val lineItemGap = 16.dp
 }
+
+object BottomSheetGaps{
+    val bottomSheetTopGap = 16.dp
+    val bottomSheetInnerContentGap = 8.dp
+    val bottomSheetDoubleButtonGap = 16.dp
+}

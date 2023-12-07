@@ -52,6 +52,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -101,6 +102,13 @@ import com.angel.components.badge.removed.BadgeRemoved
 import com.angel.components.badge.success.BadgeSuccess
 import com.angel.components.bottomNavigation.BottomNavigation
 import com.angel.components.bottomNavigation.models.BottomNavigationIconType
+import com.angel.components.bottomSheet.default.BottomSheetDefault
+import com.angel.components.bottomSheet.doubleButton.BottomSheetDoubleButton
+import com.angel.components.bottomSheet.linkButton.BottomSheetLinkButton
+import com.angel.components.bottomSheet.singleButton.BottomSheetSingleButton
+import com.angel.components.bottomSheet.util.models.BottomSheetContentType
+import com.angel.components.bottomSheet.util.models.BottomSheetIconType
+import com.angel.components.bottomSheet.util.models.BottomSheetImageType
 import com.angel.components.buttons.ghost.large.ButtonGhostLarge
 import com.angel.components.buttons.ghost.medium.ButtonGhostMedium
 import com.angel.components.buttons.ghost.small.ButtonGhostSmall
@@ -220,7 +228,7 @@ fun SampleScreen() {
     val interactionSource = remember { MutableInteractionSource() }
     val coroutineScope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    val selectedComponent = remember { mutableStateOf(LineItem) }
+    val selectedComponent = remember { mutableStateOf(BottomSheet) }
 
     ComponentsTheme {
         ModalNavigationDrawer(drawerState = drawerState, drawerContent = {
@@ -277,9 +285,7 @@ fun SampleScreen() {
                         SegmentedControl -> SegmentedControlSample()
                         CoachMark -> CoachMarkSample()
                         LineItem -> LineItemSample()
-                        BottomSheet -> Box(
-                            Modifier.wrapContentSize()
-                        )
+                        BottomSheet -> BottomSheetSample()
                     }
                     Box(modifier = Modifier
                         .align(Alignment.CenterStart)
@@ -297,6 +303,183 @@ fun SampleScreen() {
             }
         }
     }
+}
+
+enum class bottomSheetType {
+    Default, SingleButton, DoubleButton, LinkAndButton
+}
+
+@ExperimentalMaterial3Api
+@Composable
+fun BottomSheetSample() {
+    val context = LocalContext.current
+    val selectedBottomSheetType = remember { mutableStateOf(bottomSheetType.Default) }
+    val isTitle = remember { mutableStateOf(true) }
+    val isIcon = remember { mutableStateOf(true) }
+    val isImage = remember { mutableStateOf(true) }
+    val title = if (isTitle.value) "Title" else null
+    val icon: BottomSheetIconType =
+        if (isIcon.value) BottomSheetIconType.Drawable(drawable = R.drawable.ic_bottom_sheet_add) else BottomSheetIconType.None
+    val image: BottomSheetImageType =
+        if (isImage.value) BottomSheetImageType.Url("https://www.gstatic.com/webp/gallery/1.jpg") else BottomSheetImageType.None
+    val mainContent = if(isImage.value) {
+        BottomSheetContentType.Image(image = image)
+    } else {
+        BottomSheetContentType.Icon(icon = icon)
+    }
+    LaunchedEffect(
+        key1 = isIcon.value
+    ) {
+        if (isIcon.value) {
+            isImage.value = false
+        }
+    }
+
+    LaunchedEffect(
+        key1 = isImage.value
+    ) {
+        if (isImage.value) {
+            isIcon.value = false
+        }
+    }
+
+    Scaffold(containerColor = Color(0xFF404040),
+        snackbarHost = {},
+        topBar = {
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                ButtonPrimaryXL(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    label = "Change type", onClick = {
+                        selectedBottomSheetType.value = when (selectedBottomSheetType.value) {
+                            bottomSheetType.Default -> bottomSheetType.SingleButton
+                            bottomSheetType.SingleButton -> bottomSheetType.DoubleButton
+                            bottomSheetType.DoubleButton -> bottomSheetType.LinkAndButton
+                            bottomSheetType.LinkAndButton -> bottomSheetType.Default
+                        }
+                    })
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(
+                        8.dp,
+                        Alignment.Start
+                    ),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Title",
+                        color = Color.White,
+                    )
+                    Toggle(toggle = isTitle)
+                }
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(
+                        8.dp,
+                        Alignment.Start
+                    ),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Icon",
+                        color = Color.White,
+                    )
+                    Toggle(toggle = isIcon)
+                }
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(
+                        8.dp,
+                        Alignment.Start
+                    ),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Image",
+                        color = Color.White,
+                    )
+                    Toggle(toggle = isImage)
+                }
+            }
+        },
+        content = { paddingValues ->
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
+                contentAlignment = Alignment.BottomCenter,
+            ) {
+                when (selectedBottomSheetType.value) {
+                    bottomSheetType.Default -> BottomSheetDefault(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentSize(Alignment.TopCenter),
+                        title = title,
+                        headLine = "Headline",
+                        description = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore.",
+                        mainContent = mainContent,
+                    )
+
+                    bottomSheetType.SingleButton -> BottomSheetSingleButton(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentSize(Alignment.TopCenter),
+                        title = title,
+                        headLine = "Headline",
+                        description = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore.",
+                        mainContent = mainContent,
+                        buttonLabel = "Save",
+                        onClick = {
+                            Toast.makeText(context, "Save", Toast.LENGTH_SHORT).show()
+                        },
+                    )
+
+
+                    bottomSheetType.DoubleButton -> BottomSheetDoubleButton(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentSize(Alignment.TopCenter),
+                        title = title,
+                        headLine = "Headline",
+                        description = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore.",
+                        mainContent = mainContent,
+                        primaryButtonLabel = "Save",
+                        secondaryButtonLabel = "Cancel",
+                        primaryOnClick = {
+                            Toast.makeText(context, "Save", Toast.LENGTH_SHORT).show()
+                        },
+                        secondaryOnClick = {
+                            Toast.makeText(context, "Cancel", Toast.LENGTH_SHORT).show()
+                        },
+                    )
+
+                    bottomSheetType.LinkAndButton -> BottomSheetLinkButton(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentSize(Alignment.TopCenter),
+                        title = title,
+                        headLine = "Headline",
+                        description = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore.",
+                        mainContent = mainContent,
+                        onClick = {
+                            Toast.makeText(context, "Clicked", Toast.LENGTH_SHORT).show()
+                        },
+                        onDismiss = {
+                        }
+                    )
+                }
+            }
+        },
+        bottomBar = {
+
+        })
 }
 
 @ExperimentalMaterial3Api

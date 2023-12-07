@@ -6,9 +6,6 @@ import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.dp
 import com.angel.components.ui.theme.BottomNavigationColors.bottomNavigationBorderColor
-import com.angel.components.ui.theme.ButtonColors.ghostBorder
-import com.angel.components.ui.theme.ButtonColors.primaryBorder
-import com.angel.components.ui.theme.ButtonColors.secondaryBorder
 import com.angel.components.ui.theme.ButtonColors.tertiaryBorder
 import com.angel.components.ui.theme.ChipColors.chipBorderColor
 import com.angel.components.ui.theme.ChipDimensions.chipBorderSize
@@ -18,10 +15,10 @@ import com.angel.components.ui.theme.NotificationBadgeColors.notificationBadgeBo
 import com.angel.components.ui.theme.NotificationBadgeDimensions.notificationBadgeBorderSize
 
 object ButtonBorders {
-    val primaryButtonBorder = BorderStroke(0.dp, primaryBorder)
-    val secondaryButtonBorder =BorderStroke(1.dp, secondaryBorder)
-    val tertiaryButtonBorder = BorderStroke(0.dp, tertiaryBorder)
-    val ghostButtonBorder = BorderStroke(0.dp, ghostBorder)
+    val primaryButtonBorder = null
+    val secondaryButtonBorder = null
+    val tertiaryButtonBorder = BorderStroke(1.dp, tertiaryBorder)
+    val ghostButtonBorder = null
 }
 
 object IconButtonBorders {

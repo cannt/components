@@ -3,10 +3,11 @@ package com.angel.components.buttons.util.components
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.requiredWidth
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.angel.components.buttons.util.models.ButtonColors
 import com.angel.components.buttons.util.models.ButtonIconType
+import com.angel.components.ui.theme.ColorPalette
 import com.angel.components.ui.theme.styles.button.ButtonStyle
 
 @Composable
@@ -27,9 +28,12 @@ fun ButtonLayout(
             ),
         enabled = enabled,
         shape = style.shape,
-        colors = ButtonDefaults.buttonColors(
+        border = style.border,
+        colors = ButtonColors(
             containerColor = style.backgroundColor,
             contentColor = style.labelColor,
+            disabledContainerColor = ColorPalette.Grey.grey200,
+            disabledContentColor =  ColorPalette.Grey.grey400,
         ),
         paddingValues = style.padding,
         onClick = onClick,
