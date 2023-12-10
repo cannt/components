@@ -1,10 +1,7 @@
 package com.angel.components.bottomSheet
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.runtime.Composable
@@ -19,7 +16,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import androidx.constraintlayout.compose.ConstraintLayout
 import com.angel.components.bottomSheet.util.components.BottomSheetMainContent
 import com.angel.components.bottomSheet.util.components.BottomSheetTop
 import com.angel.components.bottomSheet.util.models.BottomSheetContentType
@@ -35,7 +34,7 @@ fun GenericBottomSheet(
     headLine: String,
     description: String,
     mainContent: BottomSheetContentType = BottomSheetContentType.None,
-    content: (@Composable ColumnScope.() -> Unit)? = null
+    content: (@Composable (Modifier) -> Unit)? = null
 ) {
     val coroutineScope = rememberCoroutineScope()
     var offset by remember { mutableStateOf(0f) }
@@ -60,30 +59,45 @@ fun GenericBottomSheet(
             .zIndex(1f)
             .fillMaxWidth()
             .offset { IntOffset(0, offset.roundToInt()) }
-            .background(Color.White,bottomSheetShape)
+            .background(Color.White, bottomSheetShape)
             .onGloballyPositioned { layoutCoordinates ->
                 bottomSheetHeightState.value = layoutCoordinates.size.height
             },
         contentAlignment = Alignment.TopCenter
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .onGloballyPositioned { coordinates ->
-                    bottomSheetHeightState.value = coordinates.size.height
-                },
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+        ConstraintLayout(
+            modifier = Modifier.fillMaxWidth()
         ) {
+            val (sheetTopRef, mainContentRef, contentRef) = createRefs()
+
             BottomSheetTop(
+                modifier = Modifier.constrainAs(sheetTopRef) {
+                    top.linkTo(parent.top)
+                },
                 title = title,
                 onDrag = { change ->
                     offset += change
                     offset = offset.coerceAtLeast(-(bottomSheetHeightState.value - handleHeightPx))
-                }
-            ) { snapToHandle() }
-            BottomSheetMainContent(headLine, description, mainContent)
-            content?.let { it() }
+                },
+                onDragEnd = { snapToHandle() }
+            )
+            BottomSheetMainContent(
+                modifier = Modifier.constrainAs(mainContentRef) {
+                    top.linkTo(sheetTopRef.bottom)
+                },
+                headLine = headLine,
+                description = description,
+                mainContent = mainContent
+            )
+            content?.let {
+                it(Modifier.constrainAs(contentRef) {
+                    top.linkTo(
+                        mainContentRef.bottom
+                    )
+                    bottom.linkTo(parent.bottom, margin = 16.dp)
+                    })
+
+            }
         }
     }
 }

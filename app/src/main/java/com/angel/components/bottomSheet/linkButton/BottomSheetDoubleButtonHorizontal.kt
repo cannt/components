@@ -22,6 +22,7 @@ fun BottomSheetDoubleButtonHorizontal(
         modifier, title, headLine, description, mainContent
     ) {
         BottomSheetButtonsHorizontal(
+            modifier = it,
             primaryButtonLabel = primaryButtonLabel,
             secondaryButtonLabel = secondaryButtonLabel,
             primaryOnClick = primaryOnClick,

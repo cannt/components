@@ -18,5 +18,11 @@ fun BottomSheetSingleButton(
 ) {
     GenericBottomSheet(
         modifier, title, headLine, description, mainContent
-    ) { BottomSheetButton(buttonLabel = buttonLabel, onClick = onClick) }
+    ) {
+        BottomSheetButton(
+            modifier = it,
+            buttonLabel = buttonLabel,
+            onClick = onClick
+        )
+    }
 }

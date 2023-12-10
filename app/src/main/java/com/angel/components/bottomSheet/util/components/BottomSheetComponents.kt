@@ -7,9 +7,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
@@ -34,35 +34,30 @@ import com.angel.components.ui.theme.BottomSheetColors
 import com.angel.components.ui.theme.BottomSheetDimensions
 import com.angel.components.ui.theme.BottomSheetGaps
 import com.angel.components.ui.theme.BottomSheetPaddings
+import com.angel.components.ui.theme.BottomSheetPaddings.bottomSheetPrimaryButtonHorizontalPadding
+import com.angel.components.ui.theme.BottomSheetPaddings.bottomSheetPrimaryButtonVerticalPadding
+import com.angel.components.ui.theme.BottomSheetPaddings.bottomSheetSecondaryButtonHorizontalPadding
+import com.angel.components.ui.theme.BottomSheetPaddings.bottomSheetSecondaryButtonVerticalPadding
+import com.angel.components.ui.theme.BottomSheetPaddings.bottomSheetSingleButtonPadding
 import com.angel.components.ui.theme.BottomSheetShapes
 
 @Composable
-fun BottomSheetHandle(
-    onDrag: (Float) -> Unit,
-    onDragEnd: () -> Unit
-) {
-    val handleDragModifier = Modifier.pointerInput(Unit) {
-        detectVerticalDragGestures(
-            onVerticalDrag = { _, dragAmount ->
-                onDrag(dragAmount)
-            },
-            onDragEnd = {
-                onDragEnd()
-            }
-        )
-    }
+fun BottomSheetHandle() {
+
 
     Box(
         modifier = Modifier
-            .fillMaxWidth()
-            .then(handleDragModifier),
+            .fillMaxWidth(),
         contentAlignment = Alignment.Center
     ) {
         Box(
             modifier = Modifier
                 .width(BottomSheetDimensions.bottomSheetHandleWidth)
                 .height(BottomSheetDimensions.bottomSheetHandleHeight)
-                .background(BottomSheetColors.bottomSheetHandleColor, BottomSheetShapes.bottomSheetHandleShape),
+                .background(
+                    BottomSheetColors.bottomSheetHandleColor,
+                    BottomSheetShapes.bottomSheetHandleShape
+                ),
         )
     }
 }
@@ -78,7 +73,7 @@ fun BottomSheetIconButton(
             contentDescription = null,
             tint = iconType.tint,
             modifier = modifier
-                .height(BottomSheetDimensions.bottomSheetImageHeight)
+                .heightIn(min = BottomSheetDimensions.bottomSheetImageHeight)
                 .fillMaxWidth()
         )
 
@@ -87,7 +82,7 @@ fun BottomSheetIconButton(
             contentDescription = null,
             tint = iconType.tint,
             modifier = modifier
-                .height(BottomSheetDimensions.bottomSheetImageHeight)
+                .heightIn(min = BottomSheetDimensions.bottomSheetImageHeight)
                 .fillMaxWidth()
         )
     }
@@ -102,7 +97,7 @@ fun BottomSheetImage(
         is BottomSheetImageType.Bitmap -> Image(
             modifier = modifier
                 .clip(BottomSheetShapes.bottomSheetImageShape)
-                .height(BottomSheetDimensions.bottomSheetImageHeight)
+                .heightIn(min = BottomSheetDimensions.bottomSheetImageHeight)
                 .fillMaxWidth(),
             bitmap = imageType.bitmap.asImageBitmap(),
             contentScale = imageType.contentScale,
@@ -112,7 +107,7 @@ fun BottomSheetImage(
         is BottomSheetImageType.Url -> Image(
             modifier = modifier
                 .clip(BottomSheetShapes.bottomSheetImageShape)
-                .height(BottomSheetDimensions.bottomSheetImageHeight)
+                .heightIn(min = BottomSheetDimensions.bottomSheetImageHeight)
                 .fillMaxWidth(),
             painter = rememberAsyncImagePainter(imageType.url),
             contentScale = imageType.contentScale,
@@ -129,7 +124,7 @@ fun BottomSheetImageContent(
     if (mainContent != BottomSheetContentType.None) {
         Box(
             modifier = modifier
-                .height(BottomSheetDimensions.bottomSheetImageHeight)
+                .heightIn(min = BottomSheetDimensions.bottomSheetImageHeight)
                 .clip(BottomSheetShapes.bottomSheetImageShape)
                 .background(
                     BottomSheetColors.bottomSheetImageBackgroundColor,
@@ -151,19 +146,22 @@ fun BottomSheetImageContent(
 
 @Composable
 fun BottomSheetMainContent(
+    modifier: Modifier = Modifier,
     headLine: String,
     description: String,
     mainContent: BottomSheetContentType = BottomSheetContentType.None
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .padding(BottomSheetPaddings.bottomSheetContentPadding)
             .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        if(mainContent != BottomSheetContentType.None) {
-            BottomSheetImageContent(mainContent = mainContent)
+        if (mainContent != BottomSheetContentType.None) {
+            BottomSheetImageContent(
+                mainContent = mainContent
+            )
         }
         BottomSheetTextContent(
             headLine = headLine,
@@ -177,7 +175,7 @@ fun BottomSheetTextContent(
     modifier: Modifier = Modifier,
     headLine: String,
     description: String
-){
+) {
     Column(
         modifier = modifier
             .padding(BottomSheetPaddings.bottomSheetInnerContentPadding)
@@ -219,13 +217,25 @@ fun BottomSheetTitle(
 
 @Composable
 fun BottomSheetTop(
+    modifier: Modifier = Modifier,
     title: String?,
     onDrag: (Float) -> Unit,
     onDragEnd: () -> Unit
 ) {
+    val handleDragModifier = Modifier.pointerInput(Unit) {
+        detectVerticalDragGestures(
+            onVerticalDrag = { _, dragAmount ->
+                onDrag(dragAmount)
+            },
+            onDragEnd = {
+                onDragEnd()
+            }
+        )
+    }
     Box(
-        modifier = Modifier
-            .fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .then(handleDragModifier),
         contentAlignment = Alignment.Center
     ) {
         Column(
@@ -238,10 +248,7 @@ fun BottomSheetTop(
                 Alignment.CenterVertically
             )
         ) {
-            BottomSheetHandle(
-                onDrag = onDrag,
-                onDragEnd = onDragEnd
-            )
+            BottomSheetHandle()
             BottomSheetTitle(title = title)
         }
     }
@@ -249,98 +256,77 @@ fun BottomSheetTop(
 
 @Composable
 fun BottomSheetButtonsVertical(
+    modifier: Modifier = Modifier,
     primaryButtonLabel: String,
     secondaryButtonLabel: String,
     primaryOnClick: () -> Unit,
     secondaryOnClick: () -> Unit,
-    modifier: Modifier = Modifier
 ) {
-    Box(
-        modifier = modifier
-            .fillMaxWidth(),
-        contentAlignment = Alignment.Center
+
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
-        Column(
+        ButtonPrimaryXL(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(BottomSheetPaddings.bottomSheetButtonsPadding),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(
-                BottomSheetGaps.bottomSheetDoubleButtonGap,
-                Alignment.CenterVertically
-            )
-        ) {
-            ButtonPrimaryXL(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                label = primaryButtonLabel,
-                onClick = primaryOnClick
-            )
-            ButtonTertiaryXL(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                label = secondaryButtonLabel,
-                onClick = secondaryOnClick
-            )
-        }
+                .padding(bottomSheetPrimaryButtonVerticalPadding)
+                .fillMaxWidth(),
+            label = primaryButtonLabel,
+            onClick = primaryOnClick
+        )
+        ButtonTertiaryXL(
+            modifier = Modifier
+                .padding(bottomSheetSecondaryButtonVerticalPadding)
+                .fillMaxWidth(),
+            label = secondaryButtonLabel,
+            onClick = secondaryOnClick
+        )
     }
 }
 
 @Composable
 fun BottomSheetButtonsHorizontal(
+    modifier: Modifier = Modifier,
     primaryButtonLabel: String,
     secondaryButtonLabel: String,
     primaryOnClick: () -> Unit,
     secondaryOnClick: () -> Unit
 ) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth(),
-        contentAlignment = Alignment.Center
+
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Row(
+        ButtonGhostXL(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(BottomSheetPaddings.bottomSheetButtonsPadding),
-            horizontalArrangement = Arrangement.spacedBy(
-                BottomSheetGaps.bottomSheetDoubleButtonGap,
-                Alignment.CenterHorizontally
-            ),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            ButtonGhostXL(
-                modifier = Modifier
-                    .weight(1f),
-                label = primaryButtonLabel,
-                onClick = primaryOnClick
-            )
-            Spacer(modifier = Modifier.width(BottomSheetGaps.bottomSheetDoubleButtonGap))
-            ButtonPrimaryXL(
-                modifier = Modifier
-                    .weight(1f),
-                label = secondaryButtonLabel,
-                onClick = secondaryOnClick
-            )
-        }
+                .padding(bottomSheetPrimaryButtonHorizontalPadding)
+                .weight(1f),
+            label = primaryButtonLabel,
+            onClick = primaryOnClick
+        )
+        ButtonPrimaryXL(
+            modifier = Modifier
+                .padding(bottomSheetSecondaryButtonHorizontalPadding)
+                .weight(1f),
+            label = secondaryButtonLabel,
+            onClick = secondaryOnClick
+        )
     }
 }
 
 @Composable
 fun BottomSheetButton(
+    modifier: Modifier = Modifier,
     buttonLabel: String,
     onClick: () -> Unit
 ) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth(),
-        contentAlignment = Alignment.Center
-    ) {
-        ButtonPrimaryXL(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(BottomSheetPaddings.bottomSheetButtonsPadding),
-            label = buttonLabel,
-            onClick = onClick
-        )
-    }
+    ButtonPrimaryXL(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(bottomSheetSingleButtonPadding),
+        label = buttonLabel,
+        onClick = onClick
+    )
 }

@@ -22,6 +22,7 @@ fun BottomSheetDoubleButtonVertical(
         modifier, title, headLine, description, mainContent
     ) {
         BottomSheetButtonsVertical(
+            modifier = it,
             primaryButtonLabel = primaryButtonLabel,
             secondaryButtonLabel = secondaryButtonLabel,
             primaryOnClick = primaryOnClick,
