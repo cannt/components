@@ -102,9 +102,9 @@ import com.angel.components.badge.removed.BadgeRemoved
 import com.angel.components.badge.success.BadgeSuccess
 import com.angel.components.bottomNavigation.BottomNavigation
 import com.angel.components.bottomNavigation.models.BottomNavigationIconType
-import com.angel.components.bottomSheet.default.BottomSheetDefault
-import com.angel.components.bottomSheet.doubleButton.BottomSheetDoubleButton
-import com.angel.components.bottomSheet.linkButton.BottomSheetLinkButton
+import com.angel.components.bottomSheet.default.BottomSheet
+import com.angel.components.bottomSheet.doubleButton.BottomSheetDoubleButtonVertical
+import com.angel.components.bottomSheet.linkButton.BottomSheetDoubleButtonHorizontal
 import com.angel.components.bottomSheet.singleButton.BottomSheetSingleButton
 import com.angel.components.bottomSheet.util.models.BottomSheetContentType
 import com.angel.components.bottomSheet.util.models.BottomSheetIconType
@@ -318,14 +318,14 @@ fun BottomSheetSample() {
     val isIcon = remember { mutableStateOf(true) }
     val isImage = remember { mutableStateOf(true) }
     val title = if (isTitle.value) "Title" else null
-    val icon: BottomSheetIconType =
-        if (isIcon.value) BottomSheetIconType.Drawable(drawable = R.drawable.ic_bottom_sheet_add) else BottomSheetIconType.None
-    val image: BottomSheetImageType =
-        if (isImage.value) BottomSheetImageType.Url("https://www.gstatic.com/webp/gallery/1.jpg") else BottomSheetImageType.None
-    val mainContent = if(isImage.value) {
-        BottomSheetContentType.Image(image = image)
+    val icon: BottomSheetIconType? =
+        if (isIcon.value) BottomSheetIconType.Drawable(drawable = R.drawable.ic_bottom_sheet_add) else null
+    val image: BottomSheetImageType? =
+        if (isImage.value) BottomSheetImageType.Url("https://www.gstatic.com/webp/gallery/1.jpg") else null
+    val mainContent = if (isImage.value) {
+        image?.let { BottomSheetContentType.Image(image = it) } ?: BottomSheetContentType.None
     } else {
-        BottomSheetContentType.Icon(icon = icon)
+        icon?.let { BottomSheetContentType.Icon(icon = it) } ?: BottomSheetContentType.None
     }
     LaunchedEffect(
         key1 = isIcon.value
@@ -417,7 +417,7 @@ fun BottomSheetSample() {
                 contentAlignment = Alignment.BottomCenter,
             ) {
                 when (selectedBottomSheetType.value) {
-                    bottomSheetType.Default -> BottomSheetDefault(
+                    bottomSheetType.Default -> BottomSheet(
                         modifier = Modifier
                             .fillMaxWidth()
                             .wrapContentSize(Alignment.TopCenter),
@@ -442,7 +442,7 @@ fun BottomSheetSample() {
                     )
 
 
-                    bottomSheetType.DoubleButton -> BottomSheetDoubleButton(
+                    bottomSheetType.DoubleButton -> BottomSheetDoubleButtonVertical(
                         modifier = Modifier
                             .fillMaxWidth()
                             .wrapContentSize(Alignment.TopCenter),
@@ -460,7 +460,7 @@ fun BottomSheetSample() {
                         },
                     )
 
-                    bottomSheetType.LinkAndButton -> BottomSheetLinkButton(
+                    bottomSheetType.LinkAndButton -> BottomSheetDoubleButtonHorizontal(
                         modifier = Modifier
                             .fillMaxWidth()
                             .wrapContentSize(Alignment.TopCenter),
@@ -468,11 +468,14 @@ fun BottomSheetSample() {
                         headLine = "Headline",
                         description = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore.",
                         mainContent = mainContent,
-                        onClick = {
-                            Toast.makeText(context, "Clicked", Toast.LENGTH_SHORT).show()
+                        primaryButtonLabel = "Cancel",
+                        secondaryButtonLabel = "Save",
+                        primaryOnClick = {
+                            Toast.makeText(context, "Cancel", Toast.LENGTH_SHORT).show()
                         },
-                        onDismiss = {
-                        }
+                        secondaryOnClick = {
+                            Toast.makeText(context, "Save", Toast.LENGTH_SHORT).show()
+                        },
                     )
                 }
             }

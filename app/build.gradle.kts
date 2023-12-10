@@ -75,4 +75,5 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     implementation("com.google.accompanist:accompanist-pager:0.32.0")
+    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
 }

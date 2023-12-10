@@ -6,7 +6,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import com.angel.components.ui.theme.BottomSheetColors.bottomSheetIconColor
 
 sealed class BottomSheetIconType {
-    object None : BottomSheetIconType()
     data class Vector(
         val imageVector: ImageVector,
         val tint: Color = bottomSheetIconColor

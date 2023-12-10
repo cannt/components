@@ -3,12 +3,11 @@ package com.angel.components.buttons.primary.xl
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.angel.components.R
 import com.angel.components.buttons.util.components.ButtonLayout
 import com.angel.components.buttons.util.models.ButtonIconType
-import com.angel.components.ui.theme.styles.button.ButtonStyle
-import com.angel.components.ui.theme.styles.DefaultButtonStyles
 import com.angel.components.ui.theme.ComponentsTheme
+import com.angel.components.ui.theme.styles.DefaultButtonStyles
+import com.angel.components.ui.theme.styles.button.ButtonStyle
 
 @Composable
 fun ButtonPrimaryXL(
@@ -16,8 +15,8 @@ fun ButtonPrimaryXL(
     label: String,
     onClick: () -> Unit,
     enabled: Boolean = true,
-    startIcon: ButtonIconType? = ButtonIconType.Drawable(drawable = R.drawable.ic_default),
-    endIcon: ButtonIconType? = ButtonIconType.Drawable(drawable = R.drawable.ic_default),
+    startIcon: ButtonIconType? = null,
+    endIcon: ButtonIconType? = null,
     style: ButtonStyle = DefaultButtonStyles.PrimaryButtons.xlStyle
 ) {
     ButtonLayout(

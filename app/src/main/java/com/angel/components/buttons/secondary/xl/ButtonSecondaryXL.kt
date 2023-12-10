@@ -16,8 +16,8 @@ fun ButtonSecondaryXL(
     label: String,
     onClick: () -> Unit,
     enabled: Boolean = true,
-    startIcon: ButtonIconType? = ButtonIconType.Drawable(drawable = R.drawable.ic_default),
-    endIcon: ButtonIconType? = ButtonIconType.Drawable(drawable = R.drawable.ic_default),
+    startIcon: ButtonIconType? = null,
+    endIcon: ButtonIconType? = null,
     style: ButtonStyle = DefaultButtonStyles.SecondaryButtons.xlStyle
 ) {
     ButtonLayout(

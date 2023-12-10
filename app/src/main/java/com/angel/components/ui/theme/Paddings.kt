@@ -90,6 +90,4 @@ object BottomSheetPaddings {
     val bottomSheetInnerContentPadding = PaddingValues(vertical = 32.dp)
 
     val bottomSheetButtonsPadding = PaddingValues(16.dp)
-
-    val bottomSheetDoubleButtonsPadding = PaddingValues(16.dp)
 }
