@@ -21,7 +21,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
@@ -109,6 +108,8 @@ import com.angel.components.bottomSheet.singleButton.BottomSheetSingleButton
 import com.angel.components.bottomSheet.util.models.BottomSheetContentType
 import com.angel.components.bottomSheet.util.models.BottomSheetIconType
 import com.angel.components.bottomSheet.util.models.BottomSheetImageType
+import com.angel.components.bottomSheet.util.models.BottomSheetValue
+import com.angel.components.bottomSheet.util.models.rememberCustomBottomSheetState
 import com.angel.components.buttons.ghost.large.ButtonGhostLarge
 import com.angel.components.buttons.ghost.medium.ButtonGhostMedium
 import com.angel.components.buttons.ghost.small.ButtonGhostSmall
@@ -228,7 +229,7 @@ fun SampleScreen() {
     val interactionSource = remember { MutableInteractionSource() }
     val coroutineScope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    val selectedComponent = remember { mutableStateOf(BottomSheet) }
+    val selectedComponent = remember { mutableStateOf(Inputs) }
 
     ComponentsTheme {
         ModalNavigationDrawer(drawerState = drawerState, drawerContent = {
@@ -309,6 +310,7 @@ enum class bottomSheetType {
     Default, SingleButton, DoubleButton, LinkAndButton
 }
 
+@ExperimentalFoundationApi
 @ExperimentalMaterial3Api
 @Composable
 fun BottomSheetSample() {
@@ -327,6 +329,8 @@ fun BottomSheetSample() {
     } else {
         icon?.let { BottomSheetContentType.Icon(icon = it) } ?: BottomSheetContentType.None
     }
+    val sheetState = rememberCustomBottomSheetState(skipPartiallyExpanded = true)
+    val coroutineScope = rememberCoroutineScope()
     LaunchedEffect(
         key1 = isIcon.value
     ) {
@@ -346,110 +350,130 @@ fun BottomSheetSample() {
     Scaffold(containerColor = Color(0xFF404040),
         snackbarHost = {},
         topBar = {
-            Column(
-                modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                ButtonPrimaryXL(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    label = "Change type", onClick = {
-                        selectedBottomSheetType.value = when (selectedBottomSheetType.value) {
-                            bottomSheetType.Default -> bottomSheetType.SingleButton
-                            bottomSheetType.SingleButton -> bottomSheetType.DoubleButton
-                            bottomSheetType.DoubleButton -> bottomSheetType.LinkAndButton
-                            bottomSheetType.LinkAndButton -> bottomSheetType.Default
-                        }
-                    })
 
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(
-                        8.dp,
-                        Alignment.Start
-                    ),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = "Title",
-                        color = Color.White,
-                    )
-                    Toggle(toggle = isTitle)
-                }
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(
-                        8.dp,
-                        Alignment.Start
-                    ),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = "Icon",
-                        color = Color.White,
-                    )
-                    Toggle(toggle = isIcon)
-                }
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(
-                        8.dp,
-                        Alignment.Start
-                    ),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = "Image",
-                        color = Color.White,
-                    )
-                    Toggle(toggle = isImage)
-                }
-            }
         },
         content = { paddingValues ->
+
             Box(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues),
-                contentAlignment = Alignment.BottomCenter,
+                contentAlignment = Alignment.TopCenter,
             ) {
+                val content: @Composable () -> Unit = {
+                    Column(
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp)
+                            .fillMaxWidth(),
+                        verticalArrangement = Arrangement.spacedBy(
+                            16.dp,
+                            Alignment.CenterVertically
+                        ),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Row {
+                            ButtonPrimaryXL(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .fillMaxWidth(),
+                                label = "Change type", onClick = {
+                                    selectedBottomSheetType.value =
+                                        when (selectedBottomSheetType.value) {
+                                            bottomSheetType.Default -> bottomSheetType.SingleButton
+                                            bottomSheetType.SingleButton -> bottomSheetType.DoubleButton
+                                            bottomSheetType.DoubleButton -> bottomSheetType.LinkAndButton
+                                            bottomSheetType.LinkAndButton -> bottomSheetType.Default
+                                        }
+                                })
+                            ButtonSecondaryXL(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .fillMaxWidth(),
+                                label = if (sheetState.currentValue == BottomSheetValue.Expanded || sheetState.currentValue == BottomSheetValue.Collapsed) "Hide" else "Show",
+                                onClick = {
+                                    if (sheetState.currentValue == BottomSheetValue.Expanded || sheetState.currentValue == BottomSheetValue.Collapsed) {
+                                        coroutineScope.launch { sheetState.hide() }
+                                    } else {
+                                        coroutineScope.launch { sheetState.show() }
+                                    }
+                                })
+                        }
+
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(
+                                8.dp,
+                                Alignment.Start
+                            ),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "Title",
+                                color = Color.White,
+                            )
+                            Toggle(toggle = isTitle)
+                        }
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(
+                                8.dp,
+                                Alignment.Start
+                            ),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "Icon",
+                                color = Color.White,
+                            )
+                            Toggle(toggle = isIcon)
+                        }
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(
+                                8.dp,
+                                Alignment.Start
+                            ),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "Image",
+                                color = Color.White,
+                            )
+                            Toggle(toggle = isImage)
+                        }
+                    }
+                }
+
                 when (selectedBottomSheetType.value) {
                     bottomSheetType.Default -> BottomSheet(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .wrapContentSize(Alignment.TopCenter),
+                        sheetState = sheetState,
                         title = title,
                         headLine = "Headline",
                         description = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore.",
-                        mainContent = mainContent,
+                        sheetContent = mainContent,
+                        mainContent = content,
                     )
 
                     bottomSheetType.SingleButton -> BottomSheetSingleButton(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .wrapContentSize(Alignment.TopCenter),
+                        sheetState = sheetState,
                         title = title,
                         headLine = "Headline",
                         description = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore.",
-                        mainContent = mainContent,
+                        sheetContent = mainContent,
                         buttonLabel = "Save",
                         onClick = {
                             Toast.makeText(context, "Save", Toast.LENGTH_SHORT).show()
                         },
+                        mainContent = content,
                     )
 
 
                     bottomSheetType.DoubleButton -> BottomSheetDoubleButtonVertical(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .wrapContentSize(Alignment.TopCenter),
+                        sheetState = sheetState,
                         title = title,
                         headLine = "Headline",
                         description = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore.",
-                        mainContent = mainContent,
+                        sheetContent = mainContent,
                         primaryButtonLabel = "Save",
                         secondaryButtonLabel = "Cancel",
                         primaryOnClick = {
@@ -458,16 +482,15 @@ fun BottomSheetSample() {
                         secondaryOnClick = {
                             Toast.makeText(context, "Cancel", Toast.LENGTH_SHORT).show()
                         },
+                        mainContent = content,
                     )
 
                     bottomSheetType.LinkAndButton -> BottomSheetDoubleButtonHorizontal(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .wrapContentSize(Alignment.TopCenter),
+                        sheetState = sheetState,
                         title = title,
                         headLine = "Headline",
                         description = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore.",
-                        mainContent = mainContent,
+                        sheetContent = mainContent,
                         primaryButtonLabel = "Cancel",
                         secondaryButtonLabel = "Save",
                         primaryOnClick = {
@@ -476,6 +499,7 @@ fun BottomSheetSample() {
                         secondaryOnClick = {
                             Toast.makeText(context, "Save", Toast.LENGTH_SHORT).show()
                         },
+                        mainContent = content,
                     )
                 }
             }

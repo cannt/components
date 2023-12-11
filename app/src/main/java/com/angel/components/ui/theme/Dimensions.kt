@@ -53,20 +53,6 @@ object MessageDimensions {
     val messageBoxMaxWidth = 303.dp
 }
 
-object InputFieldDimensions {
-    val inputFieldXLHeight = 56.dp
-    val inputFieldXLWidth = 150.dp
-
-    val inputFieldLargeHeight = 48.dp
-    val inputFieldLargeWidth = 150.dp
-
-    val inputFieldMediumHeight = 40.dp
-    val inputFieldMediumWidth = 150.dp
-
-    val inputFieldIconsSize = 24.dp
-
-}
-
 object NotificationDimensions {
     val notificationHeight = 104.dp
     val notificationWidth = 343.dp

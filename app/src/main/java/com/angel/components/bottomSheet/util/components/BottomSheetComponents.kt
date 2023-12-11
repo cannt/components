@@ -1,31 +1,41 @@
 package com.angel.components.bottomSheet.util.components
 
+import androidx.compose.animation.core.TweenSpec
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.detectVerticalDragGestures
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.text.style.TextAlign
-import androidx.wear.compose.material3.Text
 import coil.compose.rememberAsyncImagePainter
 import com.angel.components.bottomSheet.util.models.BottomSheetContentType
 import com.angel.components.bottomSheet.util.models.BottomSheetIconType
 import com.angel.components.bottomSheet.util.models.BottomSheetImageType
+import com.angel.components.bottomSheet.util.models.BottomSheetState
 import com.angel.components.buttons.ghost.xl.ButtonGhostXL
 import com.angel.components.buttons.primary.xl.ButtonPrimaryXL
 import com.angel.components.buttons.tertiary.xl.ButtonTertiaryXL
@@ -119,9 +129,9 @@ fun BottomSheetImage(
 @Composable
 fun BottomSheetImageContent(
     modifier: Modifier = Modifier,
-    mainContent: BottomSheetContentType = BottomSheetContentType.None,
+    content: BottomSheetContentType = BottomSheetContentType.None,
 ) {
-    if (mainContent != BottomSheetContentType.None) {
+    if (content != BottomSheetContentType.None) {
         Box(
             modifier = modifier
                 .heightIn(min = BottomSheetDimensions.bottomSheetImageHeight)
@@ -131,12 +141,12 @@ fun BottomSheetImageContent(
                     BottomSheetShapes.bottomSheetImageShape
                 )
         ) {
-            when (mainContent) {
+            when (content) {
                 is BottomSheetContentType.Icon ->
-                    BottomSheetIconButton(icon = mainContent)
+                    BottomSheetIconButton(icon = content)
 
                 is BottomSheetContentType.Image ->
-                    BottomSheetImage(image = mainContent)
+                    BottomSheetImage(image = content)
 
                 is BottomSheetContentType.None -> {}
             }
@@ -149,7 +159,7 @@ fun BottomSheetMainContent(
     modifier: Modifier = Modifier,
     headLine: String,
     description: String,
-    mainContent: BottomSheetContentType = BottomSheetContentType.None
+    content: BottomSheetContentType = BottomSheetContentType.None
 ) {
     Column(
         modifier = modifier
@@ -158,9 +168,9 @@ fun BottomSheetMainContent(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        if (mainContent != BottomSheetContentType.None) {
+        if (content != BottomSheetContentType.None) {
             BottomSheetImageContent(
-                mainContent = mainContent
+                content = content
             )
         }
         BottomSheetTextContent(
@@ -218,24 +228,11 @@ fun BottomSheetTitle(
 @Composable
 fun BottomSheetTop(
     modifier: Modifier = Modifier,
-    title: String?,
-    onDrag: (Float) -> Unit,
-    onDragEnd: () -> Unit
+    title: String?
 ) {
-    val handleDragModifier = Modifier.pointerInput(Unit) {
-        detectVerticalDragGestures(
-            onVerticalDrag = { _, dragAmount ->
-                onDrag(dragAmount)
-            },
-            onDragEnd = {
-                onDragEnd()
-            }
-        )
-    }
     Box(
         modifier = modifier
-            .fillMaxWidth()
-            .then(handleDragModifier),
+            .fillMaxWidth(),
         contentAlignment = Alignment.Center
     ) {
         Column(
@@ -329,4 +326,37 @@ fun BottomSheetButton(
         label = buttonLabel,
         onClick = onClick
     )
+}
+
+@ExperimentalMaterial3Api
+@ExperimentalFoundationApi
+@Composable
+private fun Scrim(
+    color: Color,
+    onDismissRequest: () -> Unit,
+    sheetState: BottomSheetState
+) {
+    val alpha by animateFloatAsState(
+        targetValue = if (sheetState.isVisible) 1f else 0f,
+        animationSpec = TweenSpec(), label = ""
+    )
+    val dismissSheet = if (sheetState.isVisible) {
+        Modifier
+            .pointerInput(onDismissRequest) {
+                detectTapGestures { onDismissRequest() }
+            }
+            .clearAndSetSemantics {}
+    } else {
+        Modifier
+    }
+    val scrimModifier = if (sheetState.isVisible) {
+        Modifier.fillMaxSize()
+    } else {
+        Modifier
+    }
+    Canvas(
+        modifier = scrimModifier.then(dismissSheet)
+    ) {
+        drawRect(color = color, alpha = alpha)
+    }
 }

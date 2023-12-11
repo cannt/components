@@ -14,13 +14,6 @@ object MessagePaddings {
     val messagePadding = PaddingValues(8.dp, 16.dp, 8.dp, 16.dp)
 }
 
-object InputFieldPaddings{
-    val inputFieldInnerPaddingXL = PaddingValues(horizontal = 16.dp, vertical = 16.dp)
-    val inputFieldInnerPaddingLarge = PaddingValues(horizontal = 16.dp, vertical = 12.dp)
-    val inputFieldInnerPaddingMedium = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
-    val inputFieldInnerPaddingLabel = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
-}
-
 object NotificationPaddings {
     val notificationPadding = PaddingValues(16.dp)
 }

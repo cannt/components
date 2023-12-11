@@ -185,27 +185,6 @@ object MessageColors {
     val messageHourTextColor2 = Grey.grey500
 }
 
-object InputFieldColors {
-    val inputFieldCursorColor = Black
-
-    val inputFieldDisabledColor = Grey.grey300
-
-    val inputFieldBackgroundColor = White
-    val inputFieldBorderColor = Grey.grey200
-    val inputFieldActiveBorderColor = Black
-
-    val inputFieldErrorColor = Red.color500
-
-    val inputFieldTextColor = Black
-    val inputFieldLabelColor = Grey.grey500
-    val inputFieldLeadingIconColor = Grey.grey500
-    val inputFieldTrailingIconColor = Grey.grey500
-
-    val inputFieldWarningIconColor = Yellow.color500
-
-    val inputFieldCheckIconColor = Green.color600
-}
-
 object NotificationColors {
     val notificationErrorBackgroundColor = Red.color50
     val notificationSuccessBackgroundColor = Green.color50

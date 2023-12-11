@@ -9,7 +9,6 @@ import com.angel.components.avatar.util.models.AvatarSize
 import com.angel.components.buttons.util.models.ButtonSize
 import com.angel.components.card.util.models.CardSize
 import com.angel.components.iconButton.util.models.IconButtonSize
-import com.angel.components.inputs.util.models.InputFieldIconType
 import com.angel.components.messages.util.models.MessageAvatarSide
 import com.angel.components.notification.util.components.NotificationIconType
 import com.angel.components.ui.theme.BottomNavigationColors
@@ -18,8 +17,6 @@ import com.angel.components.ui.theme.ButtonColors
 import com.angel.components.ui.theme.ButtonLabelStyles
 import com.angel.components.ui.theme.IconButtonBorders
 import com.angel.components.ui.theme.IconButtonColors
-import com.angel.components.ui.theme.InputFieldBorders.inputFieldNotBorder
-import com.angel.components.ui.theme.InputFieldColors.inputFieldTrailingIconColor
 import com.angel.components.ui.theme.MessageColors
 import com.angel.components.ui.theme.NotificationColors
 import com.angel.components.ui.theme.SegmentedControlColors
@@ -29,7 +26,6 @@ import com.angel.components.ui.theme.styles.bottomNavigationItem.BottomNavigatio
 import com.angel.components.ui.theme.styles.button.buttonStyle
 import com.angel.components.ui.theme.styles.card.cardStyle
 import com.angel.components.ui.theme.styles.iconButton.iconButtonStyle
-import com.angel.components.ui.theme.styles.input.inputFieldStyle
 import com.angel.components.ui.theme.styles.message.messageStyles
 import com.angel.components.ui.theme.styles.notification.notificationStyles
 import com.angel.components.ui.theme.styles.segmentedControl.SegmentedControlItemColors
@@ -291,33 +287,6 @@ object DefaultMessageStyles {
             backgroundColor = MessageColors.messageBackgroundColor2,
             textColor = MessageColors.messageTextColor2,
             hourColor = MessageColors.messageHourTextColor2
-        )
-    }
-}
-
-object DefaultInputFieldStyles {
-
-    object InputFieldType {
-        val standardInput = inputFieldStyle()
-
-        val searchInput = inputFieldStyle(
-            border = inputFieldNotBorder,
-            borderActive = inputFieldNotBorder,
-            leadingIcon = InputFieldIconType.Drawable(
-                R.drawable.ic_search,
-                inputFieldTrailingIconColor
-            ),
-            trailingIcon = InputFieldIconType.Drawable(
-                R.drawable.ic_mic,
-                inputFieldTrailingIconColor
-            )
-        )
-
-        val infoInput = inputFieldStyle(
-            trailingIcon = InputFieldIconType.Drawable(
-                R.drawable.ic_input_info,
-                inputFieldTrailingIconColor
-            )
         )
     }
 }

@@ -8,9 +8,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
-import com.angel.components.ui.theme.InputFieldColors.inputFieldErrorColor
-import com.angel.components.ui.theme.InputFieldColors.inputFieldLabelColor
-import com.angel.components.ui.theme.InputFieldColors.inputFieldTextColor
 
 val LargeTitle = TextStyle(
     fontFamily = FontFamily.SansSerif,
@@ -216,13 +213,6 @@ object MessageTextStyles {
     val MessageTextStyle = BodyLarge
     val MessageHourTextStyle = Caption
 
-}
-
-object InputFieldStyles {
-    val InputFieldTextStyle = BodyLarge.copy(color = inputFieldTextColor)
-    val InputFieldLabelStyle = Caption.copy(color = inputFieldLabelColor)
-    val InputFieldPlaceholderStyle = BodyLarge.copy(color = inputFieldLabelColor)
-    val InputFieldErrorStyle = BodyLarge.copy(color = inputFieldErrorColor)
 }
 
 object NotificationTextStyles {

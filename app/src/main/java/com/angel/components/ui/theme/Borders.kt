@@ -9,8 +9,6 @@ import com.angel.components.ui.theme.BottomNavigationColors.bottomNavigationBord
 import com.angel.components.ui.theme.ButtonColors.tertiaryBorder
 import com.angel.components.ui.theme.ChipColors.chipBorderColor
 import com.angel.components.ui.theme.ChipDimensions.chipBorderSize
-import com.angel.components.ui.theme.InputFieldColors.inputFieldActiveBorderColor
-import com.angel.components.ui.theme.InputFieldColors.inputFieldBorderColor
 import com.angel.components.ui.theme.NotificationBadgeColors.notificationBadgeBorderColor
 import com.angel.components.ui.theme.NotificationBadgeDimensions.notificationBadgeBorderSize
 
@@ -25,12 +23,6 @@ object IconButtonBorders {
     val primaryIconButtonBorder = BorderStroke(0.dp, IconButtonColors.primaryBorder)
     val secondaryIconButtonBorder = BorderStroke(0.dp, IconButtonColors.secondaryBorder)
     val tertiaryIconButtonBorder = BorderStroke(1.dp, IconButtonColors.tertiaryBorder)
-}
-
-object InputFieldBorders {
-    val inputFieldBorder = BorderStroke(1.dp, inputFieldBorderColor)
-    val inputFieldActiveBorder = BorderStroke(2.dp, inputFieldActiveBorderColor)
-    val inputFieldNotBorder = BorderStroke(0.dp, inputFieldBorderColor)
 }
 
 object BottomNavigationBorders {
