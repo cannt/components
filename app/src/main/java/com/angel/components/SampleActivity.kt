@@ -27,10 +27,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.Divider
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -66,6 +65,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.angel.components.Components.Avatar
@@ -160,9 +160,7 @@ import com.angel.components.iconButton.tertiary.small.IconButtonTertiarySmall
 import com.angel.components.iconButton.tertiary.xl.IconButtonTertiaryXL
 import com.angel.components.iconButton.util.models.IconButtonIconType
 import com.angel.components.iconButton.util.models.IconButtonSize
-import com.angel.components.inputs.standard.InputField
-import com.angel.components.inputs.util.models.InputFieldIconType
-import com.angel.components.inputs.util.models.InputFieldSize
+import com.angel.components.inputs.InputField
 import com.angel.components.lineItem.add.LineItemAdd
 import com.angel.components.lineItem.basic.LineItemBasic
 import com.angel.components.lineItem.lineItemDouble.LineItemDouble
@@ -197,9 +195,8 @@ import com.angel.components.topNavigation.utils.models.TopNavigationIconType
 import com.angel.components.ui.theme.AvatarColors
 import com.angel.components.ui.theme.ColorPalette
 import com.angel.components.ui.theme.ComponentsTheme
-import com.angel.components.ui.theme.InputFieldBorders.inputFieldBorder
+import com.angel.components.ui.theme.InputFieldDimensions
 import com.angel.components.ui.theme.TopNavigationColors.topNavigationIconColor
-import com.angel.components.ui.theme.styles.DefaultInputFieldStyles
 import com.angel.components.ui.theme.styles.DefaultMessageStyles.MessageType.answerMessage
 import com.angel.components.ui.theme.styles.DefaultMessageStyles.MessageType.responseMessage
 import com.angel.components.ui.theme.styles.avatar.avatarStyle
@@ -238,7 +235,7 @@ fun SampleScreen() {
                 drawerContentColor = ColorPalette.White
             ) {
                 Text("Components", modifier = Modifier.padding(16.dp))
-                Divider(color = ColorPalette.White)
+                HorizontalDivider(color = ColorPalette.White)
                 Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
                     Components.entries.forEach { components ->
                         NavigationDrawerItem(
@@ -306,7 +303,7 @@ fun SampleScreen() {
     }
 }
 
-enum class bottomSheetType {
+enum class BottomSheetType {
     Default, SingleButton, DoubleButton, LinkAndButton
 }
 
@@ -315,7 +312,7 @@ enum class bottomSheetType {
 @Composable
 fun BottomSheetSample() {
     val context = LocalContext.current
-    val selectedBottomSheetType = remember { mutableStateOf(bottomSheetType.Default) }
+    val selectedBottomSheetType = remember { mutableStateOf(BottomSheetType.Default) }
     val isTitle = remember { mutableStateOf(true) }
     val isIcon = remember { mutableStateOf(true) }
     val isImage = remember { mutableStateOf(true) }
@@ -379,10 +376,10 @@ fun BottomSheetSample() {
                                 label = "Change type", onClick = {
                                     selectedBottomSheetType.value =
                                         when (selectedBottomSheetType.value) {
-                                            bottomSheetType.Default -> bottomSheetType.SingleButton
-                                            bottomSheetType.SingleButton -> bottomSheetType.DoubleButton
-                                            bottomSheetType.DoubleButton -> bottomSheetType.LinkAndButton
-                                            bottomSheetType.LinkAndButton -> bottomSheetType.Default
+                                            BottomSheetType.Default -> BottomSheetType.SingleButton
+                                            BottomSheetType.SingleButton -> BottomSheetType.DoubleButton
+                                            BottomSheetType.DoubleButton -> BottomSheetType.LinkAndButton
+                                            BottomSheetType.LinkAndButton -> BottomSheetType.Default
                                         }
                                 })
                             ButtonSecondaryXL(
@@ -445,7 +442,7 @@ fun BottomSheetSample() {
                 }
 
                 when (selectedBottomSheetType.value) {
-                    bottomSheetType.Default -> BottomSheet(
+                    BottomSheetType.Default -> BottomSheet(
                         sheetState = sheetState,
                         title = title,
                         headLine = "Headline",
@@ -454,7 +451,7 @@ fun BottomSheetSample() {
                         mainContent = content,
                     )
 
-                    bottomSheetType.SingleButton -> BottomSheetSingleButton(
+                    BottomSheetType.SingleButton -> BottomSheetSingleButton(
                         sheetState = sheetState,
                         title = title,
                         headLine = "Headline",
@@ -468,7 +465,7 @@ fun BottomSheetSample() {
                     )
 
 
-                    bottomSheetType.DoubleButton -> BottomSheetDoubleButtonVertical(
+                    BottomSheetType.DoubleButton -> BottomSheetDoubleButtonVertical(
                         sheetState = sheetState,
                         title = title,
                         headLine = "Headline",
@@ -485,7 +482,7 @@ fun BottomSheetSample() {
                         mainContent = content,
                     )
 
-                    bottomSheetType.LinkAndButton -> BottomSheetDoubleButtonHorizontal(
+                    BottomSheetType.LinkAndButton -> BottomSheetDoubleButtonHorizontal(
                         sheetState = sheetState,
                         title = title,
                         headLine = "Headline",
@@ -1126,7 +1123,6 @@ fun TopNavigationSample() {
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NotificationsSample() {
     val snackBarHostState = remember { SnackbarHostState() }
@@ -1220,156 +1216,11 @@ fun NotificationsSample() {
 
 }
 
-enum class InputFieldStylesSample {
-    Custom, Standard, Search, Info
-}
-
-@Composable
-fun InputFieldsSettingsTopBar(
-    selectedStyle: InputFieldStylesSample,
-    onStyleSelected: (InputFieldStylesSample) -> Unit,
-    onLeadingIconSelected: (AvailableInputFieldIcon) -> Unit,
-    onTrailingIconSelected: (AvailableInputFieldIcon) -> Unit
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(ColorPalette.White),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text("Avatar settings", color = ColorPalette.Black)
-        NavigationBar(
-            containerColor = ColorPalette.White, contentColor = ColorPalette.Black
-        ) {
-            InputFieldStylesSample.entries.forEach { style ->
-                NavigationBarItem(selected = selectedStyle == style, onClick = {
-                    onStyleSelected(style)
-                }, label = { Text(text = style.name) }, icon = {
-                    Icon(
-                        painter = painterResource(
-                            id = when (style) {
-                                InputFieldStylesSample.Custom -> R.drawable.ic_custom
-                                InputFieldStylesSample.Standard -> R.drawable.ic_standard
-                                InputFieldStylesSample.Search -> R.drawable.ic_input_search
-                                InputFieldStylesSample.Info -> R.drawable.ic_input_info
-                            }
-                        ), contentDescription = style.name
-                    )
-                }, colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = ColorPalette.White,
-                    selectedTextColor = ColorPalette.Black,
-                    indicatorColor = ColorPalette.Black,
-                    unselectedIconColor = ColorPalette.Black,
-                    unselectedTextColor = ColorPalette.Black
-                )
-                )
-            }
-        }
-        if (selectedStyle == InputFieldStylesSample.Custom) {
-            val selectedLeadingIcon by remember { mutableStateOf(AvailableInputFieldIcon.FiberManualRecord) }
-            val selectedTrailingIcon by remember { mutableStateOf(AvailableInputFieldIcon.FiberManualRecord) }
-            Text("Leading Icon", color = ColorPalette.Black)
-            NavigationBar(
-                containerColor = ColorPalette.White, contentColor = ColorPalette.Black
-            ) {
-                AvailableInputFieldIcon.entries.forEach { icon ->
-                    NavigationBarItem(selected = selectedLeadingIcon == icon, onClick = {
-                        onLeadingIconSelected(icon)
-                    }, icon = {
-                        Icon(
-                            painter = painterResource((icon.icon as InputFieldIconType.Drawable).drawable),
-                            contentDescription = icon.name
-                        )
-                    }, colors = NavigationBarItemDefaults.colors(
-                        selectedIconColor = ColorPalette.White,
-                        selectedTextColor = ColorPalette.Black,
-                        indicatorColor = ColorPalette.Black,
-                        unselectedIconColor = ColorPalette.Black,
-                        unselectedTextColor = ColorPalette.Black
-                    )
-                    )
-                }
-            }
-            Text("Trailing Icon", color = ColorPalette.Black)
-            NavigationBar(
-                containerColor = ColorPalette.White, contentColor = ColorPalette.Black
-            ) {
-                AvailableInputFieldIcon.entries.forEach { icon ->
-                    NavigationBarItem(selected = selectedTrailingIcon == icon, onClick = {
-                        onTrailingIconSelected(icon)
-                    }, icon = {
-                        Icon(
-                            painter = painterResource((icon.icon as InputFieldIconType.Drawable).drawable),
-                            contentDescription = icon.name
-                        )
-                    }, colors = NavigationBarItemDefaults.colors(
-                        selectedIconColor = ColorPalette.White,
-                        selectedTextColor = ColorPalette.Black,
-                        indicatorColor = ColorPalette.Black,
-                        unselectedIconColor = ColorPalette.Black,
-                        unselectedTextColor = ColorPalette.Black
-                    )
-                    )
-                }
-            }
-        }
-    }
-
-}
-
-@Composable
-fun InputFieldsBottomBar(
-    selectedSize: InputFieldSize, onSizeSelected: (InputFieldSize) -> Unit
-) {
-    NavigationBar(
-        containerColor = ColorPalette.White, contentColor = ColorPalette.Black
-    ) {
-        InputFieldSize.entries.forEach { size ->
-            val label = size.name
-            NavigationBarItem(
-                icon = {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_size),
-                        contentDescription = size.name
-                    )
-                },
-                label = { Text(label) },
-                selected = selectedSize == size,
-                onClick = { onSizeSelected(size) },
-                colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = ColorPalette.White,
-                    selectedTextColor = ColorPalette.Black,
-                    indicatorColor = ColorPalette.Black,
-                    unselectedIconColor = ColorPalette.Black,
-                    unselectedTextColor = ColorPalette.Black
-                )
-            )
-        }
-    }
-}
-
 @ExperimentalMaterial3Api
 @Composable
 fun InputFieldsSample() {
 
     val snackBarHostState = remember { SnackbarHostState() }
-
-    var selectedSize by remember { mutableStateOf(InputFieldSize.XL) }
-    var selectedStyle by remember { mutableStateOf(InputFieldStylesSample.Standard) }
-
-    val textState = remember { mutableStateOf("") }
-
-    val isEnabled = remember { mutableStateOf(true) }
-    val isError = remember { mutableStateOf(false) }
-    val isSuccess = remember { mutableStateOf(false) }
-
-    val error = remember { mutableStateOf<String?>(null) }
-    val label = remember { mutableStateOf<String?>(null) }
-
-    val border = remember { mutableStateOf(inputFieldBorder) }
-    val leadingIcon = remember { mutableStateOf<InputFieldIconType>(InputFieldIconType.None) }
-    val trailingIcon = remember { mutableStateOf<InputFieldIconType>(InputFieldIconType.None) }
 
     Scaffold(containerColor = Color(0xFF404040), snackbarHost = {
         SnackbarHost(hostState = snackBarHostState) { data ->
@@ -1380,10 +1231,6 @@ fun InputFieldsSample() {
             )
         }
     }, topBar = {
-        InputFieldsSettingsTopBar(selectedStyle = selectedStyle,
-            onStyleSelected = { selected -> selectedStyle = selected },
-            onLeadingIconSelected = { selected -> leadingIcon.value = selected.icon },
-            onTrailingIconSelected = { selected -> trailingIcon.value = selected.icon })
     }, content = { paddingValues ->
         Box(
             contentAlignment = Alignment.Center,
@@ -1393,93 +1240,37 @@ fun InputFieldsSample() {
         ) {
             Column(
                 modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
+                verticalArrangement = Arrangement.SpaceAround,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Column {
-                    TextField(value = label.value ?: "",
-                        onValueChange = { label.value = it },
-                        placeholder = {
-                            Text(
-                                text = "Label text", color = Color.White
-                            )
+                InputFieldDimensions.InputFieldSize.entries.forEach { size ->
+                    var value by remember { mutableStateOf(TextFieldValue("")) }
+                    InputField(
+                        value = value,
+                        onValueChange = {
+                            value = it
                         },
-                        label = { Text(text = "Label text", color = Color.White) })
-                    Spacer(modifier = Modifier.height(8.dp))
-                    TextField(value = error.value ?: "",
-                        onValueChange = { error.value = it },
-                        placeholder = {
-                            Text(
-                                text = "Error text", color = Color.White
-                            )
-                        },
-                        label = { Text(text = "Error text", color = Color.White) })
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Start
-                    ) {
-                        Checkbox(checked = isEnabled.value, onCheckedChange = {
-                            isEnabled.value = !isEnabled.value
-                        })
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(text = "Enabled", color = Color.White)
-                    }
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Start
-                    ) {
-                        Checkbox(checked = isSuccess.value, onCheckedChange = {
-                            isSuccess.value = !isSuccess.value
-                        })
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(text = "Successful", color = Color.White)
-                    }
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Start
-                    ) {
-                        Checkbox(checked = isError.value, onCheckedChange = {
-                            isError.value = !isError.value
-                        })
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(text = "Error", color = Color.White)
-                    }
+                        label = "Input Title",
+                        placeholder = "Input Field",
+                        size = size,
+                        errorText = null,
+                        isError = false,
+                        isSuccess = false,
+                        enabled = false
+                    )
                 }
-                InputField(
-                    valueState = textState,
-                    isEnabled = isEnabled.value,
-                    isError = isError.value,
-                    isSuccess = isSuccess.value,
-                    errorText = error.value,
-                    label = label.value,
-                    size = selectedSize,
-                    style = when (selectedStyle) {
-                        InputFieldStylesSample.Custom -> DefaultInputFieldStyles.InputFieldType.standardInput.copy(
-                            border = border.value,
-                            leadingIcon = leadingIcon.value,
-                            trailingIcon = trailingIcon.value,
-                        )
-
-                        InputFieldStylesSample.Standard -> DefaultInputFieldStyles.InputFieldType.standardInput
-                        InputFieldStylesSample.Search -> DefaultInputFieldStyles.InputFieldType.searchInput
-                        InputFieldStylesSample.Info -> DefaultInputFieldStyles.InputFieldType.infoInput
-                    },
-                )
             }
+
+
         }
     }, bottomBar = {
-        InputFieldsBottomBar(selectedSize = selectedSize, onSizeSelected = { avatarSize ->
-            selectedSize = avatarSize
-        })
+
     })
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AvatarsSettingsTopBar(
+private fun AvatarsSettingsTopBar(
     selectedIndicatorContent: AvatarIndicatorContent,
     onIndicatorContentSelected: (AvatarIndicatorContent) -> Unit
 ) {
@@ -1888,7 +1679,6 @@ fun ButtonsSample(coroutineScope: CoroutineScope) {
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MessagesSample() {
     var messageText by remember { mutableStateOf("") }
@@ -2076,84 +1866,57 @@ fun IconsSettingsTopBar(
 }
 
 enum class AvailableButtonIcon(val icon: ButtonIconType) {
-    FiberManualRecord(ButtonIconType.Drawable(R.drawable.ic_default)), Stars(
-        ButtonIconType.Drawable(
-            R.drawable.ic_stars
-        )
-    ),
+    FiberManualRecord(ButtonIconType.Drawable(R.drawable.ic_default)),
+    Stars(ButtonIconType.Drawable(R.drawable.ic_stars)),
 
-    Favorite(ButtonIconType.Drawable(R.drawable.ic_favorite)), Cancel(ButtonIconType.Drawable(R.drawable.ic_cancel)),
+    Favorite(ButtonIconType.Drawable(R.drawable.ic_favorite)),
+    Cancel(ButtonIconType.Drawable(R.drawable.ic_cancel)),
 }
 
 enum class AvailableIconButtonIcon(val icon: IconButtonIconType) {
-    FiberManualRecord(IconButtonIconType.Drawable(R.drawable.ic_default)), Stars(
-        IconButtonIconType.Drawable(
-            R.drawable.ic_stars
-        )
-    ),
+    FiberManualRecord(IconButtonIconType.Drawable(R.drawable.ic_default)),
+    Stars(IconButtonIconType.Drawable(R.drawable.ic_stars)),
 
-    Favorite(IconButtonIconType.Drawable(R.drawable.ic_favorite)), Cancel(
-        IconButtonIconType.Drawable(
-            R.drawable.ic_cancel
-        )
-    ),
-}
-
-enum class AvailableInputFieldIcon(val icon: InputFieldIconType) {
-    FiberManualRecord(InputFieldIconType.Drawable(R.drawable.ic_default)), Stars(
-        InputFieldIconType.Drawable(
-            R.drawable.ic_stars
-        )
-    ),
-
-    Favorite(InputFieldIconType.Drawable(R.drawable.ic_favorite)), Cancel(
-        InputFieldIconType.Drawable(
-            R.drawable.ic_cancel
-        )
-    ),
+    Favorite(IconButtonIconType.Drawable(R.drawable.ic_favorite)),
+    Cancel(IconButtonIconType.Drawable(R.drawable.ic_cancel)),
 }
 
 enum class AvailableIndicatorIcon(val icon: AvatarIconType) {
-    FiberManualRecord(AvatarIconType.Drawable(R.drawable.ic_default)), Stars(
-        AvatarIconType.Drawable(
-            R.drawable.ic_stars
-        )
-    ),
+    FiberManualRecord(AvatarIconType.Drawable(R.drawable.ic_default)),
+    Stars(AvatarIconType.Drawable(R.drawable.ic_stars)),
 
-    Favorite(AvatarIconType.Drawable(R.drawable.ic_favorite)), Cancel(AvatarIconType.Drawable(R.drawable.ic_cancel)),
+    Favorite(AvatarIconType.Drawable(R.drawable.ic_favorite)),
+    Cancel(AvatarIconType.Drawable(R.drawable.ic_cancel)),
 }
 
 enum class AvailableBottomNavigationIcon(val icon: BottomNavigationIconType) {
-    FiberManualRecord(BottomNavigationIconType.Drawable(R.drawable.ic_default)), Stars(
-        BottomNavigationIconType.Drawable(R.drawable.ic_stars)
-    ),
-    Favorite(BottomNavigationIconType.Drawable(R.drawable.ic_favorite)), Cancel(
-        BottomNavigationIconType.Drawable(R.drawable.ic_cancel)
-    ),
+    FiberManualRecord(BottomNavigationIconType.Drawable(R.drawable.ic_default)),
+    Stars(BottomNavigationIconType.Drawable(R.drawable.ic_stars)),
+
+    Favorite(BottomNavigationIconType.Drawable(R.drawable.ic_favorite)),
+    Cancel(BottomNavigationIconType.Drawable(R.drawable.ic_cancel)),
+
     None(BottomNavigationIconType.Drawable(R.drawable.ic_none)),
 }
 
 enum class AvailableTabControlIcon(val icon: TabControlIconType) {
-    FiberManualRecord(TabControlIconType.Drawable(R.drawable.ic_default)), Stars(
-        TabControlIconType.Drawable(
-            R.drawable.ic_stars
-        )
-    ),
-    Favorite(TabControlIconType.Drawable(R.drawable.ic_favorite)), Cancel(
-        TabControlIconType.Drawable(
-            R.drawable.ic_cancel
-        )
-    ),
+    FiberManualRecord(TabControlIconType.Drawable(R.drawable.ic_default)),
+    Stars(TabControlIconType.Drawable(R.drawable.ic_stars)),
+
+    Favorite(TabControlIconType.Drawable(R.drawable.ic_favorite)),
+    Cancel(TabControlIconType.Drawable(R.drawable.ic_cancel)),
+
     None(TabControlIconType.Drawable(R.drawable.ic_none)),
 }
 
 enum class AvailableSegmentedControlIcon(val icon: SegmentedControlIconType) {
-    FiberManualRecord(SegmentedControlIconType.Drawable(R.drawable.ic_default)), Stars(
-        SegmentedControlIconType.Drawable(R.drawable.ic_stars)
-    ),
-    Favorite(SegmentedControlIconType.Drawable(R.drawable.ic_favorite)), Cancel(
-        SegmentedControlIconType.Drawable(R.drawable.ic_cancel)
-    ),
+    FiberManualRecord(SegmentedControlIconType.Drawable(R.drawable.ic_default)),
+    Stars(SegmentedControlIconType.Drawable(R.drawable.ic_stars)),
+
+    Favorite(SegmentedControlIconType.Drawable(R.drawable.ic_favorite)),
+    Cancel(SegmentedControlIconType.Drawable(R.drawable.ic_cancel)),
+
+
     None(SegmentedControlIconType.Drawable(R.drawable.ic_none)),
 }
 
@@ -2164,7 +1927,7 @@ fun ButtonBottomBar(
     NavigationBar(
         containerColor = ColorPalette.White, contentColor = ColorPalette.Black
     ) {
-        ButtonSize.values().forEach { size ->
+        ButtonSize.entries.forEach { size ->
             val label = size.name
             NavigationBarItem(
                 icon = {
@@ -2415,7 +2178,7 @@ fun IconButtonBottomBar(
     NavigationBar(
         containerColor = ColorPalette.White, contentColor = ColorPalette.Black
     ) {
-        IconButtonSize.values().forEach { size ->
+        IconButtonSize.entries.forEach { size ->
             val label = size.name
             NavigationBarItem(
                 icon = {
@@ -2617,7 +2380,7 @@ fun IconButtonSettingsTopBar(
         NavigationBar(
             containerColor = ColorPalette.White, contentColor = ColorPalette.Black
         ) {
-            AvailableIconButtonIcon.values().forEach { icon ->
+            AvailableIconButtonIcon.entries.forEach { icon ->
                 NavigationBarItem(
                     selected = selectedIcon == icon,
                     onClick = { onIconSelected(icon) },

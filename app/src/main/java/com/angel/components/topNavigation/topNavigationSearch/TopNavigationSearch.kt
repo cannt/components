@@ -13,8 +13,6 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.angel.components.inputs.search.SearchField
-import com.angel.components.inputs.util.models.InputFieldSize
 import com.angel.components.topNavigation.utils.components.TopNavigationIcon
 import com.angel.components.topNavigation.utils.models.TopNavigationIconType
 import com.angel.components.ui.theme.TopNavigationColors.topNavigationBackgroundColor
@@ -46,7 +44,7 @@ fun TopNavigationSearch(
             horizontalArrangement = Arrangement.Center
         ) {
             TopNavigationIcon(icon = leadingIcon)
-            SearchField(
+            /*SearchField(
                 modifier = Modifier.weight(1f),
                 valueState = searchValueState,
                 isEnabled = searchIsEnabled,
@@ -54,7 +52,7 @@ fun TopNavigationSearch(
                 isSuccess = searchIsSuccess,
                 error = searchError,
                 size = InputFieldSize.MEDIUM
-            )
+            )*/
             TopNavigationIcon(icon = trailingIcon)
         }
     }

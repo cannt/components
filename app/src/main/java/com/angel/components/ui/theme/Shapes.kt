@@ -66,3 +66,7 @@ object BottomSheetShapes{
     val bottomSheetHandleShape =  RoundedCornerShape(4.dp)
     val bottomSheetImageShape =  RoundedCornerShape(12.dp)
 }
+
+object InputFieldShapes {
+    val inputFieldShape = RoundedCornerShape(8.dp)
+}

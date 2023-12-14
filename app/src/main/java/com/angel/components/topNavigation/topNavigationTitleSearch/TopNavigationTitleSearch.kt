@@ -17,8 +17,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.angel.components.inputs.search.SearchField
-import com.angel.components.inputs.util.models.InputFieldSize
 import com.angel.components.topNavigation.utils.components.TopNavigationIcon
 import com.angel.components.topNavigation.utils.models.TopNavigationIconType
 import com.angel.components.ui.theme.TopNavigationColors
@@ -73,7 +71,7 @@ fun TopNavigationTitleSearch(
                 )
                 TopNavigationIcon(icon = trailingIcon, alignment = Alignment.CenterEnd)
             }
-            SearchField(
+            /*SearchField(
                 modifier = Modifier
                     .fillMaxWidth(),
                 valueState = searchValueState,
@@ -82,7 +80,7 @@ fun TopNavigationTitleSearch(
                 isSuccess = searchIsSuccess,
                 error = searchError,
                 size = InputFieldSize.MEDIUM
-            )
+            )*/
         }
     }
 }

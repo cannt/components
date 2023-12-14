@@ -1,5 +1,14 @@
 package com.angel.components.ui.theme
 
+import androidx.compose.foundation.interaction.InteractionSource
+import androidx.compose.foundation.interaction.collectIsFocusedAsState
+import androidx.compose.foundation.text.selection.TextSelectionColors
+import androidx.compose.material3.TextFieldColors
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.graphics.Color
 import com.angel.components.ui.theme.ColorPalette.Black
 import com.angel.components.ui.theme.ColorPalette.Green
@@ -341,4 +350,228 @@ object BottomSheetColors {
     val bottomSheetImageBackgroundColor = Platinum.color50
 
     val bottomSheetIconColor = Purple.color500
+}
+
+object InputFieldColors {
+    val backgroundColor = White
+    val borderColorUnfocused = Grey.grey200
+    val borderColorFocused = Platinum.color400
+
+    val textColor = Platinum.color500
+    val inputColor = Platinum.color950
+    val errorTextColor = Red.color500
+    val successTextColor = Platinum.color500
+    val disabledTextColor = Platinum.color300
+
+    val cursorColor = Platinum.color500
+    val errorCursorColor = Red.color500
+
+    val placeholderColor = Platinum.color500
+    val errorPlaceholderColor = Red.color500
+    val disabledPlaceholderColor = Platinum.color300
+
+    val labelColor = Platinum.color500
+    val errorLabelColor = Red.color500
+
+    val iconColor = Platinum.color500
+    val errorIconColor = Red.color500
+    val disabledIconColor = Yellow.color500
+    val successIconColor = Green.color600
+
+
+    @Composable
+    internal fun textColor(
+        enabled: Boolean,
+        isSuccess: Boolean,
+        interactionSource: InteractionSource
+    ): State<Color> {
+        val focused by interactionSource.collectIsFocusedAsState()
+
+        val targetValue = when {
+            !enabled -> disabledTextColor
+            isSuccess -> successTextColor
+            focused -> inputColor
+            else -> textColor
+        }
+        return rememberUpdatedState(targetValue)
+    }
+
+    @Composable
+    internal fun cursorColor(isError: Boolean): State<Color> {
+        return rememberUpdatedState(if (isError) errorCursorColor else cursorColor)
+    }
+
+    @Composable
+    internal fun iconColor(
+        enabled: Boolean,
+        isError: Boolean,
+        isSuccess: Boolean,
+        interactionSource: InteractionSource
+    ): State<Color> {
+        val focused by interactionSource.collectIsFocusedAsState()
+
+        val targetValue = when {
+            !enabled -> disabledIconColor
+            isError -> errorIconColor
+            isSuccess -> successIconColor
+            focused -> iconColor
+            else -> iconColor
+        }
+        return rememberUpdatedState(targetValue)
+    }
+
+    @Composable
+    internal fun borderColor(
+        enabled: Boolean,
+        interactionSource: InteractionSource
+    ): State<Color> {
+        val focused by interactionSource.collectIsFocusedAsState()
+
+        val targetValue = when {
+            !enabled -> disabledTextColor
+            focused -> borderColorFocused
+            else -> borderColorUnfocused
+        }
+        return rememberUpdatedState(targetValue)
+    }
+
+    @Composable
+    fun textSelectionColors(
+        enabled: Boolean,
+        isError: Boolean,
+        interactionSource: InteractionSource
+    ): TextSelectionColors {
+        val focused by interactionSource.collectIsFocusedAsState()
+
+        val targetValue = when {
+            !enabled -> disabledTextColor
+            isError -> errorTextColor
+            focused -> inputColor
+            else -> textColor
+        }
+        return TextSelectionColors(
+            handleColor = targetValue,
+            backgroundColor = targetValue.copy(alpha = 0.12f)
+        )
+    }
+
+    @Composable
+    fun placeHolderColor(
+        enabled: Boolean,
+        isError: Boolean,
+        interactionSource: InteractionSource
+    ): State<Color> {
+        val focused by interactionSource.collectIsFocusedAsState()
+
+        val targetValue = when {
+            !enabled -> disabledPlaceholderColor
+            isError -> errorPlaceholderColor
+            focused -> inputColor
+            else -> placeholderColor
+        }
+        return rememberUpdatedState(targetValue)
+    }
+
+
+    @Composable
+    fun labelColor(
+        isError: Boolean,
+    ): State<Color> {
+        return rememberUpdatedState(if (isError) errorLabelColor else labelColor)
+    }
+
+
+    @Composable
+    fun customInputFieldColors(
+        enabled: Boolean,
+        isError: Boolean,
+        isSuccess: Boolean,
+        interactionSource: InteractionSource
+    ): TextFieldColors {
+        return TextFieldDefaults.colors(
+            focusedTextColor = textColor(enabled, isSuccess, interactionSource).value,
+            unfocusedTextColor = textColor(enabled, isSuccess, interactionSource).value,
+            disabledTextColor = textColor(enabled, isSuccess, interactionSource).value,
+            errorTextColor = textColor(enabled, isSuccess, interactionSource).value,
+            focusedContainerColor = backgroundColor,
+            unfocusedContainerColor = backgroundColor,
+            disabledContainerColor = backgroundColor,
+            errorContainerColor = backgroundColor,
+            cursorColor = cursorColor(isError).value,
+            errorCursorColor = cursorColor(isError).value,
+            selectionColors = textSelectionColors(enabled, isError, interactionSource),
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent,
+            errorIndicatorColor = Color.Transparent,
+            focusedLeadingIconColor = iconColor(
+                enabled,
+                isError,
+                isSuccess,
+                interactionSource
+            ).value,
+            unfocusedLeadingIconColor = iconColor(
+                enabled,
+                isError,
+                isSuccess,
+                interactionSource
+            ).value,
+            disabledLeadingIconColor = iconColor(
+                enabled,
+                isError,
+                isSuccess,
+                interactionSource
+            ).value,
+            errorLeadingIconColor = iconColor(enabled, isError, isSuccess, interactionSource).value,
+            focusedTrailingIconColor = iconColor(
+                enabled,
+                isError,
+                isSuccess,
+                interactionSource
+            ).value,
+            unfocusedTrailingIconColor = iconColor(
+                enabled,
+                isError,
+                isSuccess,
+                interactionSource
+            ).value,
+            disabledTrailingIconColor = iconColor(
+                enabled,
+                isError,
+                isSuccess,
+                interactionSource
+            ).value,
+            errorTrailingIconColor = iconColor(
+                enabled,
+                isError,
+                isSuccess,
+                interactionSource
+            ).value,
+            focusedLabelColor = labelColor(isError).value,
+            unfocusedLabelColor = labelColor(isError).value,
+            disabledLabelColor = labelColor(isError).value,
+            errorLabelColor = labelColor(isError).value,
+            focusedPlaceholderColor = placeHolderColor(
+                enabled,
+                isError,
+                interactionSource
+            ).value,
+            unfocusedPlaceholderColor = placeHolderColor(
+                enabled,
+                isError,
+                interactionSource
+            ).value,
+            disabledPlaceholderColor = placeHolderColor(
+                enabled,
+                isError,
+                interactionSource
+            ).value,
+            errorPlaceholderColor = placeHolderColor(enabled, isError, interactionSource).value,
+            focusedSupportingTextColor = errorTextColor,
+            unfocusedSupportingTextColor = errorTextColor,
+            disabledSupportingTextColor = errorTextColor,
+            errorSupportingTextColor = errorTextColor,
+        )
+    }
+
 }

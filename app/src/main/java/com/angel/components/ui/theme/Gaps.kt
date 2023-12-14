@@ -63,3 +63,7 @@ object BottomSheetGaps{
     val bottomSheetInnerContentGap = 8.dp
     val bottomSheetDoubleButtonGap = 16.dp
 }
+
+object InputFieldGaps  {
+    val inputFieldLabelGap = 0.dp
+}

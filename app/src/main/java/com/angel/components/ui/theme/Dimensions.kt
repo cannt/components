@@ -1,5 +1,9 @@
 package com.angel.components.ui.theme
 
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 
 object ButtonDimensions {
@@ -169,4 +173,32 @@ object BottomSheetDimensions {
 
     val bottomSheetHandleHeight = 5.dp
     val bottomSheetHandleWidth = 40.dp
+}
+
+object InputFieldDimensions {
+
+    enum class InputFieldSize {
+        XL, Large, Medium
+    }
+
+    val inputFieldXLMinSize = DpSize(320.dp, 56.dp)
+
+    val inputFieldMediumMinSize = DpSize(320.dp, 48.dp)
+
+    val inputFieldLargeMinSize = DpSize(320.dp, 40.dp)
+
+    val inputFieldIconsSize = 24.dp
+
+    @Composable
+    internal fun dimensions(
+        size: InputFieldSize,
+    ): State<DpSize> {
+        val targetValue = when(size) {
+            InputFieldSize.XL -> inputFieldXLMinSize
+            InputFieldSize.Large -> inputFieldMediumMinSize
+            InputFieldSize.Medium -> inputFieldLargeMinSize
+            else -> inputFieldXLMinSize
+        }
+        return rememberUpdatedState(targetValue)
+    }
 }

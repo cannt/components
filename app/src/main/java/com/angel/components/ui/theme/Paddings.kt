@@ -1,7 +1,9 @@
 package com.angel.components.ui.theme
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
+import com.angel.components.ui.theme.InputFieldDimensions.InputFieldSize
 
 object ButtonPaddings {
     val XLButtonPadding = PaddingValues(horizontal = 24.dp, vertical = 16.dp)
@@ -82,11 +84,37 @@ object BottomSheetPaddings {
     val bottomSheetContentPadding = PaddingValues(horizontal = 16.dp)
     val bottomSheetInnerContentPadding = PaddingValues(vertical = 32.dp)
 
-    val bottomSheetPrimaryButtonVerticalPadding = PaddingValues(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 8.dp)
-    val bottomSheetSecondaryButtonVerticalPadding = PaddingValues(start = 16.dp, top = 8.dp, end = 16.dp, bottom = 24.dp)
+    val bottomSheetPrimaryButtonVerticalPadding =
+        PaddingValues(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 8.dp)
+    val bottomSheetSecondaryButtonVerticalPadding =
+        PaddingValues(start = 16.dp, top = 8.dp, end = 16.dp, bottom = 24.dp)
 
-    val bottomSheetPrimaryButtonHorizontalPadding = PaddingValues(start = 16.dp, top = 16.dp, end = 8.dp)
-    val bottomSheetSecondaryButtonHorizontalPadding = PaddingValues(start = 8.dp, top = 16.dp, end = 16.dp)
+    val bottomSheetPrimaryButtonHorizontalPadding =
+        PaddingValues(start = 16.dp, top = 16.dp, end = 8.dp)
+    val bottomSheetSecondaryButtonHorizontalPadding =
+        PaddingValues(start = 8.dp, top = 16.dp, end = 16.dp)
 
     val bottomSheetSingleButtonPadding = PaddingValues(start = 16.dp, top = 16.dp, end = 16.dp)
+}
+
+object InputFieldPaddings {
+    val inputFieldXLUnfocusedPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp)
+    val inputFieldXLFocusedPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
+
+    val inputFieldLargeUnfocusedPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp)
+    val inputFieldLargeFocusedPadding = PaddingValues(horizontal = 16.dp, vertical = 4.dp)
+
+    val inputFieldMediumUnfocusedPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp)
+    val inputFieldMediumFocusedPadding = PaddingValues(horizontal = 12.dp, vertical = 0.dp)
+
+    @Composable
+    internal fun inputFieldPadding(
+        isFocused: Boolean,
+        size: InputFieldSize
+    ): PaddingValues = when (size) {
+        InputFieldSize.XL -> if (isFocused) inputFieldXLFocusedPadding else inputFieldXLUnfocusedPadding
+        InputFieldSize.Large -> if (isFocused) inputFieldLargeFocusedPadding else inputFieldLargeUnfocusedPadding
+        InputFieldSize.Medium -> if (isFocused) inputFieldMediumFocusedPadding else inputFieldMediumUnfocusedPadding
+    }
+
 }

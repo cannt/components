@@ -218,7 +218,7 @@ fun BottomSheetTitle(
         Text(
             modifier = Modifier.fillMaxWidth(),
             text = title,
-            style = BottomSheet.bottomSheetTopTitleStyle,
+            style = BottomSheet.BottomSheetTopTitleStyle,
             color = BottomSheetColors.bottomSheetTopTitleTextColor,
             textAlign = TextAlign.Center
         )

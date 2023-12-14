@@ -287,8 +287,20 @@ object LineItem {
 }
 
 object BottomSheet {
-    val BottomSheetTitleStyle = Title2.copy(lineHeight = 28.sp,textAlign = TextAlign.Center)
+    val BottomSheetTitleStyle = Title2.copy(lineHeight = 28.sp, textAlign = TextAlign.Center)
     val BottomSheetDescriptionStyle = BodyLarge.copy(textAlign = TextAlign.Center)
 
-    val bottomSheetTopTitleStyle = BodyLargeBold.copy(textAlign = TextAlign.Center)
+    val BottomSheetTopTitleStyle = BodyLargeBold.copy(textAlign = TextAlign.Center)
 }
+
+
+object InputField {
+    val InputFieldTextStyle = BodyLarge
+
+    val InputFieldPlaceholderStyle = BodyLarge
+
+    val InputFieldErrorStyle = BodyLarge
+
+    val InputFieldLabelStyle = Caption
+}
+
