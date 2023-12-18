@@ -335,12 +335,10 @@ private class BottomSheetWindow(
     ViewRootForInspector {
     init {
         id = android.R.id.content
-        // Set up view owners
         setViewTreeLifecycleOwner(composeView.findViewTreeLifecycleOwner())
         setViewTreeViewModelStoreOwner(composeView.findViewTreeViewModelStoreOwner())
         setViewTreeSavedStateRegistryOwner(composeView.findViewTreeSavedStateRegistryOwner())
         setTag(androidx.compose.ui.R.id.compose_view_saveable_id_tag, "Popup:$saveId")
-        // Enable children to draw their shadow by not clipping them
         clipChildren = false
     }
 
@@ -352,31 +350,22 @@ private class BottomSheetWindow(
 
     private val params: WindowManager.LayoutParams =
         WindowManager.LayoutParams().apply {
-            // Position bottom sheet from the bottom of the screen
             gravity = Gravity.BOTTOM or Gravity.START
-            // Application panel window
             type = WindowManager.LayoutParams.TYPE_APPLICATION_PANEL
-            // Fill up the entire app view
             width = displayWidth
             height = WindowManager.LayoutParams.MATCH_PARENT
 
-            // Format of screen pixels
             format = PixelFormat.TRANSLUCENT
-            // Title used as fallback for a11y services
-            // TODO: Provide bottom sheet window resource
             title = composeView.context.resources.getString(
                 androidx.compose.ui.R.string.default_popup_window_title
             )
-            // Get the Window token from the parent view
             token = composeView.applicationWindowToken
 
-            // Flags specific to modal bottom sheet.
             flags = flags and (
                     WindowManager.LayoutParams.FLAG_IGNORE_CHEEK_PRESSES or
                             WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM
                     ).inv()
 
-            // Security flag
             val secureFlagEnabled =
                 properties.securePolicy.shouldApplySecureFlag(composeView.isFlagSecureEnabled())
             if (secureFlagEnabled) {
@@ -385,14 +374,12 @@ private class BottomSheetWindow(
                 flags = flags and (WindowManager.LayoutParams.FLAG_SECURE.inv())
             }
 
-            // Focusable
             if (!properties.isFocusable) {
                 flags = flags or WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
             } else {
                 flags = flags and (WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE.inv())
             }
 
-                    // add padding to bottom
             if (navBarHeight > 0) {
                 flags = flags or (WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN and WindowManager.LayoutParams.FLAG_LAYOUT_INSET_DECOR)
                 setPadding(0, 0, 0, navBarHeight)
@@ -454,8 +441,6 @@ private class BottomSheetWindow(
     }
 
     override fun setLayoutDirection(layoutDirection: Int) {
-        // Do nothing. ViewRootImpl will call this method attempting to set the layout direction
-        // from the context's locale, but we have one already from the parent composition.
     }
     fun superSetLayoutDirection(layoutDirection: LayoutDirection) {
         val direction = when (layoutDirection) {
@@ -513,7 +498,6 @@ internal fun ConsumeSwipeWithinBottomSheetBoundsNestedScrollConnection(
         val minAnchor = sheetState.anchoredDraggableState.anchors.minAnchor()
         return if (toFling < 0 && currentOffset > minAnchor) {
             onFling(toFling)
-            // since we go to the anchor with tween settling, consume all for the best UX
             available
         } else {
             Velocity.Zero
@@ -546,7 +530,7 @@ private fun Scrim(
     if (color.isSpecified) {
         val alpha by animateFloatAsState(
             targetValue = if (visible) 1f else 0f,
-            animationSpec = TweenSpec()
+            animationSpec = TweenSpec(), label = ""
         )
         val dismissSheet = if (visible) {
             Modifier

@@ -80,22 +80,13 @@ internal fun rememberBottomSheetState(
 @ExperimentalFoundationApi
 @Stable
 @ExperimentalMaterial3Api
-class BottomSheetState @Deprecated(
-    message = "This constructor is deprecated. " +
-            "Please use the constructor that provides a [Density]",
-    replaceWith = ReplaceWith(
-        "BottomSheetState(" +
-                "skipPartiallyExpanded, LocalDensity.current, initialValue, " +
-                "confirmValueChange, skipHiddenState)"
-    )
-) constructor(
+class BottomSheetState(
     internal val skipPartiallyExpanded: Boolean,
     initialValue: BottomSheetValue = Collapsed,
     confirmValueChange: (BottomSheetValue) -> Boolean = { true },
     internal val skipHiddenState: Boolean = false,
 ) {
     @ExperimentalMaterial3Api
-    @Suppress("Deprecation")
     constructor(
         skipPartiallyExpanded: Boolean,
         density: Density,
@@ -194,14 +185,6 @@ class BottomSheetState @Deprecated(
                 BottomSheetState(skipPartiallyExpanded, density, savedValue, confirmValueChange)
             }
         )
-        @Deprecated(
-            message = "This function is deprecated. Please use the overload where Density is" +
-                    " provided.",
-            replaceWith = ReplaceWith(
-                "Saver(skipPartiallyExpanded, confirmValueChange, LocalDensity.current)"
-            )
-        )
-        @Suppress("Deprecation")
         fun Saver(
             skipPartiallyExpanded: Boolean,
             confirmValueChange: (BottomSheetValue) -> Boolean
@@ -249,12 +232,6 @@ fun <T> Modifier.anchoredDraggable(
 
 @ExperimentalFoundationApi
 interface AnchoredDragScope {
-    /**
-     * Assign a new value for an offset value for [AnchoredDraggableState].
-     *
-     * @param newOffset new value for [AnchoredDraggableState.offset].
-     * @param lastKnownVelocity last known velocity (if known)
-     */
     fun dragTo(
         newOffset: Float,
         lastKnownVelocity: Float = 0f
@@ -377,9 +354,6 @@ class AnchoredDraggableState<T>(
     ) {
         if (anchors != newAnchors) {
             anchors = newAnchors
-            // Attempt to snap. If nobody is holding the lock, we can immediately update the offset.
-            // If anybody is holding the lock, we send a signal to restart the ongoing work with the
-            // updated anchors.
             val snapSuccessful = trySnapTo(newTarget)
             if (!snapSuccessful) {
                 dragTarget = newTarget
@@ -397,7 +371,6 @@ class AnchoredDraggableState<T>(
         if (confirmValueChange(targetValue)) {
             animateTo(targetValue, velocity)
         } else {
-            // If the user vetoed the state change, rollback to the previous state.
             animateTo(previousValue, velocity)
         }
     }
@@ -569,10 +542,6 @@ suspend fun <T> AnchoredDraggableState<T>.animateTo(
         if (!targetOffset.isNaN()) {
             var prev = if (offset.isNaN()) 0f else offset
             animate(prev, targetOffset, velocity, animationSpec) { value, velocity ->
-                // Our onDrag coerces the value within the bounds, but an animation may
-                // overshoot, for example a spring animation or an overshooting interpolator
-                // We respect the user's intention and allow the overshoot, but still use
-                // DraggableState's drag for its mutex.
                 dragTo(value, velocity)
                 prev = value
             }
