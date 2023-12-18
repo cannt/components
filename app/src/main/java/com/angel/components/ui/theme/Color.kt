@@ -390,6 +390,7 @@ object InputFieldColors {
     internal fun textColor(
         enabled: Boolean,
         isSuccess: Boolean,
+        isEmpty: Boolean,
         interactionSource: InteractionSource
     ): State<Color> {
         val focused by interactionSource.collectIsFocusedAsState()
@@ -397,7 +398,7 @@ object InputFieldColors {
         val targetValue = when {
             !enabled -> disabledTextColor
             isSuccess -> successTextColor
-            focused -> inputColor
+            focused || !isEmpty -> inputColor
             else -> textColor
         }
         return rememberUpdatedState(targetValue)
@@ -499,13 +500,14 @@ object InputFieldColors {
         enabled: Boolean,
         isError: Boolean,
         isSuccess: Boolean,
+        isEmpty: Boolean,
         interactionSource: InteractionSource
     ): TextFieldColors {
         return TextFieldDefaults.colors(
-            focusedTextColor = textColor(enabled, isSuccess, interactionSource).value,
-            unfocusedTextColor = textColor(enabled, isSuccess, interactionSource).value,
-            disabledTextColor = textColor(enabled, isSuccess, interactionSource).value,
-            errorTextColor = textColor(enabled, isSuccess, interactionSource).value,
+            focusedTextColor = textColor(enabled, isSuccess, isEmpty, interactionSource).value,
+            unfocusedTextColor = textColor(enabled, isSuccess, isEmpty, interactionSource).value,
+            disabledTextColor = textColor(enabled, isSuccess, isEmpty, interactionSource).value,
+            errorTextColor = textColor(enabled, isSuccess, isEmpty, interactionSource).value,
             focusedContainerColor = backgroundColor,
             unfocusedContainerColor = backgroundColor,
             disabledContainerColor = backgroundColor,
@@ -589,12 +591,13 @@ object InputFieldColors {
 
     @Composable
     fun searchTextColor(
+        isEmpty: Boolean,
         interactionSource: InteractionSource
     ): State<Color> {
         val focused by interactionSource.collectIsFocusedAsState()
 
         val targetValue = when {
-            focused -> inputColor
+            focused || !isEmpty -> inputColor
             else -> textColor
         }
         return rememberUpdatedState(targetValue)
@@ -641,13 +644,14 @@ object InputFieldColors {
 
     @Composable
     fun searchInputFieldColors(
+        isEmpty: Boolean,
         interactionSource: InteractionSource
     ): TextFieldColors {
         return TextFieldDefaults.colors(
-            focusedTextColor = searchTextColor(interactionSource).value,
-            unfocusedTextColor = searchTextColor(interactionSource).value,
-            disabledTextColor = searchTextColor(interactionSource).value,
-            errorTextColor = searchTextColor(interactionSource).value,
+            focusedTextColor = searchTextColor(isEmpty, interactionSource).value,
+            unfocusedTextColor = searchTextColor(isEmpty, interactionSource).value,
+            disabledTextColor = searchTextColor(isEmpty, interactionSource).value,
+            errorTextColor = searchTextColor(isEmpty, interactionSource).value,
             focusedContainerColor = searchBackgroundColor(interactionSource).value,
             unfocusedContainerColor = searchBackgroundColor(interactionSource).value,
             disabledContainerColor = searchBackgroundColor(interactionSource).value,

@@ -58,14 +58,14 @@ fun SearchInputField(
     val isFocused = interactionSource.collectIsFocusedAsState().value
 
     val padding = InputFieldPaddings.inputFieldPadding(
-        isFocused = isFocused,
+        isFocused = isFocused || value.text.isNotEmpty(),
         size = actualSize,
         topBar = isTopBar
     )
 
     val textStyle =
         compositionLocalOf(structuralEqualityPolicy()) { com.angel.components.ui.theme.InputField.InputFieldTextStyle }.current
-    val textColor = InputFieldColors.searchTextColor(interactionSource).value
+    val textColor = InputFieldColors.searchTextColor(value.text.isEmpty(), interactionSource).value
     val mergedTextStyle = textStyle.merge(color = textColor)
     val selectionColors = InputFieldColors.textSelectionColors(true, false, interactionSource)
 

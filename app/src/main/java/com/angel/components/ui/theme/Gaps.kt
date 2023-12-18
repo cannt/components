@@ -65,5 +65,5 @@ object BottomSheetGaps{
 }
 
 object InputFieldGaps  {
-    val inputFieldLabelGap = 8.dp
+    val inputFieldLabelGap = 0.dp
 }

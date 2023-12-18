@@ -75,12 +75,13 @@ fun InputField(
     val isFocused = interactionSource.collectIsFocusedAsState().value
 
     val padding = InputFieldPaddings.inputFieldPadding(
-        isFocused = isFocused,
+        isFocused = isFocused || value.text.isNotEmpty(),
         size = size
     )
 
     val textStyle = compositionLocalOf(structuralEqualityPolicy()) { InputFieldTextStyle }.current
-    val textColor = InputFieldColors.textColor(enabled, isError, interactionSource).value
+    val textColor =
+        InputFieldColors.textColor(enabled, isSuccess, value.text.isEmpty(), interactionSource).value
     val mergedTextStyle = textStyle.merge(color = textColor)
     val selectionColors = InputFieldColors.textSelectionColors(enabled, isError, interactionSource)
 
@@ -127,12 +128,14 @@ fun InputField(
                         value = value.text,
                         visualTransformation = visualTransformation,
                         innerTextField = innerTextField,
-                        label = {
-                            Label(
-                                label = label ?: "",
-                                isError = isError,
-                                enabled = enabled
-                            )
+                        label = label?.let {
+                            {
+                                Label(
+                                    label = label,
+                                    isError = isError,
+                                    enabled = enabled
+                                )
+                            }
                         },
                         placeholder = placeholder?.let {
                             {
@@ -180,6 +183,7 @@ fun InputField(
                             enabled = enabled,
                             isError = isError,
                             isSuccess = isSuccess,
+                            isEmpty = value.text.isEmpty(),
                             interactionSource = interactionSource
                         ),
                         container = {
