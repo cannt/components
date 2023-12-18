@@ -27,6 +27,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -161,6 +163,7 @@ import com.angel.components.iconButton.tertiary.xl.IconButtonTertiaryXL
 import com.angel.components.iconButton.util.models.IconButtonIconType
 import com.angel.components.iconButton.util.models.IconButtonSize
 import com.angel.components.inputs.InputField
+import com.angel.components.inputs.SearchInputField
 import com.angel.components.lineItem.add.LineItemAdd
 import com.angel.components.lineItem.basic.LineItemBasic
 import com.angel.components.lineItem.lineItemDouble.LineItemDouble
@@ -1044,13 +1047,9 @@ fun SegmentedControlSample() {
 @ExperimentalMaterial3Api
 @Composable
 fun TopNavigationSample() {
-    val searchValueState = remember { mutableStateOf("") }
+    val searchValueState = remember { mutableStateOf(TextFieldValue("")) }
 
     val searchIsEnabled = remember { mutableStateOf(true) }
-    val searchIsError = remember { mutableStateOf(false) }
-    val searchIsSuccess = remember { mutableStateOf(false) }
-
-    val searchError = remember { mutableStateOf<String?>(null) }
     Scaffold(containerColor = Color(0xFF404040), snackbarHost = {}, topBar = {
         Column(
             verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -1087,11 +1086,12 @@ fun TopNavigationSample() {
                     drawable = R.drawable.ic_default,
                     tint = topNavigationIconColor,
                     onClick = {}),
-                searchValueState = searchValueState,
+                searchValueState = searchValueState.value,
+                onValueChange = {
+                    searchValueState.value = it
+                },
                 searchIsEnabled = searchIsEnabled.value,
-                searchIsError = searchIsError.value,
-                searchIsSuccess = searchIsSuccess.value,
-                searchError = searchError.value,
+                label = "Input Field",
             )
             TopNavigationTitleSearch(
                 title = "Description",
@@ -1103,11 +1103,12 @@ fun TopNavigationSample() {
                     drawable = R.drawable.ic_default,
                     tint = topNavigationIconColor,
                     onClick = {}),
-                searchValueState = searchValueState,
+                searchValueState = searchValueState.value,
+                onValueChange = {
+                    searchValueState.value = it
+                },
                 searchIsEnabled = searchIsEnabled.value,
-                searchIsError = searchIsError.value,
-                searchIsSuccess = searchIsSuccess.value,
-                searchError = searchError.value,
+                label = "Input Field",
             )
         }
     }, content = { paddingValues ->
@@ -1221,6 +1222,10 @@ fun NotificationsSample() {
 fun InputFieldsSample() {
 
     val snackBarHostState = remember { SnackbarHostState() }
+    val isSearch = remember { mutableStateOf(false) }
+    val isError = remember { mutableStateOf(false) }
+    val isSuccess = remember { mutableStateOf(false) }
+    val isEnabled = remember { mutableStateOf(true) }
 
     Scaffold(containerColor = Color(0xFF404040), snackbarHost = {
         SnackbarHost(hostState = snackBarHostState) { data ->
@@ -1231,6 +1236,25 @@ fun InputFieldsSample() {
             )
         }
     }, topBar = {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Text(text = "Search", color = ColorPalette.White)
+            Checkbox(
+                checked = isSearch.value,
+                onCheckedChange = {
+                    isSearch.value = it
+                },
+                colors = CheckboxDefaults.colors(
+                    checkedColor = ColorPalette.Green.color500,
+                    uncheckedColor = ColorPalette.Red.color500
+                )
+            )
+        }
     }, content = { paddingValues ->
         Box(
             contentAlignment = Alignment.Center,
@@ -1244,26 +1268,109 @@ fun InputFieldsSample() {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 InputFieldDimensions.InputFieldSize.entries.forEach { size ->
-                    var value by remember { mutableStateOf(TextFieldValue("")) }
-                    InputField(
-                        value = value,
-                        onValueChange = {
-                            value = it
-                        },
-                        label = "Input Title",
-                        placeholder = "Input Field",
-                        size = size,
-                        errorText = null,
-                        isError = false,
-                        isSuccess = false,
-                        enabled = false
-                    )
+                    var value = remember { mutableStateOf(TextFieldValue("")) }
+                    val interactionSource = remember { MutableInteractionSource() }
+                    if (isSearch.value) {
+                        SearchInputField(
+                            value = value.value,
+                            onValueChange = {
+                                value.value = it
+                            },
+                            label = "Input Title",
+                            size = size,
+                            enabled = isEnabled.value,
+                            interactionSource = interactionSource
+                        )
+                    } else {
+                        InputField(
+                            value = value.value,
+                            onValueChange = {
+                                value.value = it
+                            },
+                            label = "Input Title",
+                            placeholder = "Input Field",
+                            size = size,
+                            errorText = "Input Error",
+                            isError = isError.value,
+                            isSuccess = isSuccess.value,
+                            enabled = isEnabled.value,
+                            interactionSource = interactionSource
+                        )
+                    }
                 }
             }
 
 
         }
     }, bottomBar = {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+            ) {
+                Row(
+                    modifier = Modifier
+                        .weight(1f),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Text(text = "Error", color = ColorPalette.White)
+                    Checkbox(
+                        checked = isError.value,
+                        onCheckedChange = {
+                            isError.value = it
+                        },
+                        colors = CheckboxDefaults.colors(
+                            checkedColor = ColorPalette.Green.color500,
+                            uncheckedColor = ColorPalette.Red.color500
+                        )
+                    )
+                }
+                Row(
+                    modifier = Modifier
+                        .weight(1f),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Text(text = "Success", color = ColorPalette.White)
+                    Checkbox(
+                        checked = isSuccess.value,
+                        onCheckedChange = {
+                            isSuccess.value = it
+                        },
+                        colors = CheckboxDefaults.colors(
+                            checkedColor = ColorPalette.Green.color500,
+                            uncheckedColor = ColorPalette.Red.color500
+                        )
+                    )
+                }
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Text(text = "Enabled", color = ColorPalette.White)
+                Checkbox(
+                    checked = isEnabled.value,
+                    onCheckedChange = {
+                        isEnabled.value = it
+                    },
+                    colors = CheckboxDefaults.colors(
+                        checkedColor = ColorPalette.Green.color500,
+                        uncheckedColor = ColorPalette.Red.color500
+                    )
+                )
+            }
+
+        }
 
     })
 }

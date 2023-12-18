@@ -183,9 +183,9 @@ object InputFieldDimensions {
 
     val inputFieldXLMinSize = DpSize(320.dp, 56.dp)
 
-    val inputFieldMediumMinSize = DpSize(320.dp, 48.dp)
+    val inputFieldLargeMinSize = DpSize(320.dp,  48.dp)
 
-    val inputFieldLargeMinSize = DpSize(320.dp, 40.dp)
+    val inputFieldMediumMinSize = DpSize(320.dp,40.dp)
 
     val inputFieldIconsSize = 24.dp
 
@@ -195,8 +195,8 @@ object InputFieldDimensions {
     ): State<DpSize> {
         val targetValue = when(size) {
             InputFieldSize.XL -> inputFieldXLMinSize
-            InputFieldSize.Large -> inputFieldMediumMinSize
-            InputFieldSize.Medium -> inputFieldLargeMinSize
+            InputFieldSize.Large -> inputFieldLargeMinSize
+            InputFieldSize.Medium ->  inputFieldMediumMinSize
             else -> inputFieldXLMinSize
         }
         return rememberUpdatedState(targetValue)

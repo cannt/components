@@ -1,18 +1,22 @@
 package com.angel.components.topNavigation.topNavigationSearch
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import com.angel.components.inputs.SearchInputField
 import com.angel.components.topNavigation.utils.components.TopNavigationIcon
 import com.angel.components.topNavigation.utils.models.TopNavigationIconType
 import com.angel.components.ui.theme.TopNavigationColors.topNavigationBackgroundColor
@@ -21,13 +25,14 @@ import com.angel.components.ui.theme.TopNavigationDimensions.topNavigationSearch
 @Composable
 fun TopNavigationSearch(
     modifier: Modifier = Modifier,
+    label: String,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     leadingIcon: TopNavigationIconType,
     trailingIcon: TopNavigationIconType,
-    searchValueState: MutableState<String>,
+    micClick: () -> Unit = {},
+    searchValueState: TextFieldValue,
+    onValueChange: (TextFieldValue) -> Unit,
     searchIsEnabled: Boolean = true,
-    searchIsError: Boolean = false,
-    searchIsSuccess: Boolean = false,
-    searchError: String? = null,
     windowInsets: WindowInsets = NavigationBarDefaults.windowInsets
 ) {
     Surface(
@@ -44,15 +49,19 @@ fun TopNavigationSearch(
             horizontalArrangement = Arrangement.Center
         ) {
             TopNavigationIcon(icon = leadingIcon)
-            /*SearchField(
-                modifier = Modifier.weight(1f),
-                valueState = searchValueState,
-                isEnabled = searchIsEnabled,
-                isError = searchIsError,
-                isSuccess = searchIsSuccess,
-                error = searchError,
-                size = InputFieldSize.MEDIUM
-            )*/
+            SearchInputField(
+                modifier = Modifier.width(263.dp),
+                isTopBar = true,
+                micClick = {micClick()},
+                value = searchValueState,
+                onValueChange = {onValueChange(it) },
+                enabled = searchIsEnabled,
+                label = label,
+                interactionSource = interactionSource,
+                singleLine = true,
+                maxLines = 1,
+                minLines = 1
+            )
             TopNavigationIcon(icon = trailingIcon)
         }
     }

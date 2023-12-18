@@ -107,11 +107,15 @@ object InputFieldPaddings {
     val inputFieldMediumUnfocusedPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp)
     val inputFieldMediumFocusedPadding = PaddingValues(horizontal = 12.dp, vertical = 0.dp)
 
+    val searchInputFieldTopBarUnfocusedPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
+
+
     @Composable
     internal fun inputFieldPadding(
         isFocused: Boolean,
-        size: InputFieldSize
-    ): PaddingValues = when (size) {
+        size: InputFieldSize,
+        topBar: Boolean = false
+    ): PaddingValues = if (topBar)  searchInputFieldTopBarUnfocusedPadding else when (size) {
         InputFieldSize.XL -> if (isFocused) inputFieldXLFocusedPadding else inputFieldXLUnfocusedPadding
         InputFieldSize.Large -> if (isFocused) inputFieldLargeFocusedPadding else inputFieldLargeUnfocusedPadding
         InputFieldSize.Medium -> if (isFocused) inputFieldMediumFocusedPadding else inputFieldMediumUnfocusedPadding

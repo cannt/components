@@ -1,5 +1,6 @@
 package com.angel.components.topNavigation.topNavigationTitleSearch
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,11 +13,13 @@ import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.angel.components.inputs.SearchInputField
 import com.angel.components.topNavigation.utils.components.TopNavigationIcon
 import com.angel.components.topNavigation.utils.models.TopNavigationIconType
 import com.angel.components.ui.theme.TopNavigationColors
@@ -30,13 +33,14 @@ import com.angel.components.ui.theme.TopNavigationTextStyles
 fun TopNavigationTitleSearch(
     modifier: Modifier = Modifier,
     title: String,
+    label: String,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     leadingIcon: TopNavigationIconType,
     trailingIcon: TopNavigationIconType,
-    searchValueState: MutableState<String>,
+    micClick: () -> Unit = {},
+    searchValueState: TextFieldValue,
+    onValueChange: (TextFieldValue) -> Unit,
     searchIsEnabled: Boolean = true,
-    searchIsError: Boolean = false,
-    searchIsSuccess: Boolean = false,
-    searchError: String? = null,
     windowInsets: WindowInsets = NavigationBarDefaults.windowInsets
 ) {
     Surface(
@@ -71,16 +75,19 @@ fun TopNavigationTitleSearch(
                 )
                 TopNavigationIcon(icon = trailingIcon, alignment = Alignment.CenterEnd)
             }
-            /*SearchField(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                valueState = searchValueState,
-                isEnabled = searchIsEnabled,
-                isError = searchIsError,
-                isSuccess = searchIsSuccess,
-                error = searchError,
-                size = InputFieldSize.MEDIUM
-            )*/
+            SearchInputField(
+                modifier = Modifier.fillMaxWidth(),
+                isTopBar = true,
+                micClick = {micClick()},
+                value = searchValueState,
+                onValueChange = {onValueChange(it) },
+                label = label,
+                enabled = searchIsEnabled,
+                interactionSource = interactionSource,
+                singleLine = true,
+                maxLines = 1,
+                minLines = 1
+            )
         }
     }
 }

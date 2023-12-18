@@ -69,4 +69,6 @@ object BottomSheetShapes{
 
 object InputFieldShapes {
     val inputFieldShape = RoundedCornerShape(8.dp)
+
+    val searchTopBarInputFieldShape = RoundedCornerShape(12.dp)
 }

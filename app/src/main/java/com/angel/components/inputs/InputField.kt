@@ -5,11 +5,12 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -40,6 +41,7 @@ import com.angel.components.ui.theme.InputField.InputFieldLabelStyle
 import com.angel.components.ui.theme.InputField.InputFieldPlaceholderStyle
 import com.angel.components.ui.theme.InputField.InputFieldTextStyle
 import com.angel.components.ui.theme.InputFieldColors
+import com.angel.components.ui.theme.InputFieldColors.customInputFieldColors
 import com.angel.components.ui.theme.InputFieldDimensions
 import com.angel.components.ui.theme.InputFieldDimensions.InputFieldSize
 import com.angel.components.ui.theme.InputFieldDimensions.dimensions
@@ -70,53 +72,75 @@ fun InputField(
     minLines: Int = 1,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 ) {
+    val isFocused = interactionSource.collectIsFocusedAsState().value
+
+    val padding = InputFieldPaddings.inputFieldPadding(
+        isFocused = isFocused,
+        size = size
+    )
+
     val textStyle = compositionLocalOf(structuralEqualityPolicy()) { InputFieldTextStyle }.current
     val textColor = InputFieldColors.textColor(enabled, isError, interactionSource).value
     val mergedTextStyle = textStyle.merge(color = textColor)
     val selectionColors = InputFieldColors.textSelectionColors(enabled, isError, interactionSource)
 
     CompositionLocalProvider(LocalTextSelectionColors provides selectionColors) {
-        BasicTextField(
-            value = value,
-            modifier = if (label != null) {
-                modifier
-                    .semantics(mergeDescendants = true) {}
-                    .padding(top = inputFieldLabelGap)
-            } else {
-                modifier
-            }
-                .defaultErrorSemantics(isError, "Error")
-                .width(dimensions(size = size).value.width)
-                .defaultMinSize(minHeight = dimensions(size = size).value.height),
-            onValueChange = onValueChange,
-            enabled = enabled,
-            readOnly = false,
-            textStyle = mergedTextStyle,
-            cursorBrush = SolidColor(InputFieldColors.cursorColor(isError).value),
-            visualTransformation = visualTransformation,
-            keyboardOptions = keyboardOptions,
-            keyboardActions = keyboardActions,
-            interactionSource = interactionSource,
-            singleLine = singleLine,
-            maxLines = maxLines,
-            minLines = minLines,
-            decorationBox = @Composable { innerTextField ->
-                Box {
+        Column(
+            modifier = modifier
+                .wrapContentSize()
+        ) {
+            BasicTextField(
+                value = value,
+                modifier = if (label != null) {
+                    modifier
+                        .semantics(mergeDescendants = true) {}
+                        .padding(top = inputFieldLabelGap)
+                } else {
+                    modifier
+                }
+                    .border(
+                        width = 1.dp,
+                        color = InputFieldColors.borderColor(
+                            enabled, interactionSource
+                        ).value,
+                        shape = InputFieldShapes.inputFieldShape
+                    )
+                    .background(
+                        color = InputFieldColors.backgroundColor,
+                        shape = InputFieldShapes.inputFieldShape
+                    )
+                    .size(dimensions(size = size).value),
+                onValueChange = onValueChange,
+                enabled = enabled,
+                readOnly = false,
+                textStyle = mergedTextStyle,
+                cursorBrush = SolidColor(InputFieldColors.cursorColor(isError).value),
+                visualTransformation = visualTransformation,
+                keyboardOptions = keyboardOptions,
+                keyboardActions = keyboardActions,
+                interactionSource = interactionSource,
+                singleLine = singleLine,
+                maxLines = maxLines,
+                minLines = minLines,
+                decorationBox = @Composable { innerTextField ->
                     TextFieldDefaults.DecorationBox(
                         value = value.text,
                         visualTransformation = visualTransformation,
                         innerTextField = innerTextField,
-                        label = placeholder?.let {
-                            {
-                                Label(
-                                    label = placeholder
-                                )
-                            }
+                        label = {
+                            Label(
+                                label = label ?: "",
+                                isError = isError,
+                                enabled = enabled
+                            )
                         },
                         placeholder = placeholder?.let {
                             {
                                 Placeholder(
-                                    placeholder = placeholder
+                                    placeholder = placeholder,
+                                    isEnabled = enabled,
+                                    isError = isError,
+                                    interactionSource = interactionSource
                                 )
                             }
                         },
@@ -130,7 +154,12 @@ fun InputField(
                                 )
                             }
                         },
-                        trailingIcon = trailingIcon?.let {
+                        trailingIcon = if (
+                            trailingIcon != null ||
+                            isError ||
+                            isSuccess ||
+                            !enabled
+                        ) {
                             {
                                 TrailingIcon(
                                     trailingIcon = trailingIcon,
@@ -140,140 +169,89 @@ fun InputField(
                                     interactionSource = interactionSource
                                 )
                             }
-                        } ?: takeIf { isError }?.let {
-                            {
-                                TrailingIcon(
-                                    trailingIcon = InputFieldIconType.Drawable(
-                                        drawable = R.drawable.ic_error
-                                    ),
-                                    isEnabled = enabled,
-                                    isError = isError,
-                                    isSuccess = isSuccess,
-                                    interactionSource = interactionSource
-                                )
-                            }
-                        } ?: takeIf { isSuccess }?.let {
-                            {
-                                TrailingIcon(
-                                    trailingIcon = InputFieldIconType.Drawable(
-                                        drawable = R.drawable.ic_input_success
-                                    ),
-                                    isEnabled = enabled,
-                                    isError = isError,
-                                    isSuccess = isSuccess,
-                                    interactionSource = interactionSource
-                                )
-                            }
-                        } ?: takeIf { !enabled }?.let {
-                            {
-                                TrailingIcon(
-                                    trailingIcon = InputFieldIconType.Drawable(
-                                        drawable = R.drawable.ic_input_disabled
-                                    ),
-                                    isEnabled = enabled,
-                                    isError = isError,
-                                    isSuccess = isSuccess,
-                                    interactionSource = interactionSource
-                                )
-                            }
-                        },
-                        supportingText = takeIf { isError }?.let {
-                            {
-                                SupportingText(
-                                    supportingText = errorText ?: "Error"
-                                )
-                            }
-                        },
+                        } else null,
+                        supportingText = null,
                         singleLine = singleLine,
                         enabled = enabled,
                         isError = isError,
-                        contentPadding = InputFieldPaddings.inputFieldPadding(
-                            isFocused = interactionSource.collectIsFocusedAsState().value,
-                            size = size
-                        ),
+                        contentPadding = padding,
                         interactionSource = interactionSource,
+                        colors = customInputFieldColors(
+                            enabled = enabled,
+                            isError = isError,
+                            isSuccess = isSuccess,
+                            interactionSource = interactionSource
+                        ),
                         container = {
                             Box(
                                 modifier = Modifier
-                                    .border(
-                                        width = 1.dp,
-                                        color = InputFieldColors.borderColor(
-                                            enabled, interactionSource
-                                        ).value,
-                                        shape = InputFieldShapes.inputFieldShape
-                                    )
-                                    .size(dimensions(size = size).value)
-                                    .background(
-                                        InputFieldColors.backgroundColor,
-                                        InputFieldShapes.inputFieldShape
-                                    )
-                                    .padding(
-                                        InputFieldPaddings.inputFieldPadding(
-                                            isFocused = interactionSource.collectIsFocusedAsState().value,
-                                            size = size
-                                        )
-                                    ),
-                            ) {
-                                TextFieldDefaults.ContainerBox(
-                                    enabled,
-                                    isError,
-                                    interactionSource,
-                                    InputFieldColors.customInputFieldColors(
-                                        enabled = enabled,
-                                        isError = isError,
-                                        isSuccess = isSuccess,
-                                        interactionSource = interactionSource
-                                    ),
-                                    InputFieldShapes.inputFieldShape
-                                )
-                            }
+                            )
                         }
                     )
                 }
+            )
+            if (isError) {
+                SupportingText(
+                    supportingText = errorText ?: "Error",
+                    size = size
+                )
             }
-        )
+        }
     }
 }
 
 @Composable
 fun SupportingText(
-    supportingText: String
+    supportingText: String,
+    size: InputFieldSize
 ) {
     val textStyle =
         compositionLocalOf(structuralEqualityPolicy()) { InputFieldErrorStyle }.current
+    val color = InputFieldColors.supportingErrorColor
+    val mergedTextStyle = textStyle.merge(color = color)
 
     Text(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .width(dimensions(size = size).value.width),
         text = "* $supportingText",
-        style = textStyle,
+        style = mergedTextStyle,
     )
 }
 
 @Composable
 fun Label(
-    label: String
+    label: String,
+    isError: Boolean,
+    enabled: Boolean
 ) {
     val textStyle =
         compositionLocalOf(structuralEqualityPolicy()) { InputFieldLabelStyle }.current
+    val color = InputFieldColors.labelColor(isError, enabled).value
+    val mergedTextStyle = textStyle.merge(color = color)
 
     Text(
         modifier = Modifier.fillMaxWidth(),
         text = label,
-        style = textStyle,
+        style = mergedTextStyle,
     )
 }
 
 @Composable
 fun Placeholder(
-    placeholder: String
+    placeholder: String,
+    isEnabled: Boolean,
+    isError: Boolean,
+    interactionSource: MutableInteractionSource
 ) {
     val textStyle =
         compositionLocalOf(structuralEqualityPolicy()) { InputFieldPlaceholderStyle }.current
+    val color = InputFieldColors.placeHolderColor(isEnabled, isError, interactionSource).value
+    val mergedTextStyle = textStyle.merge(color = color)
 
     Text(
         modifier = Modifier.fillMaxWidth(),
         text = placeholder,
-        style = textStyle,
+        style = mergedTextStyle,
     )
 }
 
@@ -293,7 +271,7 @@ fun LeadingIcon(
 
 @Composable
 fun TrailingIcon(
-    trailingIcon: InputFieldIconType,
+    trailingIcon: InputFieldIconType? = null,
     isEnabled: Boolean,
     isError: Boolean,
     isSuccess: Boolean,
@@ -301,8 +279,13 @@ fun TrailingIcon(
 ) {
     val iconColor =
         InputFieldColors.iconColor(isEnabled, isError, isSuccess, interactionSource).value
+    val icon = if (!isEnabled) InputFieldIconType.Drawable(drawable = R.drawable.ic_input_disabled)
+    else if (isError) InputFieldIconType.Drawable(drawable = R.drawable.ic_error)
+    else if (isSuccess) InputFieldIconType.Drawable(drawable = R.drawable.ic_input_success)
+    else trailingIcon
+
     InputFieldIcon(
-        icon = trailingIcon,
+        icon = icon,
         tint = iconColor
     )
 }
@@ -310,7 +293,7 @@ fun TrailingIcon(
 @Composable
 fun InputFieldIcon(
     modifier: Modifier = Modifier,
-    icon: InputFieldIconType = InputFieldIconType.Drawable(drawable = R.drawable.ic_default),
+    icon: InputFieldIconType? = InputFieldIconType.Drawable(drawable = R.drawable.ic_default),
     contentDescription: String? = null,
     tint: Color
 ) {
@@ -336,6 +319,8 @@ fun InputFieldIcon(
                 tint = tint
             )
         }
+
+        else -> {}
     }
 
 }

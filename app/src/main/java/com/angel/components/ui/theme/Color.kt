@@ -359,24 +359,31 @@ object InputFieldColors {
 
     val textColor = Platinum.color500
     val inputColor = Platinum.color950
-    val errorTextColor = Red.color500
+    val errorTextColor = Platinum.color950
     val successTextColor = Platinum.color500
     val disabledTextColor = Platinum.color300
+    val supportingErrorColor = Red.color500
 
     val cursorColor = Platinum.color500
     val errorCursorColor = Red.color500
 
     val placeholderColor = Platinum.color500
-    val errorPlaceholderColor = Red.color500
+    val errorPlaceholderColor = Platinum.color500
     val disabledPlaceholderColor = Platinum.color300
 
     val labelColor = Platinum.color500
     val errorLabelColor = Red.color500
+    val disabledLabelColor = Platinum.color300
 
     val iconColor = Platinum.color500
     val errorIconColor = Red.color500
     val disabledIconColor = Yellow.color500
     val successIconColor = Green.color600
+
+    val searchUnfocusedBackgroundColor = Platinum.color50
+    val searchFocusedBackgroundColor = Platinum.color100
+    val searchUnfocusedBorderColor = Transparent
+    val searchFocusedBorderColor = Transparent
 
 
     @Composable
@@ -476,8 +483,14 @@ object InputFieldColors {
     @Composable
     fun labelColor(
         isError: Boolean,
+        enabled: Boolean
     ): State<Color> {
-        return rememberUpdatedState(if (isError) errorLabelColor else labelColor)
+        val targetValue = when {
+            !enabled -> disabledLabelColor
+            isError -> errorLabelColor
+            else -> labelColor
+        }
+        return rememberUpdatedState(targetValue)
     }
 
 
@@ -547,10 +560,10 @@ object InputFieldColors {
                 isSuccess,
                 interactionSource
             ).value,
-            focusedLabelColor = labelColor(isError).value,
-            unfocusedLabelColor = labelColor(isError).value,
-            disabledLabelColor = labelColor(isError).value,
-            errorLabelColor = labelColor(isError).value,
+            focusedLabelColor = labelColor(isError, enabled).value,
+            unfocusedLabelColor = labelColor(isError, enabled).value,
+            disabledLabelColor = labelColor(isError, enabled).value,
+            errorLabelColor = labelColor(isError, enabled).value,
             focusedPlaceholderColor = placeHolderColor(
                 enabled,
                 isError,
@@ -573,5 +586,143 @@ object InputFieldColors {
             errorSupportingTextColor = errorTextColor,
         )
     }
+
+    @Composable
+    fun searchTextColor(
+        interactionSource: InteractionSource
+    ): State<Color> {
+        val focused by interactionSource.collectIsFocusedAsState()
+
+        val targetValue = when {
+            focused -> inputColor
+            else -> textColor
+        }
+        return rememberUpdatedState(targetValue)
+    }
+
+    @Composable
+    fun searchPlaceholderColor(
+        interactionSource: InteractionSource
+    ): State<Color> {
+        val focused by interactionSource.collectIsFocusedAsState()
+
+        val targetValue = when {
+            focused -> inputColor
+            else -> placeholderColor
+        }
+        return rememberUpdatedState(targetValue)
+    }
+
+    @Composable
+    fun searchBorderColor(
+        interactionSource: InteractionSource
+    ): State<Color> {
+        val focused by interactionSource.collectIsFocusedAsState()
+
+        val targetValue = when {
+            focused -> searchFocusedBorderColor
+            else -> searchUnfocusedBorderColor
+        }
+        return rememberUpdatedState(targetValue)
+    }
+
+    @Composable
+    fun searchBackgroundColor(
+        interactionSource: InteractionSource
+    ): State<Color> {
+        val focused by interactionSource.collectIsFocusedAsState()
+
+        val targetValue = when {
+            focused -> searchFocusedBackgroundColor
+            else -> searchUnfocusedBackgroundColor
+        }
+        return rememberUpdatedState(targetValue)
+    }
+
+    @Composable
+    fun searchInputFieldColors(
+        interactionSource: InteractionSource
+    ): TextFieldColors {
+        return TextFieldDefaults.colors(
+            focusedTextColor = searchTextColor(interactionSource).value,
+            unfocusedTextColor = searchTextColor(interactionSource).value,
+            disabledTextColor = searchTextColor(interactionSource).value,
+            errorTextColor = searchTextColor(interactionSource).value,
+            focusedContainerColor = searchBackgroundColor(interactionSource).value,
+            unfocusedContainerColor = searchBackgroundColor(interactionSource).value,
+            disabledContainerColor = searchBackgroundColor(interactionSource).value,
+            errorContainerColor = searchBackgroundColor(interactionSource).value,
+            cursorColor = cursorColor(false).value,
+            errorCursorColor = cursorColor(false).value,
+            selectionColors = textSelectionColors(true, false, interactionSource),
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent,
+            errorIndicatorColor = Color.Transparent,
+            focusedLeadingIconColor = iconColor(
+                true,
+                false,
+                false,
+                interactionSource
+            ).value,
+            unfocusedLeadingIconColor = iconColor(
+                true,
+                false,
+                false,
+                interactionSource
+            ).value,
+            disabledLeadingIconColor = iconColor(
+                true,
+                false,
+                false,
+                interactionSource
+            ).value,
+            errorLeadingIconColor = iconColor(true, false, false, interactionSource).value,
+            focusedTrailingIconColor = iconColor(
+                true,
+                false,
+                false,
+                interactionSource
+            ).value,
+            unfocusedTrailingIconColor = iconColor(
+                true,
+                false,
+                false,
+                interactionSource
+            ).value,
+            disabledTrailingIconColor = iconColor(
+                true,
+                false,
+                false,
+                interactionSource
+            ).value,
+            errorTrailingIconColor = iconColor(
+                true,
+                false,
+                false,
+                interactionSource
+            ).value,
+            focusedLabelColor = labelColor(false, true).value,
+            unfocusedLabelColor = labelColor(false, true).value,
+            disabledLabelColor = labelColor(false, true).value,
+            errorLabelColor = labelColor(false, true).value,
+            focusedPlaceholderColor = searchPlaceholderColor(
+                interactionSource
+            ).value,
+            unfocusedPlaceholderColor = searchPlaceholderColor(
+                interactionSource
+            ).value,
+            disabledPlaceholderColor = searchPlaceholderColor(
+                interactionSource
+            ).value,
+            errorPlaceholderColor = searchPlaceholderColor(interactionSource).value,
+            focusedSupportingTextColor = errorTextColor,
+            unfocusedSupportingTextColor = errorTextColor,
+            disabledSupportingTextColor = errorTextColor,
+            errorSupportingTextColor = errorTextColor,
+        )
+
+    }
+
 
 }
